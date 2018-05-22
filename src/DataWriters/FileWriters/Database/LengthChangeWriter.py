@@ -29,7 +29,7 @@ class CopyLengthChangeData(FileWriter):
             
             outputFile.write(self._HEADER_LINE + "\n")
             
-            for key, value in self._glacier.lengthChanges.items():
+            for value in self._glacier.lengthChanges.values():
                 
                 lineToWrite = self._LINE_TEMPLATE.format(
                     value.pk, self._glacier.pkVaw,
