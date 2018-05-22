@@ -9,18 +9,35 @@ from DataObjects.LengthChange import LengthChange
 
 class LengthChangeReader(VawFileReader):
     '''
-    classdocs
+    Specific file reader for length change measurement files used by Andreas Bauder.
     '''
 
     def __init__(self, fullFileName):
         '''
-        Constructor
+        Constructor of the class.
+        
+        @type fullFileName: string
+        @param fullFileName: Absolute file path.
         '''
         
         super().__init__(fullFileName)
         
     
     def parse(self):
+        '''
+        Starts the parsing of the given file. The parser runs through the entire file
+        and collects the individual length change measurements.
+        Each line of a length change measurement will be converted into a 
+        DataObjects.LengthChange.LengthChange object.
+        
+        Only measurements which are measured, reconstructed or observed are included.
+        
+        The individual measurements are included into a list containing the entire 
+        time series of the length change measurement of the glacier as given in the file.
+        
+        @rtype: List of DataObjects.LengthChange.LengthChange objects
+        @return: Entire time series of the length changes of the glacier.
+        '''
         
         lengthChangeList = []
         
@@ -61,6 +78,17 @@ class LengthChangeReader(VawFileReader):
         return lengthChangeList
         
     def _getData(self, dataLine):
+        '''
+        Helper function to retrieve all information of a single length change measurement line.
+        
+        Each parameter stored in the text file will be parsed and converted into an appropriate type.
+        
+        @type dataLine: string
+        @param dataLine: Entire line with a measurement of the text file.
+        
+        @rtype: Array
+        @return: Converted data of one length change measurement.
+        '''
     
         dateToReformated   = self._reformateDate(dataLine[:10])
         dateFromReformated = self._reformateDate(dataLine[16:26])
