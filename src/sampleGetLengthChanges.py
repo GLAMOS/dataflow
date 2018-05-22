@@ -36,9 +36,22 @@ def printGlacierLengthChangeBySgi(pkSgi):
     
     # Print the information.
     print("Number of measurements: {0}".format(len(foundGlacier.lengthChanges)))
+    
+    # Output:
+    # Number of measurements: 126
+    
     for lengthChange in foundGlacier.lengthChanges.values():
         print(lengthChange)
 
+    # Output:
+    # ...
+    # 1995-09-01 -> 1996-09-01: -30.0 m length change
+    # 1996-09-01 -> 1997-09-01: -43.0 m length change
+    # 1997-09-01 -> 1999-09-01: -46.0 m length change
+    # 1999-10-27 -> 2000-08-23: -18.5 m length change
+    # 2000-08-23 -> 2001-08-23: -47.8 m length change
+    # 2001-08-23 -> 2002-09-16: -57.0 m length change
+    # ...
 
 if __name__ == '__main__':
     
