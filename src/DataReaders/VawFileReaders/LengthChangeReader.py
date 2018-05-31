@@ -10,7 +10,19 @@ from DataObjects.LengthChange import LengthChange
 class LengthChangeReader(VawFileReader):
     '''
     Specific file reader for length change measurement files used by Andreas Bauder.
+    
+    Example of typical header line:
+    ---
+    #  Length Change; Allalin; 11; 6.50
+    #  surv.date; m-code; ref.date; lc; clc; h_min; observer
+    #  dt:ddmmyyyy; ; dt:ddmmyyyy; (m); (m); (m asl);
+    ---
+    
+    Attributes:
+        - ___NUMBER_HEADER_LINES    Number of header lines used in the length change file.
     '''
+
+    ___NUMBER_HEADER_LINES = 3
 
     def __init__(self, fullFileName):
         '''
@@ -22,6 +34,9 @@ class LengthChangeReader(VawFileReader):
         
         super().__init__(fullFileName)
         
+        # Setting the parameters of the data file.
+        self._numberHeaderLines = self.___NUMBER_HEADER_LINES
+        #self._headerLineContent[3] = "Length change (can be ignored)"
     
     def parse(self):
         '''
@@ -51,7 +66,7 @@ class LengthChangeReader(VawFileReader):
                 
                 try:
                         
-                    if lineCounter >= 4:
+                    if lineCounter > self._NUMBER_HEADER_LINES:
                         data = self._getData(line)
 
                         if data[4] == "m" or data[4] == "r" or data[4] == "o":

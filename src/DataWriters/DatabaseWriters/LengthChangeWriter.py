@@ -40,3 +40,7 @@ class LengthChangeWriter(GlamosDatabaseWriter):
             
         
         pass
+    
+    def isGlacierLengthChangeStored(self):
+        
+        pass

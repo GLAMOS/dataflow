@@ -16,6 +16,7 @@ class Glacier(GlamosData):
         _pkGlims         GLIMS key of the glacier.
         _name            Common name of the glacier.
         _lengthChanges   Dictionary containing the entire time series of type DataObjects.LengthChange.LengthChange objects
+        _massBalance     Dictionary containing the entire time series of type DataObjects.MassBalance.MassBalance objects
     '''
 
     _pkVaw = None
@@ -27,6 +28,8 @@ class Glacier(GlamosData):
     _name  = None
     
     _lengthChanges = dict()
+    
+    _massBalances  = dict()
     
     @property
     def pkVaw(self):
@@ -55,7 +58,14 @@ class Glacier(GlamosData):
         '''
         Get the entire length change time series of the glacier.
         '''
-        return self._lengthChanges
+        return self._massBalances
+    
+    @property
+    def massBalances(self):
+        '''
+        Get the entire mass balance time series of the glacier.
+        '''
+        return self._massBalances
 
     def __init__(self, pk = None, pkVaw = None, pkSgi = None, name = None):
         '''
@@ -79,8 +89,6 @@ class Glacier(GlamosData):
         self._pkVaw   = pkVaw
         self._pkSgi   = pkSgi
         self._name    = name
-        
-        self._lengthChanges = dict()
         
     def __str__(self):
         '''
@@ -141,3 +149,14 @@ class Glacier(GlamosData):
         
         #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the LengthChange class.
         self._lengthChanges[lengthChange.dateFrom] = lengthChange
+        
+    def addMassBalance(self, massBalance):
+        '''
+        Adding an individual measurement of a mass balance. Containing the balance between two years.
+        
+        @type massBalance: DataObjects.MassBalance.MassBalance
+        @param massBalance: Mass balance between two specified years.
+        '''
+        
+        #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalance class.
+        self._massBalances[massBalance.dateFrom] = massBalance
