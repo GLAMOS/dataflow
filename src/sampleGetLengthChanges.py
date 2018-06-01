@@ -18,7 +18,7 @@ from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 from DataReaders.DatabaseReaders.LengthChangeReader import LengthChangeReader
 
 # Private configuration file for the database access.
-privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.cfg"
+privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.cfg.private"
 
 # Getting the database readers ready.
 glacierReader = GlacierReader(privateDatabaseAccessConfiguration)

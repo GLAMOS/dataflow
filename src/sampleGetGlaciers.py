@@ -17,7 +17,7 @@ Preconditions:
 from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 
 # Private configuration file for the database access.
-privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.cfg"
+privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.cfg.private"
 
 # Getting the database reader ready.
 glacierReader = GlacierReader(privateDatabaseAccessConfiguration)
