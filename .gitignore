@@ -4,3 +4,4 @@ src/test.py
 *.pyc
 *.pyc
 src/DataWriters/FileWriters/Database/__pycache__/LengthChangeWriter.cpython-36.pyc
+*.pyc
