@@ -6,6 +6,7 @@ Created on 31.05.2018
 
 from .VawFileReader import VawFileReader
 from DataObjects.MassBalance import MassBalance
+from DataObjects.MassBalance import ElevationBand
 import re
 
 class MassBalanceReader(VawFileReader):
@@ -29,13 +30,15 @@ class MassBalanceReader(VawFileReader):
         - _startElevationBuckets      Start elevation of elevation buckets as defined in the header line
         - _endElevationBuckets        End elevation of elevation buckets as defined in the header line
     
-        __FILE_COLUMN_METHOD          # TODO: Description
-        __FILE_COLUMN_DATE_FROM       # TODO: Description
-        __FILE_COLUMN_DATE_TO         # TODO: Description
-        __FILE_COLUMN_WINTER_BALANCE  # TODO: Description
-        __FILE_COLUMN_ANNUAL_BALANCE  # TODO: Description
+        __FILE_COLUMN_METHOD                 # TODO: Description
+        __FILE_COLUMN_DATE_FROM              # TODO: Description
+        __FILE_COLUMN_DATE_TO                # TODO: Description
+        __FILE_COLUMN_WINTER_BALANCE         # TODO: Description
+        __FILE_COLUMN_ANNUAL_BALANCE         # TODO: Description
         
-        _NOT_A_NUMBER_STRING           # TODO: Description
+        __FILE_COLUMN_START_ELEVATION_BANDS  First column of the elevation band data.
+        
+        _NOT_A_NUMBER_STRING                 # TODO: Description
     '''
 
     __NUMBER_HEADER_LINES        = 4
@@ -48,13 +51,23 @@ class MassBalanceReader(VawFileReader):
     _startElevationBuckets       = -1
     _endElevationBuckets         = -1
     
-    __FILE_COLUMN_METHOD         = 0
-    __FILE_COLUMN_DATE_FROM      = 1
-    __FILE_COLUMN_DATE_TO        = 4
-    __FILE_COLUMN_WINTER_BALANCE = 5
-    __FILE_COLUMN_ANNUAL_BALANCE = 6
+    # Definition of the columns in the mass balance ascii files.
+    __FILE_COLUMN_METHOD                    = 0
+    __FILE_COLUMN_DATE_FROM                 = 1
+    __FILE_COLUMN_DATE_TO                   = 4
+    __FILE_COLUMN_WINTER_BALANCE            = 5
+    __FILE_COLUMN_ANNUAL_BALANCE            = 6
     
-    _NOT_A_NUMBER_STRING         = "NaN"
+    __FILE_COLUMN_MINIMUM_ELEVATION         = 10
+    __FILE_COLUMN_MAXIMUM_ELEVATION         = 11
+    __FILE_COLUMN_SURFACE                   = 9
+    
+    __FILE_COLUMN_EQUILIBRIUM_LINE_ALTITUDE = 7
+    __FILE_COLUMN_ACCUMULATION_AREA_RATIO   = 8
+
+    __FILE_COLUMN_START_ELEVATION_BANDS     = 12
+    
+    _NOT_A_NUMBER_STRING         = 'NaN'
 
 
     def __init__(self, fullFileName):
@@ -109,18 +122,41 @@ class MassBalanceReader(VawFileReader):
                         
                     if lineCounter > self.__NUMBER_HEADER_LINES:
                         
+                        # Retrieving all the data of the mass balance data line (unique values and multiple values of the elevation bands).
                         data = self._getData(line)
+                        
+                        print(data)
 
+                        # Creating the main object of a mass balance entry with the unique values.
                         massBalance = MassBalance(
                             None,
-                            data[self.__FILE_COLUMN_DATE_FROM][0],
-                            data[self.__FILE_COLUMN_DATE_TO][0],
-                            data[self.__FILE_COLUMN_WINTER_BALANCE],
-                            data[self.__FILE_COLUMN_ANNUAL_BALANCE])
+                            data[0][self.__FILE_COLUMN_METHOD],
+                            data[0][self.__FILE_COLUMN_DATE_FROM][0],
+                            data[0][self.__FILE_COLUMN_DATE_TO][0],
+                            
+                            data[0][self.__FILE_COLUMN_MINIMUM_ELEVATION],
+                            data[0][self.__FILE_COLUMN_MAXIMUM_ELEVATION],
+                            data[0][self.__FILE_COLUMN_SURFACE],
+
+                            data[0][self.__FILE_COLUMN_EQUILIBRIUM_LINE_ALTITUDE],
+                            data[0][self.__FILE_COLUMN_ACCUMULATION_AREA_RATIO],
+
+                            data[0][self.__FILE_COLUMN_WINTER_BALANCE],
+                            data[0][self.__FILE_COLUMN_ANNUAL_BALANCE])
                         
+                        # Getting all elevation bands as own data objects and adding them to the mass balance.
+                        for elevationBandData in data[1]:
+                            
+                            elevationBand = ElevationBand(
+                                None,
+                                elevationBandData[0],  elevationBandData[0] + self._equidistanceBuckets,
+                                elevationBandData[1], elevationBandData[2],
+                                elevationBandData[3])
+
+                            massBalance.addElevationBand(elevationBand)
+                        
+                        # Adding the new mass balance to the collection of mass balances of the glacier.
                         self._glacier.addMassBalance(massBalance)
-                        
-                        # TODO: Adding the elevation bands to the individual mass balance informations.
                         
                 except Exception as e:
 
@@ -131,21 +167,62 @@ class MassBalanceReader(VawFileReader):
     def _getData(self, dataLine):
         # TODO: Description
         
+        # Dictionary with the unique values per mass balance.
         data = dict()
+        # List of data tripels of the mass balance elevation band data.
+        dataElevationBands = list()
         
         p = re.compile(' +')
         
         dataLineParts = p.split(dataLine)
         
-        data[self.__FILE_COLUMN_METHOD]         = int(dataLineParts[self.__FILE_COLUMN_METHOD])
-        data[self.__FILE_COLUMN_DATE_FROM]      = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE_FROM])
-        data[self.__FILE_COLUMN_DATE_TO]        = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE_TO])
-        data[self.__FILE_COLUMN_WINTER_BALANCE] = int(dataLineParts[self.__FILE_COLUMN_WINTER_BALANCE])
-        data[self.__FILE_COLUMN_ANNUAL_BALANCE] = int(dataLineParts[self.__FILE_COLUMN_ANNUAL_BALANCE])
+        data[self.__FILE_COLUMN_METHOD]                    = int(dataLineParts[self.__FILE_COLUMN_METHOD].strip())
+        data[self.__FILE_COLUMN_DATE_FROM]                 = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE_FROM].strip())
+        data[self.__FILE_COLUMN_DATE_TO]                   = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE_TO].strip())
+
+        data[self.__FILE_COLUMN_EQUILIBRIUM_LINE_ALTITUDE] = int(dataLineParts[self.__FILE_COLUMN_EQUILIBRIUM_LINE_ALTITUDE].strip())
+        data[self.__FILE_COLUMN_ACCUMULATION_AREA_RATIO]   = int(dataLineParts[self.__FILE_COLUMN_ACCUMULATION_AREA_RATIO].strip())
+    
+        data[self.__FILE_COLUMN_MINIMUM_ELEVATION]         = int(dataLineParts[self.__FILE_COLUMN_MINIMUM_ELEVATION].strip())
+        data[self.__FILE_COLUMN_MAXIMUM_ELEVATION]         = int(dataLineParts[self.__FILE_COLUMN_MAXIMUM_ELEVATION].strip())
+        data[self.__FILE_COLUMN_SURFACE]                   = float(dataLineParts[self.__FILE_COLUMN_SURFACE].strip())
+
+        data[self.__FILE_COLUMN_WINTER_BALANCE]            = int(dataLineParts[self.__FILE_COLUMN_WINTER_BALANCE].strip())
+        data[self.__FILE_COLUMN_ANNUAL_BALANCE]            = int(dataLineParts[self.__FILE_COLUMN_ANNUAL_BALANCE].strip())
         
-        # TODO: Reading the elevation bands.
+        # Reading the elevation bands.
         
-        return data
+        for i in range(0, self._numberElevationBuckets):
+            
+            # Calculation of the current columns for the data tripel.
+            columnWinterBalance = self.__FILE_COLUMN_START_ELEVATION_BANDS + i
+            columnAnnualBalance = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets
+            columnSurface       = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets * 2
+            
+            # Retrieving the data from the data line.
+            winterBalanceString = dataLineParts[columnWinterBalance].strip()
+            annualBalanceString = dataLineParts[columnAnnualBalance].strip()
+            surfaceString       = dataLineParts[columnSurface].strip()
+            
+            # Preparing the possible None values for missing elevation bands.
+            winterBalance = None
+            annualBalance = None
+            surface       = None
+            
+            if winterBalanceString != self._NOT_A_NUMBER_STRING:
+                winterBalance = int(winterBalanceString)
+            if annualBalanceString != self._NOT_A_NUMBER_STRING:
+                annualBalance = int(annualBalanceString)
+            if surfaceString != self._NOT_A_NUMBER_STRING:
+                surface       = float(surfaceString)
+            
+            # Deriving the start altitude of the band.
+            startElevationBucket = self._startElevationBuckets + self._equidistanceBuckets * i
+
+            # Preparing the return value
+            dataElevationBands.append([startElevationBucket, winterBalance, annualBalance, surface])
+        
+        return [data, dataElevationBands]
         
         
         
