@@ -7,6 +7,7 @@ Created on 18.05.2018
 import datetime
 from ..FileDataReader import AsciiFileDateReader
 from DataObjects.Glacier import Glacier
+from DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
 
 class VawFileReader(AsciiFileDateReader):
     '''
@@ -19,10 +20,11 @@ class VawFileReader(AsciiFileDateReader):
         - Pos. 2: VAW Identifier 
     
     Attributes:
-        - _numberHeaderLines     Number of header lines used in the data file.
-        - _headerLineContent     Dictionary with position and name of header line values.
+        - _numberHeaderLines              Number of header lines used in the data file.
+        - _headerLineContent              Dictionary with position and name of header line values.
         - _HEADER_POSITION_SHORTNAME      Common position in the header line of the short name.
         - _HEADER_POSITION_VAWIDENTIFIER  Common position in the header line of the VAW identifier.
+        - _dataSource                     Source of the data as defined in the header
     '''
     
     _numberHeaderLines = -1
@@ -31,6 +33,8 @@ class VawFileReader(AsciiFileDateReader):
     
     _HEADER_POSITION_SHORTNAME     = 1
     _HEADER_POSITION_VAWIDENTIFIER = 2
+    
+    _dataSource = None
     
     def __init__(self, fullFileName):
         '''
@@ -75,6 +79,10 @@ class VawFileReader(AsciiFileDateReader):
                     if lineCounter == 1:
                             
                         self._getMetadata(line)
+                        
+                    if self._numberHeaderLines == lineCounter:
+                        
+                        self._dataSource = line.strip()
 
                 #TODO: Implementing own exceptions.
                 except Exception as e:
@@ -122,6 +130,10 @@ class VawFileReader(AsciiFileDateReader):
     
         return [datetime.date(year, month, day), quality]
     
+    def _reformateDateMmDd(self, mmdd, yyyy):
+        
+        return self._reformateDateYyyyMmDd("{0}{1}".format(yyyy, mmdd))
+
     def _reformateDateYyyyMmDd(self, yyyymmdd):
         '''
         Helper function to reformat the string YYYYMMDD into a datetime object.
@@ -145,9 +157,9 @@ class VawFileReader(AsciiFileDateReader):
         quality = None
     
         if dateParts[0] == "00" or dateParts[1] == "00":
-            quality = 11
+            quality = DateQualityTypeEnum.Estimated
         else:
-            quality = 1
+            quality = DateQualityTypeEnum.Precisely
     
         if dateParts[0] == "00":
             day = 1

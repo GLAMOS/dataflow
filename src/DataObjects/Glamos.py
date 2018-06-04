@@ -16,10 +16,13 @@ class GlamosData(object):
     In case of new data objects a new identifier will be created.
     
     Attributes:
-        _pk    Unique object identifier of the GLAMOS data object. The identifier will be unique during the whole lifetime of the data record.
+        _pk          Unique object identifier of the GLAMOS data object. The identifier will be unique during the whole lifetime of the data record.
+        _dataSource  Source of the data   # TODO: Improving the dealing with data source(s)
     '''
 
     _pk = None
+    
+    _dataSource = None
     
     @property
     def pk(self):
@@ -27,6 +30,22 @@ class GlamosData(object):
         Gets the unique identifier of the data object.
         '''
         return self._pk
+    
+    @property
+    def dataSource(self):
+        '''
+        Gets the data source of the data object.
+        '''
+        return self._dataSource
+    
+    @dataSource.setter
+    def dataSource(self, value):
+        '''
+        Sets the data source of the data object.
+        '''
+        
+        # TODO: Correct forming of the data source given.
+        self._dataSource = value
 
     def __init__(self, pk = None):
         '''

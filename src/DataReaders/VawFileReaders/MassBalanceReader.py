@@ -6,7 +6,12 @@ Created on 31.05.2018
 
 from .VawFileReader import VawFileReader
 from DataObjects.MassBalance import MassBalance
+from DataObjects.MassBalance import MassBalanceObservation
+from DataObjects.MassBalance import MassBalanceFixDate
 from DataObjects.MassBalance import ElevationBand
+from DataObjects.MassBalance import MassBalanceTypeEnum
+from DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
+from DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
 import re
 
 class MassBalanceReader(VawFileReader):
@@ -51,10 +56,14 @@ class MassBalanceReader(VawFileReader):
     _startElevationBuckets       = -1
     _endElevationBuckets         = -1
     
-    # Definition of the columns in the mass balance ascii files.
+    # Definition of the columns in the mass balance ASCII files.
     __FILE_COLUMN_METHOD                    = 0
     __FILE_COLUMN_DATE_FROM                 = 1
     __FILE_COLUMN_DATE_TO                   = 4
+    
+    __FILE_COLUMN_DATE_MEASUREMENT_SPRING   = 3
+    __FILE_COLUMN_DATE_MEASUREMENT_FALL     = 2
+    
     __FILE_COLUMN_WINTER_BALANCE            = 5
     __FILE_COLUMN_ANNUAL_BALANCE            = 6
     
@@ -67,15 +76,21 @@ class MassBalanceReader(VawFileReader):
 
     __FILE_COLUMN_START_ELEVATION_BANDS     = 12
     
-    _NOT_A_NUMBER_STRING         = 'NaN'
+    _NOT_A_NUMBER_STRING                    = 'NaN'
+    
+    _massBalanceType                        = MassBalanceTypeEnum.NotDefinedUnknown
 
 
-    def __init__(self, fullFileName):
+    def __init__(self, config, fullFileName):
         '''
         Constructor of the class.
         
+        @type config: configparser.ConfigParser
+        @param config: Configuration of the dataflow.
         @type fullFileName: string
         @param fullFileName: Absolute file path.
+        
+        @raise MassBalanceTypeNotDefinedError: Exception if mass balance type is not defined.
         '''
         
         # Setting the parameters of the data file.
@@ -93,6 +108,19 @@ class MassBalanceReader(VawFileReader):
         self._endElevationBuckets    = int(self._headerLineContent[self.__END_ELEVATION_BUCKETS])
         
         self._equidistanceBuckets    = (self._endElevationBuckets - self._startElevationBuckets) / self._numberElevationBuckets
+        
+        # Definition of the based mass balance data type.
+        searchResult = re.search(config.get("MassBalance", "fixDatePatternFilename"), self._fullFileName)
+        if searchResult != None:
+            self._massBalanceType = MassBalanceTypeEnum.FixDate
+            
+        searchResult = re.search(config.get("MassBalance", "observationPatternFilename"), self._fullFileName)
+        if searchResult != None:
+            self._massBalanceType = MassBalanceTypeEnum.Observation
+            
+        if self._massBalanceType == MassBalanceTypeEnum.NotDefinedUnknown:
+            message = "Not defined mass balance type for file {0}".format(self._fullFileName)
+            raise MassBalanceTypeNotDefinedError(message)
     
     def __str__(self):
         
@@ -108,7 +136,13 @@ class MassBalanceReader(VawFileReader):
         return message
     
     def parse(self):
+        '''
         # TODO: Description
+        
+        @raise MassBalanceTypeNotDefinedError: Exception if mass balance type is not defined.
+        '''
+    
+        self._fullFileName
         
         with open(self._fullFileName, "r") as mb:
 
@@ -125,24 +159,45 @@ class MassBalanceReader(VawFileReader):
                         # Retrieving all the data of the mass balance data line (unique values and multiple values of the elevation bands).
                         data = self._getData(line)
                         
-                        print(data)
-
-                        # Creating the main object of a mass balance entry with the unique values.
-                        massBalance = MassBalance(
-                            None,
-                            data[0][self.__FILE_COLUMN_METHOD],
-                            data[0][self.__FILE_COLUMN_DATE_FROM][0],
-                            data[0][self.__FILE_COLUMN_DATE_TO][0],
-                            
-                            data[0][self.__FILE_COLUMN_MINIMUM_ELEVATION],
-                            data[0][self.__FILE_COLUMN_MAXIMUM_ELEVATION],
-                            data[0][self.__FILE_COLUMN_SURFACE],
-
-                            data[0][self.__FILE_COLUMN_EQUILIBRIUM_LINE_ALTITUDE],
-                            data[0][self.__FILE_COLUMN_ACCUMULATION_AREA_RATIO],
-
-                            data[0][self.__FILE_COLUMN_WINTER_BALANCE],
-                            data[0][self.__FILE_COLUMN_ANNUAL_BALANCE])
+                        # Creating the main object of a mass balance entry with the unique values depending on the mass balance type.
+                        if self._massBalanceType == MassBalanceTypeEnum.Observation:
+                            massBalance = MassBalanceObservation(
+                                None,
+                                data[0][self.__FILE_COLUMN_METHOD],
+                                data[0][self.__FILE_COLUMN_DATE_FROM][0],
+                                data[0][self.__FILE_COLUMN_DATE_TO][0],
+                                
+                                data[0][self.__FILE_COLUMN_DATE_MEASUREMENT_FALL][0],
+                                data[0][self.__FILE_COLUMN_DATE_MEASUREMENT_SPRING][0],
+                                
+                                data[0][self.__FILE_COLUMN_MINIMUM_ELEVATION],
+                                data[0][self.__FILE_COLUMN_MAXIMUM_ELEVATION],
+                                data[0][self.__FILE_COLUMN_SURFACE],
+    
+                                data[0][self.__FILE_COLUMN_EQUILIBRIUM_LINE_ALTITUDE],
+                                data[0][self.__FILE_COLUMN_ACCUMULATION_AREA_RATIO],
+    
+                                data[0][self.__FILE_COLUMN_WINTER_BALANCE],
+                                data[0][self.__FILE_COLUMN_ANNUAL_BALANCE])
+                        elif self._massBalanceType == MassBalanceTypeEnum.FixDate:
+                            massBalance = MassBalanceFixDate(
+                                None,
+                                data[0][self.__FILE_COLUMN_METHOD],
+                                data[0][self.__FILE_COLUMN_DATE_FROM][0],
+                                data[0][self.__FILE_COLUMN_DATE_TO][0],
+                                 
+                                data[0][self.__FILE_COLUMN_MINIMUM_ELEVATION],
+                                data[0][self.__FILE_COLUMN_MAXIMUM_ELEVATION],
+                                data[0][self.__FILE_COLUMN_SURFACE],
+     
+                                data[0][self.__FILE_COLUMN_EQUILIBRIUM_LINE_ALTITUDE],
+                                data[0][self.__FILE_COLUMN_ACCUMULATION_AREA_RATIO],
+     
+                                data[0][self.__FILE_COLUMN_WINTER_BALANCE],
+                                data[0][self.__FILE_COLUMN_ANNUAL_BALANCE])
+                        else:
+                            message = "Not defined mass balance type of file {0}".format(self._fullFileName)
+                            raise MassBalanceTypeNotDefinedError(message)
                         
                         # Getting all elevation bands as own data objects and adding them to the mass balance.
                         for elevationBandData in data[1]:
@@ -155,8 +210,15 @@ class MassBalanceReader(VawFileReader):
 
                             massBalance.addElevationBand(elevationBand)
                         
+                        # Setting the data source if available.
+                        if self._dataSource != None:
+                            massBalance.dataSource = self._dataSource
+                        
                         # Adding the new mass balance to the collection of mass balances of the glacier.
                         self._glacier.addMassBalance(massBalance)
+                        
+                        
+                            
                         
                 except Exception as e:
 
@@ -169,16 +231,22 @@ class MassBalanceReader(VawFileReader):
         
         # Dictionary with the unique values per mass balance.
         data = dict()
-        # List of data tripels of the mass balance elevation band data.
+        # List of data triples of the mass balance elevation band data.
         dataElevationBands = list()
         
         p = re.compile(' +')
         
         dataLineParts = p.split(dataLine)
         
-        data[self.__FILE_COLUMN_METHOD]                    = int(dataLineParts[self.__FILE_COLUMN_METHOD].strip())
-        data[self.__FILE_COLUMN_DATE_FROM]                 = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE_FROM].strip())
-        data[self.__FILE_COLUMN_DATE_TO]                   = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE_TO].strip())
+        data[self.__FILE_COLUMN_METHOD]                    = int(dataLineParts[self.__FILE_COLUMN_METHOD].strip())  
+        
+        dateFrom                                           = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE_FROM].strip())
+        data[self.__FILE_COLUMN_DATE_FROM]                 = dateFrom
+        dateTo                                             = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE_TO].strip())
+        data[self.__FILE_COLUMN_DATE_TO]                   = dateTo
+
+        data[self.__FILE_COLUMN_DATE_MEASUREMENT_FALL]     = self._reformateDateMmDd(dataLineParts[self.__FILE_COLUMN_DATE_MEASUREMENT_FALL].strip(), dateFrom[0].year)
+        data[self.__FILE_COLUMN_DATE_MEASUREMENT_SPRING]   = self._reformateDateMmDd(dataLineParts[self.__FILE_COLUMN_DATE_MEASUREMENT_SPRING].strip(), dateTo[0].year)
 
         data[self.__FILE_COLUMN_EQUILIBRIUM_LINE_ALTITUDE] = int(dataLineParts[self.__FILE_COLUMN_EQUILIBRIUM_LINE_ALTITUDE].strip())
         data[self.__FILE_COLUMN_ACCUMULATION_AREA_RATIO]   = int(dataLineParts[self.__FILE_COLUMN_ACCUMULATION_AREA_RATIO].strip())
@@ -194,7 +262,7 @@ class MassBalanceReader(VawFileReader):
         
         for i in range(0, self._numberElevationBuckets):
             
-            # Calculation of the current columns for the data tripel.
+            # Calculation of the current columns for the data triple.
             columnWinterBalance = self.__FILE_COLUMN_START_ELEVATION_BANDS + i
             columnAnnualBalance = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets
             columnSurface       = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets * 2
