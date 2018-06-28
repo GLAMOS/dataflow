@@ -4,6 +4,8 @@ Created on 18.05.2018
 @author: yvo
 '''
 
+import logging
+
 class DataWriter(object):
     '''
     Generic main class of all data writer objects used for the GLAMOS data interface.
@@ -35,5 +37,7 @@ class DataWriter(object):
         @type glacier: DataObjects.Glacier.Glacier
         @param glacier: Glacier object for which the data will be read.
         '''
+        
+        logging.basicConfig(filename='DataWriter.log', format='%(asctime)s, %(levelname)s, %(name)s: %(message)s', level=logging.DEBUG)
         
         self._glacier = glacier

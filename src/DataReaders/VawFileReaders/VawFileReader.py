@@ -6,8 +6,10 @@ Created on 18.05.2018
 
 import datetime
 from ..FileDataReader import AsciiFileDateReader
-from DataObjects.Glacier import Glacier
-from DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
+from src.DataObjects.Glacier import Glacier
+from src.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
+
+from src.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 
 class VawFileReader(AsciiFileDateReader):
     '''
@@ -25,6 +27,7 @@ class VawFileReader(AsciiFileDateReader):
         - _HEADER_POSITION_SHORTNAME      Common position in the header line of the short name.
         - _HEADER_POSITION_VAWIDENTIFIER  Common position in the header line of the VAW identifier.
         - _dataSource                     Source of the data as defined in the header
+        - _DATA_SOURCE_PREFIX             Prefix for data source references used (to be removed)
     '''
     
     _numberHeaderLines = -1
@@ -36,12 +39,18 @@ class VawFileReader(AsciiFileDateReader):
     
     _dataSource = None
     
-    def __init__(self, fullFileName):
+    _DATA_SOURCE_PREFIX = "# © "
+    
+    def __init__(self, fullFileName, glaciers):
         '''
         Constructor of the class.
         
         @type fullFileName: string
         @param fullFileName: Absolute path of the file.
+        @type glaciers: Dictionary
+        @param glaciers: Dictionary with glaciers.
+        
+        @raise GlacierNotFoundError: Exception if glacier was not found or initialised.
         '''
         
         # Definition of the header line content
@@ -52,11 +61,19 @@ class VawFileReader(AsciiFileDateReader):
 
         self.parseHeader()
 
-        self._glacier = Glacier(
-            None, 
-            self._headerLineContent[self._HEADER_POSITION_VAWIDENTIFIER],
-            None,
-            self._headerLineContent[self._HEADER_POSITION_SHORTNAME])
+        # Looking for the corresponding glacier in the given glacier collection.
+        glacierFound = None
+        for glacier in glaciers.values():
+            if glacier.pkVaw == int(self._headerLineContent[self._HEADER_POSITION_VAWIDENTIFIER]):
+                glacierFound = glacier
+        
+        if glacierFound != None:
+            self._glacier = glacier
+        else:
+            message = "No corresponding glacier found. Header information given VAW-PK {0} and short name {1}".format(
+                    self._headerLineContent[self._HEADER_POSITION_VAWIDENTIFIER], self._headerLineContent[self._HEADER_POSITION_SHORTNAME])
+            raise GlacierNotFoundError(message)
+
         
     def parseHeader(self):
         '''
@@ -83,6 +100,8 @@ class VawFileReader(AsciiFileDateReader):
                     if self._numberHeaderLines == lineCounter:
                         
                         self._dataSource = line.strip()
+                        self._dataSource = self._dataSource.replace(self._DATA_SOURCE_PREFIX, "")
+
 
                 #TODO: Implementing own exceptions.
                 except Exception as e:

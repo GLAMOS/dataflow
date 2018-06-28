@@ -21,6 +21,8 @@ class DatabaseWriter(DataWriter):
         '''
         self._accessConfigurationFullFileName = accessConfigurationFullFileName
         
+        super().__init__(None)
+        
 class PostgreSqlWriter(DatabaseWriter):
     '''
     classdocs

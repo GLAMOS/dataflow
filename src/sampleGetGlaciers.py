@@ -14,7 +14,7 @@ Preconditions:
 '''
 
 # Import of the reader objects.
-from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from src.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 
 # Private configuration file for the database access.
 privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.cfg.private"

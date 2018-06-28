@@ -148,7 +148,7 @@ class Glacier(GlamosData):
         '''
         
         #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the LengthChange class.
-        self._lengthChanges[lengthChange.dateFrom] = lengthChange
+        self._lengthChanges[lengthChange.dateFromAnnual] = lengthChange
         
     def addMassBalance(self, massBalance):
         '''
@@ -159,4 +159,4 @@ class Glacier(GlamosData):
         '''
         
         #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalance class.
-        self._massBalances[massBalance.dateFrom] = massBalance
+        self._massBalances[massBalance.dateFromAnnual] = massBalance

@@ -94,33 +94,112 @@ class MassBalance(GlamosData):
         self._annualMassBalance       = annualMassBalance
 
     @property
-    def dateFrom(self):
+    def dateFromAnnual(self):
         '''
-        Gets the start date of the measurement period.
+        Gets the start date of the annual measurement period.
         '''
         return self._dateFrom
+        
+    @property
+    def dateFromWinter(self):
+        '''
+        Gets the start date of the winter measurement period.
+        '''
+        return self._dateMeasurementFall
 
     @property
-    def dateTo(self):
+    def dateToAnnual(self):
         '''
-        Gets the end date of the measurement period.
+        Gets the end date of the annual measurement period.
         '''
         return self._dateTo
     
     @property
+    def dateToWinter(self):
+        '''
+        Gets the end date of the winter measurement period.
+        '''
+        return self._dateMeasurementSpring
+    
+    @property
+    def massBalanceType(self):
+        '''
+        # TODO: Description
+        '''    
+        return self._massBalanceType
+
+    @property
+    def analysisMethodType(self):
+        '''
+        # TODO: Description
+        '''    
+        return self._analysisMethod
+    
+    @property
+    def equilibriumLineAltitude(self):
+        '''
+        # TODO: Description
+        '''    
+        return self._equilibriumLineAltitude
+    
+    @property
+    def accumulationAreaRatio(self):
+        '''
+        # TODO: Description
+        '''    
+        return self._accumulationAreaRatio
+    
+    @property
+    def elevationMinimum(self):
+        '''
+        # TODO: Description
+        '''    
+        return self._elevationMinimum
+    
+    @property
+    def elevationMaximum(self):
+        '''
+        # TODO: Description
+        '''    
+        return self._elevationMaximum
+    
+    @property
     def winterMassBalance(self):
         '''
-        Gets the winter mass balance in mm w.e..
+        Gets the value for the winter mass balance in mm w.e..
+        
+        The time period of the mass balance value is between the fall and the spring measurement.
+        For values based on field observations, the start and end date are the date of the field work.
+        For values based on fixed dates, the start date is always October 1st and the end date is always April 30st.
+                
+        # TODO: Correct definition based on discussion Huss / Bauder
+                
+        @rtype: integer
+        @return: The value for the winter mass balance.
         '''
         return self._winterMassBalance
+    
+    @property
+    def surface(self):
+        # TODO: Description
+        return self._surface
 
     @property
     def annualMassBalance(self):
         '''
-        Gets the annual mass balance in mm w.e..
+        Gets the value for the annual mass balance in mm w.e..
+        
+        The time period of the mass balance value is between the fall and the spring measurement.
+        For values based on field observations, the start and end date are the date of the field work.
+        For values based on fixed dates, the start date is always October 1st and the end date is always April 30st.
+        
+        # TODO: Correct definition based on discussion Huss / Bauder
+        
+        @rtype: integer
+        @return: The annual mass balance.
         '''
         return self._annualMassBalance
-    
+ 
     @property
     def elevationBands(self):
         '''
@@ -296,6 +375,24 @@ class MassBalanceObservation(MassBalance):
     '''
     
     _massBalanceType = MassBalanceTypeEnum.Observation
+    
+    def __init__(self, pk = None, 
+        analysisMethod = AnalysisMethodEnum.NotDefinedUnknown,
+        dateFrom = None, dateTo = None,
+        dateMeasurementFall = None, dateMeasurementSpring = None, 
+        elevationMinimum  = None, elevationMaximum  = None,
+        surface = None,
+        equilibriumLineAltitude = None, accumulationAreaRatio = None,
+        winterMassBalance = None, annualMassBalance = None):
+        
+        super().__init__(pk, 
+            analysisMethod,
+            dateFrom, dateTo,
+            dateMeasurementFall, dateMeasurementSpring, 
+            elevationMinimum, elevationMaximum,
+            surface,
+            equilibriumLineAltitude, accumulationAreaRatio,
+            winterMassBalance, annualMassBalance)
       
     
 class MassBalanceFixDate(MassBalance):
@@ -313,17 +410,17 @@ class MassBalanceFixDate(MassBalance):
     _MASSBALANCE_START_DAY          = 1
     _MASSBALANCE_START_MONTH        = 10
     
-    _MASSBALANCE_END_DAY            = 1
-    _MASSBALANCE_END_MONTH          = 10
+    _MASSBALANCE_END_DAY            = 30
+    _MASSBALANCE_END_MONTH          = 9
     
-    _WINTER_MASSBALANCE_START_DAY   = 1
-    _WINTER_MASSBALANCE_START_MONTH = 10
+    _WINTER_MASSBALANCE_START_DAY   = _MASSBALANCE_START_DAY
+    _WINTER_MASSBALANCE_START_MONTH = _MASSBALANCE_START_MONTH
     _WINTER_MASSBALANCE_END_DAY     = 30
     _WINTER_MASSBALANCE_END_MONTH   = 4      
 
     def __init__(self, pk, 
                  analysisMethod,
-                 dateFrom, dateTo,
+                 yearFrom, yearTo,
                  elevationMinimum, elevationMaximum,
                  surface,
                  equilibriumLineAltitude, accumulationAreaRatio,
@@ -333,10 +430,10 @@ class MassBalanceFixDate(MassBalance):
         
         @type analysisMethod: AnalysisMethodEnum
         @param analysisMethod: Method applied for the mass balance observation.
-        @type dataFrom: datetime
-        @param dateFrom: Start date of the mass balance observation.
-        @type dateTo: datetime
-        @param dateTo: End date of the mass balance observation.
+        @type yearFrom: int
+        @param yearFrom: Start year of the mass balance observation.
+        @type yearTo: int
+        @param yearTo: End year of the mass balance observation.
         @type elevationMinimum: integer
         @param elevationMinimum: Minimum elevation of the mass balance observation.
         @type elevationMaximum: integer
@@ -354,12 +451,13 @@ class MassBalanceFixDate(MassBalance):
         '''
         
         # Getting the fixed dates for fall and spring measurements done.
-        dateMeasurementFall   = date(dateFrom.year, self._WINTER_MASSBALANCE_START_MONTH, self._WINTER_MASSBALANCE_START_DAY)
-        dateMeasurementSpring = date(dateTo.year, self._WINTER_MASSBALANCE_END_MONTH, self._WINTER_MASSBALANCE_END_DAY)
+        dateMeasurementFall   = date(yearFrom, self._WINTER_MASSBALANCE_START_MONTH, self._WINTER_MASSBALANCE_START_DAY)
+        dateMeasurementSpring = date(yearTo, self._WINTER_MASSBALANCE_END_MONTH, self._WINTER_MASSBALANCE_END_DAY)
 
         super().__init__(pk, 
                  analysisMethod,
-                 dateFrom, dateTo,
+                 date(yearFrom, self._MASSBALANCE_START_MONTH, self._MASSBALANCE_START_DAY), 
+                 date(yearTo, self._MASSBALANCE_END_MONTH, self._MASSBALANCE_END_DAY),
                  dateMeasurementFall, dateMeasurementSpring, 
                  elevationMinimum, elevationMaximum,
                  surface,

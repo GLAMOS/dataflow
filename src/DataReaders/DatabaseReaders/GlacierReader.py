@@ -5,7 +5,7 @@ Created on 22.05.2018
 '''
 
 from .GlamosDatabaseReader import GlamosDatabaseReader
-from DataObjects.Glacier import Glacier
+from src.DataObjects.Glacier import Glacier
 import uuid
 
 class GlacierReader(GlamosDatabaseReader):
@@ -37,11 +37,12 @@ class GlacierReader(GlamosDatabaseReader):
         
         results = super().retriveData(statement)
         
-        for result in results:
-            
-            glacier = self._recordToObject(result)
-            
-            glaciers[glacier.pkSgi] = glacier
+        if results != None:
+            for result in results:
+                
+                glacier = self._recordToObject(result)
+                
+                glaciers[glacier.pkSgi] = glacier
         
         return glaciers
     

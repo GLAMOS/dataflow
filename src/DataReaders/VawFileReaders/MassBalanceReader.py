@@ -5,13 +5,14 @@ Created on 31.05.2018
 '''
 
 from .VawFileReader import VawFileReader
-from DataObjects.MassBalance import MassBalance
-from DataObjects.MassBalance import MassBalanceObservation
-from DataObjects.MassBalance import MassBalanceFixDate
-from DataObjects.MassBalance import ElevationBand
-from DataObjects.MassBalance import MassBalanceTypeEnum
-from DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
-from DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
+from src.DataObjects.MassBalance import MassBalance
+from src.DataObjects.MassBalance import MassBalanceObservation
+from src.DataObjects.MassBalance import MassBalanceFixDate
+from src.DataObjects.MassBalance import ElevationBand
+from src.DataObjects.MassBalance import MassBalanceTypeEnum
+from src.DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
+from src.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
+from src.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 import re
 
 class MassBalanceReader(VawFileReader):
@@ -81,7 +82,7 @@ class MassBalanceReader(VawFileReader):
     _massBalanceType                        = MassBalanceTypeEnum.NotDefinedUnknown
 
 
-    def __init__(self, config, fullFileName):
+    def __init__(self, config, fullFileName, glaciers):
         '''
         Constructor of the class.
         
@@ -89,6 +90,8 @@ class MassBalanceReader(VawFileReader):
         @param config: Configuration of the dataflow.
         @type fullFileName: string
         @param fullFileName: Absolute file path.
+        @type glaciers: Dictionary
+        @param glaciers: Dictionary with glaciers.
         
         @raise MassBalanceTypeNotDefinedError: Exception if mass balance type is not defined.
         '''
@@ -100,7 +103,10 @@ class MassBalanceReader(VawFileReader):
         self._headerLineContent[self.__START_ELEVATION_BUCKETS] = "Start elevation of elevation buckets"
         self._headerLineContent[self.__END_ELEVATION_BUCKETS] = "End elevation of elevation buckets"
         
-        super().__init__(fullFileName)
+        try:
+            super().__init__(fullFileName, glaciers)
+        except GlacierNotFoundError as glacierNotFoundError:
+            raise glacierNotFoundError
         
         # Setting the specialised reader parameters of the header.
         self._numberElevationBuckets = int(self._headerLineContent[self.__NUMBER_ELEVATION_BUCKETS])
@@ -180,11 +186,15 @@ class MassBalanceReader(VawFileReader):
                                 data[0][self.__FILE_COLUMN_WINTER_BALANCE],
                                 data[0][self.__FILE_COLUMN_ANNUAL_BALANCE])
                         elif self._massBalanceType == MassBalanceTypeEnum.FixDate:
+                            
+                            yearFrom = data[0][self.__FILE_COLUMN_DATE_FROM][0].year
+                            yearTo   = data[0][self.__FILE_COLUMN_DATE_TO][0].year
+                            
                             massBalance = MassBalanceFixDate(
                                 None,
                                 data[0][self.__FILE_COLUMN_METHOD],
-                                data[0][self.__FILE_COLUMN_DATE_FROM][0],
-                                data[0][self.__FILE_COLUMN_DATE_TO][0],
+                                yearFrom,
+                                yearTo,
                                  
                                 data[0][self.__FILE_COLUMN_MINIMUM_ELEVATION],
                                 data[0][self.__FILE_COLUMN_MAXIMUM_ELEVATION],
@@ -216,10 +226,7 @@ class MassBalanceReader(VawFileReader):
                         
                         # Adding the new mass balance to the collection of mass balances of the glacier.
                         self._glacier.addMassBalance(massBalance)
-                        
-                        
-                            
-                        
+
                 except Exception as e:
 
                     errorMessage = "{0} @ {1}: {2}".format(mb, lineCounter, e)

@@ -25,7 +25,7 @@ class LengthChangeWriter(GlamosDatabaseWriter):
         
         super().__init__(accessConfigurationFullFileName)
     
-    def writeGlacierLengthChanges(self, glacier):
+    def write(self, glacier):
         
         # TODO: Loop over all length changes
         

@@ -6,6 +6,7 @@ Created on 22.05.2018
 from ..DatabaseWriter import PostgreSqlWriter
 import psycopg2
 import configparser
+import logging
 
 class GlamosDatabaseWriter(PostgreSqlWriter):
     '''
@@ -44,11 +45,24 @@ class GlamosDatabaseWriter(PostgreSqlWriter):
         self._connectionString = self._CONNECTION_STRING_TEMPLATE.format(
             host, dbName, dbUser, dbPassword)
         
-    def writeData(self, statement):
+    def _writeData(self, statement):
+        # TODO: Description
         
-        # TODO: Adding insert execution.
+        try:
+            
+            self._connection = psycopg2.connect(self._connectionString)
+            self._cursor = self._connection.cursor()
+            
+            self._cursor.execute(statement)
+            
+            logging.debug(statement)
+            
+        except Exception as e:
+            
+            errorMessage = "Problem during accessing or writing data to the database: {0}".format(e)
+            print(errorMessage)
+            logging.error('Exception during inserting data into database %s', errorMessage)
         
-        pass
     
     def isRecordStored(self, statement):
         
@@ -56,4 +70,6 @@ class GlamosDatabaseWriter(PostgreSqlWriter):
         
         # TODO: Returns False if statement returns exactly no record.
         
-        # TODO: Raises an exception if statement returns 2 or more records. 
+        # TODO: Raises an exception if statement returns 2 or more records.
+        
+        pass 
