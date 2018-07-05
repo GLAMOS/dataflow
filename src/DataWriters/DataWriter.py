@@ -38,6 +38,6 @@ class DataWriter(object):
         @param glacier: Glacier object for which the data will be read.
         '''
         
-        logging.basicConfig(filename='DataWriter.log', format='%(asctime)s, %(levelname)s, %(name)s: %(message)s', level=logging.DEBUG)
+        logging.basicConfig(filename='DataWriter.log', format='%(asctime)s, %(levelname)s, %(name)s: %(message)s', level=logging.INFO)
         
         self._glacier = glacier

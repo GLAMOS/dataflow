@@ -33,7 +33,7 @@ class MassBalance(GlamosData):
     _winterMassBalance = None
     _annualMassBalance = None
     
-    _elevationBands = dict()
+    _elevationBands = None
 
     def __init__(self, pk = None, 
                 analysisMethod = AnalysisMethodEnum.NotDefinedUnknown,
@@ -92,6 +92,8 @@ class MassBalance(GlamosData):
         
         self._winterMassBalance       = winterMassBalance
         self._annualMassBalance       = annualMassBalance
+        
+        self._elevationBands          = dict()
 
     @property
     def dateFromAnnual(self):
@@ -312,6 +314,21 @@ class ElevationBand(GlamosData):
         self._winterMassBalance = winterMassBalance
         self._annualMassBalance = annualMassBalance
         self._surface = surface
+
+    def __str__(self):
+        # TODO: Description
+        
+        lineToWrite = ""
+        
+        # Printing the elevation bands informations.
+        elevationBandLine = "{0} masl - {1} masl: {2} mm w.e. winter, {3} mm w.e. annual, {4} km2 surface".format(
+            self.elevationFrom, self.elevationTo,
+            self.winterMassBalance, self.annualMassBalance,
+            self.surface)
+            
+        lineToWrite += elevationBandLine
+            
+        return lineToWrite
         
     @property
     def elevationFrom(self):

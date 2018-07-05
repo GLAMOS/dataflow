@@ -57,6 +57,9 @@ class GlamosDatabaseWriter(PostgreSqlWriter):
             
             logging.debug(statement)
             
+            if logging.getLogger().getEffectiveLevel() == logging.DEBUG:
+                print(statement)
+            
         except Exception as e:
             
             errorMessage = "Problem during accessing or writing data to the database: {0}".format(e)

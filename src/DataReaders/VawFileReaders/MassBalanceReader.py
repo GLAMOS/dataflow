@@ -14,6 +14,7 @@ from src.DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefine
 from src.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
 from src.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 import re
+import copy
 
 class MassBalanceReader(VawFileReader):
     '''
@@ -81,6 +82,9 @@ class MassBalanceReader(VawFileReader):
     
     _massBalanceType                        = MassBalanceTypeEnum.NotDefinedUnknown
 
+    _massBalanceObservationCounter = 0
+    _elevationBandValidCounter     = 0
+    _elevationBandInvalidCounter   = 0
 
     def __init__(self, config, fullFileName, glaciers):
         '''
@@ -141,6 +145,30 @@ class MassBalanceReader(VawFileReader):
 
         return message
     
+    @property
+    def massBalanceObservationsParsed(self):
+        # TODO: Description
+        
+        return self._massBalanceObservationCounter
+    
+    @property
+    def elevationBandsValidParsed(self):
+        # TODO: Description
+        
+        return self._elevationBandValidCounter
+    
+    @property
+    def elevationBandsInvalidParsed(self):
+        # TODO: Description
+        
+        return self._elevationBandInvalidCounter
+    
+    @property
+    def elevationBandsParsed(self):
+        # TODO: Description
+        
+        return self._elevationBandInvalidCounter + self._elevationBandValidCounter
+
     def parse(self):
         '''
         # TODO: Description
@@ -150,6 +178,8 @@ class MassBalanceReader(VawFileReader):
     
         self._fullFileName
         
+        massBalance = None
+
         with open(self._fullFileName, "r") as mb:
 
             lineCounter = 0
@@ -167,6 +197,9 @@ class MassBalanceReader(VawFileReader):
                         
                         # Creating the main object of a mass balance entry with the unique values depending on the mass balance type.
                         if self._massBalanceType == MassBalanceTypeEnum.Observation:
+                            
+                            self._massBalanceObservationCounter += 1
+                            
                             massBalance = MassBalanceObservation(
                                 None,
                                 data[0][self.__FILE_COLUMN_METHOD],
@@ -190,6 +223,8 @@ class MassBalanceReader(VawFileReader):
                             yearFrom = data[0][self.__FILE_COLUMN_DATE_FROM][0].year
                             yearTo   = data[0][self.__FILE_COLUMN_DATE_TO][0].year
                             
+                            self._massBalanceObservationCounter += 1
+                            
                             massBalance = MassBalanceFixDate(
                                 None,
                                 data[0][self.__FILE_COLUMN_METHOD],
@@ -208,17 +243,23 @@ class MassBalanceReader(VawFileReader):
                         else:
                             message = "Not defined mass balance type of file {0}".format(self._fullFileName)
                             raise MassBalanceTypeNotDefinedError(message)
-                        
+                                             
                         # Getting all elevation bands as own data objects and adding them to the mass balance.
                         for elevationBandData in data[1]:
                             
                             elevationBand = ElevationBand(
                                 None,
-                                elevationBandData[0],  elevationBandData[0] + self._equidistanceBuckets,
+                                elevationBandData[0], elevationBandData[0] + self._equidistanceBuckets,
                                 elevationBandData[1], elevationBandData[2],
                                 elevationBandData[3])
 
                             massBalance.addElevationBand(elevationBand)
+                            
+                            # Counting the valid and invalid elevation bands.
+                            if elevationBand.elevationFrom != None and elevationBand.elevationTo != None and elevationBand.annualMassBalance != None and elevationBand.winterMassBalance != None and elevationBand.surface:
+                                self._elevationBandValidCounter += 1
+                            else:
+                                self._elevationBandInvalidCounter += 1
                         
                         # Setting the data source if available.
                         if self._dataSource != None:
@@ -231,7 +272,6 @@ class MassBalanceReader(VawFileReader):
 
                     errorMessage = "{0} @ {1}: {2}".format(mb, lineCounter, e)
                     print(errorMessage)
-                    
     
     def _getData(self, dataLine):
         # TODO: Description
