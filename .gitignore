@@ -8,3 +8,4 @@ src/DataWriters/FileWriters/Database/__pycache__/LengthChangeWriter.cpython-36.p
 *.log
 src/databaseAccessConfiguration.private.cfg
 *.private.cfg
+src/databaseAccessConfiguration.private.cfg
