@@ -7,3 +7,4 @@ src/DataWriters/FileWriters/Database/__pycache__/LengthChangeWriter.cpython-36.p
 *.pyc
 *.log
 src/databaseAccessConfiguration.private.cfg
+*.private.cfg
