@@ -27,9 +27,9 @@ class Glacier(GlamosData):
     
     _name  = None
     
-    _lengthChanges = dict()
+    _lengthChanges = None
     
-    _massBalances  = dict()
+    _massBalances  = None
     
     @property
     def pkVaw(self):
@@ -89,6 +89,9 @@ class Glacier(GlamosData):
         self._pkVaw   = pkVaw
         self._pkSgi   = pkSgi
         self._name    = name
+        
+        self._lengthChanges = dict()
+        self._massBalances  = dict()
         
     def __str__(self):
         '''

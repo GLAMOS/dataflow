@@ -38,3 +38,9 @@ class DataReader(object):
         '''
         
         self._glacier = glacier
+        
+    def __del__(self):
+        
+        print("D E S T R U C T O R")
+        
+        self._glacier = None

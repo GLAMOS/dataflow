@@ -146,8 +146,18 @@ class MassBalanceReader(VawFileReader):
         return message
     
     @property
+    def numberElevationBuckets(self):
+        '''
+        Number of elevation buckets with equal distance between start and end defined.
+        '''
+        
+        return self._numberElevationBuckets
+    
+    @property
     def massBalanceObservationsParsed(self):
-        # TODO: Description
+        '''
+        Total number of parsed mass-balance observation lines.
+        '''
         
         return self._massBalanceObservationCounter
     
@@ -165,13 +175,19 @@ class MassBalanceReader(VawFileReader):
     
     @property
     def elevationBandsParsed(self):
-        # TODO: Description
+        '''
+        Total number of parsed mass-balance elevation bands.
+        '''
         
         return self._elevationBandInvalidCounter + self._elevationBandValidCounter
 
     def parse(self):
         '''
-        # TODO: Description
+        Main function to start the parsing process. The function
+        will run through the entire data file and creates for each data line
+        a mass-balance observation and if available the individual elevation buckets.
+        The mass-balance objects are added to the corresponding glacier object
+        found in the dictionary given in the constructor.
         
         @raise MassBalanceTypeNotDefinedError: Exception if mass balance type is not defined.
         '''

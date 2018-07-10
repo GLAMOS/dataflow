@@ -60,15 +60,38 @@ class VawFileReader(AsciiFileDateReader):
         super().__init__(fullFileName)
 
         self.parseHeader()
+        
+        print("Given data file -> " + fullFileName)
+        
+        givenVawId = int(self._headerLineContent[self._HEADER_POSITION_VAWIDENTIFIER])
 
         # Looking for the corresponding glacier in the given glacier collection.
         glacierFound = None
         for glacier in glaciers.values():
-            if glacier.pkVaw == int(self._headerLineContent[self._HEADER_POSITION_VAWIDENTIFIER]):
+            
+            print("Glacier to check -> " + glacier.name)
+            
+            
+            # Comparing the current glacier with the VAW internal ID of the given file header.
+            if glacier.pkVaw == givenVawId:
                 glacierFound = glacier
+                
+                
+                print("Debug -> " + glacierFound.name)
+                print("Debug -> " + fullFileName)
+                
+                
+                
+                
         
         if glacierFound != None:
-            self._glacier = glacier
+            self._glacier = glacierFound
+            
+            
+            
+        
+        
+        
         else:
             message = "No corresponding glacier found. Header information given VAW-PK {0} and short name {1}".format(
                     self._headerLineContent[self._HEADER_POSITION_VAWIDENTIFIER], self._headerLineContent[self._HEADER_POSITION_SHORTNAME])

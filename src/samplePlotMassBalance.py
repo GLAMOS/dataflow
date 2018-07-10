@@ -13,6 +13,7 @@ from src.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 from src.DataObjects.MassBalance import MassBalanceObservation
 from src.DataObjects.MassBalance import MassBalanceFixDate
 from src.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
+from src.DataObjects.Glacier import Glacier
 
 import matplotlib.pyplot as plt
 
@@ -147,19 +148,34 @@ if __name__ == '__main__':
         print("Private database configuration '{0}' is not existing! Check path! Application will terminate.".format(privateDatabaseAccessConfiguration))
         sys.exit(1)
     
-    focusGlaciers = ['A50i/19', 'B36 /26']
-    #focusGlaciers = ['A50i/19']
-    
+    focusGlaciers = ['A50i/19', 'B36 /26', 'B56 /03', 'B43 /03']
+
+    # Getting the src.DataReaders.DatabaseReaders.GlacierReader ready to retrieve glacier objects from the database.
     glacierReader = GlacierReader(privateDatabaseAccessConfiguration)
-    
+    # Empty directory for the found focus glaciers.
     glaciers = dict()
     
     try:
     
-        for focusGlacier in focusGlaciers:
+        # Check if the database is available. If not, get alternative glaciers for plotting.
+        if glacierReader.isDatabaseAvailable == True:
+            print("The GLAMOS database is available. Glacier objects are read from the database.")
+            for focusGlacier in focusGlaciers:
+                
+                glacier = glacierReader.getGlacierBySgi(focusGlacier)
+                glaciers[glacier.pkSgi] = glacier
+        else:
+            print("The GLAMOS database is not available. Glacier objects are improvised.")
             
-            glacier = glacierReader.getGlacierBySgi(focusGlacier)
-            glaciers[glacier.pkSgi] = glacier
+            # Getting some improvised glaciers.
+            clariden = Glacier(None, 141, "A50i/19", "Clariden") 
+            adler    = Glacier(None, 16,  "B56/03",  "Adler")
+            rhone    = Glacier(None, 1,   "B43/03",  "Rhone")
+            aletsch  = Glacier(None, 5,   "B36/26",  "Aletsch")
+            glaciers[clariden.pkSgi] = clariden
+            glaciers[adler.pkSgi]    = adler
+            glaciers[rhone.pkSgi]    = rhone
+            glaciers[aletsch.pkSgi]  = aletsch
         
         parseMassBalance(config, glaciers)
         
