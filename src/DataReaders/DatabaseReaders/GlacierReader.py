@@ -58,6 +58,7 @@ class GlacierReader(GlamosDatabaseReader):
         
         @raise Exception: In case of more than one glacier found.
         @raise Exception: In case of none glacier found.
+        @raise OperationalError: Error during connecting to database (e.g. timeout).
         '''
         
         glaciers = dict()

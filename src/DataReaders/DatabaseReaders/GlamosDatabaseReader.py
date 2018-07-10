@@ -7,6 +7,8 @@ Created on 22.05.2018
 from ..DatabaseReader import PostgreSqlReader
 import psycopg2
 import configparser
+from psycopg2 import OperationalError
+from ..Exceptions.DatabaseConnectionError import DatabaseConnectionError
 
 class GlamosDatabaseReader(PostgreSqlReader):
     '''
@@ -19,7 +21,7 @@ class GlamosDatabaseReader(PostgreSqlReader):
         _cursor: Data cursor with the results of the queries.
     '''
 
-    _CONNECTION_STRING_TEMPLATE = "host='{0}' dbname='{1}' user='{2}' password='{3}'"
+    _CONNECTION_STRING_TEMPLATE = "host='{0}' dbname='{1}' user='{2}' password='{3} connect_timeout={4}'"
     
     _connectionString = ""
     
@@ -49,10 +51,10 @@ class GlamosDatabaseReader(PostgreSqlReader):
         dbName = config.get("Access", "dbname")
         dbUser = config.get("Access", "user")
         dbPassword = config.get("Access", "password")
+        timeout = config.getint("Access", "timeout")
         
         self._connectionString = self._CONNECTION_STRING_TEMPLATE.format(
-            host, dbName, dbUser, dbPassword
-            )
+            host, dbName, dbUser, dbPassword, timeout)
         
     def retriveData(self, statement):
         '''
@@ -66,6 +68,8 @@ class GlamosDatabaseReader(PostgreSqlReader):
         
         @rtype: List
         @return: List of all returned records found by the statement.
+        
+        @raise DatabaseConnectionError: Error during connecting to database (e.g. timeout).
         '''
         
         try:
@@ -80,6 +84,17 @@ class GlamosDatabaseReader(PostgreSqlReader):
                 results.append(recordReturned)
             
             return results
+        
+        except OperationalError as operationalError:
+            
+            errorMessage = ""
+            
+            if len(operationalError.args) > 0:
+                errorMessage = "Error message from the database: " + operationalError.args[0]
+            else:
+                errorMessage = "Undefined operational error of the database"
+            
+            raise DatabaseConnectionError(errorMessage)
         
         except Exception as e:
             

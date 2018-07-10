@@ -12,20 +12,23 @@ from src.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 from src.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 from src.DataObjects.MassBalance import MassBalanceObservation
 from src.DataObjects.MassBalance import MassBalanceFixDate
+from src.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
 
 import matplotlib.pyplot as plt
 
 import configparser
 import os
-from src.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
-
-
-config = configparser.ConfigParser()
-config.read("dataflow.cfg")
-
-privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.private.cfg"
+import sys
 
 def plotMassBalance(glacier):
+    '''
+    Plotting of the mass-balance data available. Fix-date observations and field observations are plotted individually.
+    
+    @type glacier: DataObjects.Glacier
+    @param glacier: Glacier object which mass-balance readings have to be plotted.
+    '''
+    
+    print("Preparation of plotting {0} mass-balance readings of {1}".format(len(glacier.massBalances), glacier.name))
     
     massBalanceObservationsYearToObservations     = []
     massBalanceObservationsCumulativeObservations = []
@@ -74,16 +77,18 @@ def plotMassBalance(glacier):
         plt.show()
         plt.gcf().clear()
 
-def parseMassBalance(glaciers):
+def parseMassBalance(configuration, glaciers):
     '''
-    Simple plotting of mass balance data.
+    Parsing of mass balance data files.
     
+    @type configuration: File handler
+    @type configuration: File handler to main configuration file
     @type glaciers: Dictionary
     @param glaciers: Dictionary of glaciers stored in the database. Key: SGI-ID; Value: Glacier
     '''
     
-    rootDirectoryPath = config.get("MassBalance", "rootDirectoryInput")
-    dataDirectoryName = config.get("MassBalance", "glacierDirectoryInput")
+    rootDirectoryPath = configuration.get("MassBalance", "rootDirectoryInput")
+    dataDirectoryName = configuration.get("MassBalance", "glacierDirectoryInput")
     
     dataDirectoryPath = os.path.join(rootDirectoryPath, dataDirectoryName)
        
@@ -119,28 +124,50 @@ def parseMassBalance(glaciers):
                     if massBalanceReader != None:
                         massBalanceReader = None
                         del(massBalanceReader)
+                        
+            else:
+                print("Given input file '{0}' is not a file".format(inputFilePath))
 
 
 if __name__ == '__main__':
     
-    #focusGlaciers = ['A50i/19', 'B36 /26']
-    focusGlaciers = ['A50i/19']
+    
+    config = configparser.ConfigParser()
+    config.read("dataflow.cfg")
+
+    privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.private.cfg"
+    
+    if os.path.exists(privateDatabaseAccessConfiguration) == True:
+        if os.path.isfile(privateDatabaseAccessConfiguration) == True:
+            print("Private database configuration '{0}' will be used.".format(privateDatabaseAccessConfiguration)) 
+        else:
+            print("Private database configuration '{0}' isn't a file! Check file! Application will terminate.".format(privateDatabaseAccessConfiguration))
+            sys.exit(1)
+    else:
+        print("Private database configuration '{0}' is not existing! Check path! Application will terminate.".format(privateDatabaseAccessConfiguration))
+        sys.exit(1)
+    
+    focusGlaciers = ['A50i/19', 'B36 /26']
+    #focusGlaciers = ['A50i/19']
     
     glacierReader = GlacierReader(privateDatabaseAccessConfiguration)
     
     glaciers = dict()
     
-    for focusGlacier in focusGlaciers:
-        
-        glacier = glacierReader.getGlacierBySgi(focusGlacier)
-        glaciers[glacier.pkSgi] = glacier
+    try:
     
-    parseMassBalance(glaciers)
-    
-    for glacier in glaciers.values():
+        for focusGlacier in focusGlaciers:
+            
+            glacier = glacierReader.getGlacierBySgi(focusGlacier)
+            glaciers[glacier.pkSgi] = glacier
         
-        print(glacier.name)
-        print(len(glacier.massBalances))
+        parseMassBalance(config, glaciers)
         
-        plotMassBalance(glacier)
+        for glacier in glaciers.values():
+                   
+            plotMassBalance(glacier)
     
+    except Exception as e:
+        
+        print(e.message)
+        print("Sample script aborted!")
