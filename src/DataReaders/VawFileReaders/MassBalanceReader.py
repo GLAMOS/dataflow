@@ -98,6 +98,7 @@ class MassBalanceReader(VawFileReader):
         @param glaciers: Dictionary with glaciers.
         
         @raise MassBalanceTypeNotDefinedError: Exception if mass balance type is not defined.
+        @raise GlacierNotFoundError: Exception in case of not a corresponding glacier was found.
         '''
         
         # Setting the parameters of the data file.
@@ -199,6 +200,7 @@ class MassBalanceReader(VawFileReader):
         with open(self._fullFileName, "r") as mb:
 
             lineCounter = 0
+            self._numberDataLines = 0
 
             for line in mb:
 
@@ -210,6 +212,8 @@ class MassBalanceReader(VawFileReader):
                         
                         # Retrieving all the data of the mass balance data line (unique values and multiple values of the elevation bands).
                         data = self._getData(line)
+                        
+                        # TODO: Including the self._numberDataLines counter.
                         
                         # Creating the main object of a mass balance entry with the unique values depending on the mass balance type.
                         if self._massBalanceType == MassBalanceTypeEnum.Observation:

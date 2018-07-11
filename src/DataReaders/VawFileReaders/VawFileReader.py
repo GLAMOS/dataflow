@@ -23,6 +23,7 @@ class VawFileReader(AsciiFileDateReader):
     
     Attributes:
         - _numberHeaderLines              Number of header lines used in the data file.
+        - _numberDataLines                Number of lines containing data.
         - _headerLineContent              Dictionary with position and name of header line values.
         - _HEADER_POSITION_SHORTNAME      Common position in the header line of the short name.
         - _HEADER_POSITION_VAWIDENTIFIER  Common position in the header line of the VAW identifier.
@@ -31,6 +32,8 @@ class VawFileReader(AsciiFileDateReader):
     '''
     
     _numberHeaderLines = -1
+    
+    _numberDataLines = -1
         
     _headerLineContent = dict()
     
@@ -69,34 +72,29 @@ class VawFileReader(AsciiFileDateReader):
         glacierFound = None
         for glacier in glaciers.values():
             
-            print("Glacier to check -> " + glacier.name)
-            
-            
             # Comparing the current glacier with the VAW internal ID of the given file header.
             if glacier.pkVaw == givenVawId:
                 glacierFound = glacier
-                
-                
-                print("Debug -> " + glacierFound.name)
-                print("Debug -> " + fullFileName)
-                
-                
-                
-                
         
         if glacierFound != None:
             self._glacier = glacierFound
-            
-            
-            
-        
-        
-        
+
         else:
             message = "No corresponding glacier found. Header information given VAW-PK {0} and short name {1}".format(
                     self._headerLineContent[self._HEADER_POSITION_VAWIDENTIFIER], self._headerLineContent[self._HEADER_POSITION_SHORTNAME])
             raise GlacierNotFoundError(message)
 
+    @property
+    def numberDataLines(self):
+        '''
+        Returns the number of lines parsed containing observation data. Returns -1 in case the file was 
+        not parsed yet.
+        
+        @rtype: integer
+        @return: Number of data lines in the file parsed
+        '''
+        
+        return self._numberDataLines
         
     def parseHeader(self):
         '''
@@ -131,7 +129,6 @@ class VawFileReader(AsciiFileDateReader):
 
                     errorMessage = "{0} @ {1}: {2}".format(vaw, lineCounter, e)
                     print(errorMessage)
-        
         
     def _reformateDate(self, dateVaw):
         '''

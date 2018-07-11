@@ -47,7 +47,7 @@ class PostgreSqlReader(DatabaseReader):
         _cursor: Data cursor with the results of the queries.
     '''
 
-    _CONNECTION_STRING_TEMPLATE = "host='{0}' dbname='{1}' user='{2}' password='{3} connect_timeout={4}'"
+    _CONNECTION_STRING_TEMPLATE = "host='{0}' dbname='{1}' user='{2}' password='{3}' connect_timeout={4}"
     
     _connectionString = ""
     

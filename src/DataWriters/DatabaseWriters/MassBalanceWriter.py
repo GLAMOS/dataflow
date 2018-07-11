@@ -10,6 +10,11 @@ import logging
 class MassBalanceWriter(GlamosDatabaseWriter):
     '''
     # TODO: classdocs
+    
+    Attributes:
+    _massBalanceObservationCounter int  Counter of mass-balance observations written to the database
+    _elevationBandValidCounter     int  Counter of valid elevation bands written to the database
+    _elevationBandInvalidCounter   int  Counter of invalid elevation bands not written to the database
     '''
 
     _massBalanceObservationCounter = 0

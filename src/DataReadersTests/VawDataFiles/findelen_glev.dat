@@ -1,0 +1,6 @@
+# Glacier state and evolution data; Findel; 16
+#   name; date; volume; area; length; h_max; h_min; dV; dh_mean; dl
+#
+1931  1931-09-01  NaN  20.731054  NaN  4195.6  2270.5    0.00        0.0   NaN
+1982  1982-09-15  NaN  18.958808  NaN  4127.5  2489.9   -0.210516  -10.11  NaN
+2007  2007-09-13  NaN  16.951763  NaN  4120.9  2518.9   -0.306361  -16.12  NaN

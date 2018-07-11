@@ -17,19 +17,22 @@ class Glacier(GlamosData):
         _name            Common name of the glacier.
         _lengthChanges   Dictionary containing the entire time series of type DataObjects.LengthChange.LengthChange objects
         _massBalance     Dictionary containing the entire time series of type DataObjects.MassBalance.MassBalance objects
+        _volumeChanges   Dictionary containing the entire time series of type DataObjects.VolumeChange.VolumeChange objects
     '''
 
-    _pkVaw = None
+    _pkVaw         = None
     
-    _pkSgi = None
+    _pkSgi         = None
     
-    _pkGlims = None
+    _pkGlims       = None
     
-    _name  = None
+    _name          = None
     
     _lengthChanges = None
     
     _massBalances  = None
+    
+    _volumeChanges = None
     
     @property
     def pkVaw(self):
@@ -66,6 +69,13 @@ class Glacier(GlamosData):
         Get the entire mass balance time series of the glacier.
         '''
         return self._massBalances
+    
+    @property
+    def volumeChanges(self):
+        '''
+        Get the entire volume change time series of the glacier.
+        '''
+        return self._volumeChanges
 
     def __init__(self, pk = None, pkVaw = None, pkSgi = None, name = None):
         '''
@@ -92,6 +102,7 @@ class Glacier(GlamosData):
         
         self._lengthChanges = dict()
         self._massBalances  = dict()
+        self._volumeChanges = dict()
         
     def __str__(self):
         '''
@@ -163,3 +174,15 @@ class Glacier(GlamosData):
         
         #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalance class.
         self._massBalances[massBalance.dateFromAnnual] = massBalance
+        
+    def addVolumeChange(self, volumeChange):
+        '''
+        Adding an individual measurement of a volume change. Containing the change between two years.
+        
+        @type volumeChange: DataObjects.VolumeChange.VolumeChange
+        @param volumeChange: Volume change between two specified years.
+        '''
+        
+        #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the VolumeChange class.
+        self._volumeChanges[volumeChange.dateFrom] = volumeChange
+        

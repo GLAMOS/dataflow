@@ -1,0 +1,7 @@
+# Glacier state and evolution data; Gorner; 14
+#   name; date; volume; area; length; h_max; h_min; dV; dh_mean; dl
+#
+1931  1931-09-01  NaN  64.695016  NaN  4605.5  1965.4    0.00        0.0   NaN
+1982  1982-09-15  NaN  41.639618  NaN  4586.3  2086.1   -1.279414  -19.63  NaN
+2003  2003-07-10  NaN  38.247405  NaN  4582.4  2151.6   -0.698299  -16.68  NaN
+2007  2007-09-13  NaN  52.674665  NaN  4578.2  2172.0   -0.249013   -4.59  NaN
