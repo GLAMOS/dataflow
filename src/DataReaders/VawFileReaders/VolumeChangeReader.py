@@ -8,6 +8,7 @@ from .VawFileReader import VawFileReader
 import re
 from src.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 from src.DataObjects.VolumeChange import VolumeChange
+from ..Exceptions.InvalidDataFileError import InvalidDataFileError
 
 class VolumeChangeReader(VawFileReader):
     '''
@@ -25,15 +26,31 @@ class VolumeChangeReader(VawFileReader):
     __FILE_COLUMN_VOLUME_CHANGE      = 7
     __FILE_COLUMN_HEIGHT_CHANGE_MEAN = 8
     
-    def __init__(self, fullFileName, glaciers):
+    def __init__(self, config, fullFileName, glaciers):
         '''
         Constructor
         
+        @type config: configparser.ConfigParser
+        @param config: Configuration of the dataflow.
+        @type fullFileName: string
+        @param fullFileName: Absolute file path.
+        @type glaciers: Dictionary
+        @param glaciers: Dictionary with glaciers.
+
+        
         @raise GlacierNotFoundError: Exception in case of not a corresponding glacier was found.
+        @raise InvalidDataFileError: Exception in case of an invalid data file.
         '''
         
         # Setting the parameters of the data file.
         self._numberHeaderLines = self.__NUMBER_HEADER_LINES
+
+        # Check if the given file is a correct volume change file.
+        searchResult = re.search(config.get("VolumeChange", "volumeChangePatternFilename"), fullFileName)
+        if searchResult == None:
+            message = "The file {0} is not a volume change data file.".format(fullFileName)
+            raise InvalidDataFileError(message)
+        # TODO: Additional test for file check to be included. If possible, implementation in a generic way in super-class VawFileReader.
 
         try:
             super().__init__(fullFileName, glaciers)

@@ -13,6 +13,7 @@ from src.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 from src.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 from src.DataWriters.DatabaseWriters.VolumeChangeWriter import VolumeChangeWriter
 from src.DataReaders.VawFileReaders.VolumeChangeReader import VolumeChangeReader
+from src.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
 
 config = configparser.ConfigParser()
 config.read("dataflow.cfg")
@@ -31,9 +32,7 @@ def insertDatabaseVolumeChange(allGlaciers):
     dataDirectoryName = config.get("VolumeChange", "directoryInput")
     
     dataDirectoryPath = os.path.join(rootDirectoryPath, dataDirectoryName)
-    
-    volumeChangeReader = None
-    
+
     if os.path.exists(dataDirectoryPath):
 
         # Loop over all mass-balance data files in the directory.
@@ -43,12 +42,14 @@ def insertDatabaseVolumeChange(allGlaciers):
             
             # Start with parsing the data file.
             if os.path.isfile(inputFilePath):
+                
+                volumeChangeReader = None
+                volumeChangeWriter = None
 
                 try:
                     # Getting the reader object and start parsing.
-                    volumeChangeReader = VolumeChangeReader(inputFilePath, allGlaciers)
-                    volumeChangeWriter = None
-                    
+                    volumeChangeReader = VolumeChangeReader(config, inputFilePath, allGlaciers)
+
                     # Important note:
                     # The glacier object is still alive and could have mass-balance objects of a 
                     # parsing process before. To have a redundancy free insert into the database,
@@ -72,6 +73,8 @@ def insertDatabaseVolumeChange(allGlaciers):
                     
                 except GlacierNotFoundError as glacierNotFoundError:
                     print(glacierNotFoundError.message)
+                except InvalidDataFileError as invalidDataFileError:
+                    print(invalidDataFileError.message)
                     
                 finally:
                     if volumeChangeReader != None:
