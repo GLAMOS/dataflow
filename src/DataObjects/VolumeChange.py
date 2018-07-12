@@ -83,6 +83,18 @@ class VolumeChange(GlamosData):
         self._volumeChange         = volumeChange
         self._heightChangeMean     = heightChangeMean
         
+    def __str__(self):
+        '''
+        String representation of the volume-change object.
+        
+        @rtype: str
+        @return: String representation of the volume-change object.
+        '''
+        
+        stringRepresentationTemplate = "Volume change between {0} and {1}: {2} km3"
+        
+        return stringRepresentationTemplate.format(
+            self.dateFrom, self.dateTo, self.volumeChange)
         
     @property
     def dateFrom(self):

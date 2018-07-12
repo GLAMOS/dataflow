@@ -5,8 +5,8 @@ Created on 22.05.2018
 '''
 
 from .GlamosDatabaseReader import GlamosDatabaseReader
-from DataObjects.Glacier import Glacier
-from DataObjects.LengthChange import LengthChange
+from src.DataObjects.Glacier import Glacier
+from src.DataObjects.LengthChange import LengthChange
 import uuid
 
 class LengthChangeReader(GlamosDatabaseReader):
@@ -23,8 +23,8 @@ class LengthChangeReader(GlamosDatabaseReader):
         '''
         
         super().__init__(accessConfigurationFullFileName)
-        
-    def getGlacierLengthChanges(self, glacier):
+
+    def getData(self, glacier):
         '''
         Retrieves all length change measurement of the given glacier.
         
@@ -42,11 +42,9 @@ class LengthChangeReader(GlamosDatabaseReader):
             
             glacier.addLengthChange(self._recordToObject(result))
             
-            
-            
     def _recordToObject(self, dbRecord):
         '''
-        Converts a single record of the database into a glacier object.
+        Converts a single record of the database into a length-change object.
         
         @type dbRecord: list
         @param dbRecord: List with all values of one database record.
@@ -62,3 +60,4 @@ class LengthChangeReader(GlamosDatabaseReader):
         variationQuantitative   = float(dbRecord[7])
         
         return LengthChange(None, dateFrom, None, dateTo, None, None, variationQuantitative, None, None, None, None)
+    

@@ -32,7 +32,7 @@ def printGlacierLengthChangeBySgi(pkSgi):
     # Retrieving the glacier object from the database using the SGI key.
     foundGlacier = glacierReader.getGlacierBySgi(pkSgi)
     # Retrieving of the length change time series for the given glacier.
-    lengthChangeReader.getGlacierLengthChanges(foundGlacier)
+    lengthChangeReader.getData(foundGlacier)
     
     # Print the information.
     print("Number of measurements: {0}".format(len(foundGlacier.lengthChanges)))
