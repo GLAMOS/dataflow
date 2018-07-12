@@ -61,7 +61,7 @@ class Glacier(GlamosData):
         '''
         Get the entire length change time series of the glacier.
         '''
-        return self._massBalances
+        return self._lengthChanges
     
     @property
     def massBalances(self):
@@ -162,7 +162,7 @@ class Glacier(GlamosData):
         '''
         
         #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the LengthChange class.
-        self._lengthChanges[lengthChange.dateFromAnnual] = lengthChange
+        self._lengthChanges[lengthChange.dateFrom] = lengthChange
         
     def addMassBalance(self, massBalance):
         '''
