@@ -6,8 +6,8 @@ Created on 11.07.2018
 
 from .VawFileReader import VawFileReader
 import re
-from src.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-from src.DataObjects.VolumeChange import VolumeChange
+from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from DataObjects.VolumeChange import VolumeChange
 from ..Exceptions.InvalidDataFileError import InvalidDataFileError
 
 class VolumeChangeReader(VawFileReader):

@@ -5,12 +5,12 @@ Created on 12.07.2018
 '''
 
 from .GlamosDatabaseReader import GlamosDatabaseReader
-from src.DataObjects.Glacier import Glacier
-from src.DataObjects.MassBalance import MassBalanceObservation
-from src.DataObjects.MassBalance import MassBalanceFixDate
-from src.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
-from src.DataObjects.Enumerations.MassBalanceEnumerations import AnalysisMethodEnum
-from src.DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
+from DataObjects.Glacier import Glacier
+from DataObjects.MassBalance import MassBalanceObservation
+from DataObjects.MassBalance import MassBalanceFixDate
+from DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
+from DataObjects.Enumerations.MassBalanceEnumerations import AnalysisMethodEnum
+from DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
 
 import uuid
 

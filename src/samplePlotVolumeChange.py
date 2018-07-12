@@ -10,8 +10,8 @@ import configparser
 import os
 import sys
 
-from src.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
-from src.DataReaders.DatabaseReaders.VolumeChangeReader import VolumeChangeReader
+from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from DataReaders.DatabaseReaders.VolumeChangeReader import VolumeChangeReader
 
 def plotVolumeChange(glacier):
     '''

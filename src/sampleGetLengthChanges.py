@@ -14,11 +14,11 @@ Preconditions:
 '''
 
 # Import of the reader objects.
-from src.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
-from src.DataReaders.DatabaseReaders.LengthChangeReader import LengthChangeReader
+from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from DataReaders.DatabaseReaders.LengthChangeReader import LengthChangeReader
 
 # Private configuration file for the database access.
-privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.cfg.private"
+privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.private.cfg"
 
 # Getting the database readers ready.
 glacierReader = GlacierReader(privateDatabaseAccessConfiguration)

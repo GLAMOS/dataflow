@@ -9,11 +9,11 @@ Main script to import all VAW volume change data files into the GLAMOS database.
 import configparser
 import os
 
-from src.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
-from src.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-from src.DataWriters.DatabaseWriters.VolumeChangeWriter import VolumeChangeWriter
-from src.DataReaders.VawFileReaders.VolumeChangeReader import VolumeChangeReader
-from src.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
+from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from DataWriters.DatabaseWriters.VolumeChangeWriter import VolumeChangeWriter
+from DataReaders.VawFileReaders.VolumeChangeReader import VolumeChangeReader
+from DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
 
 config = configparser.ConfigParser()
 config.read("dataflow.cfg")

@@ -5,7 +5,7 @@ Created on 18.05.2018
 '''
 
 from ..FileWriter import FileWriter
-from src.DataObjects.Glacier import Glacier
+from DataObjects.Glacier import Glacier
 
 class CopyLengthChangeData(FileWriter):
     '''

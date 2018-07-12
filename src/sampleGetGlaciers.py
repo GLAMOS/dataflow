@@ -13,11 +13,14 @@ Preconditions:
 - databaseAccessConfiguration.cfg available
 '''
 
+import os
+
 # Import of the reader objects.
-from src.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 
 # Private configuration file for the database access.
-privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.cfg.private"
+
+privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.private.cfg"
 
 # Getting the database reader ready.
 glacierReader = GlacierReader(privateDatabaseAccessConfiguration)
@@ -58,6 +61,6 @@ def printAletschGlacier():
 
 
 if __name__ == '__main__':
-    
+
     printAllGlaciers()
     printAletschGlacier()

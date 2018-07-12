@@ -5,7 +5,7 @@ Created on 12.07.2018
 '''
 
 from .GlamosDatabaseReader import GlamosDatabaseReader
-from src.DataObjects.VolumeChange import VolumeChange
+from DataObjects.VolumeChange import VolumeChange
 
 import uuid
 

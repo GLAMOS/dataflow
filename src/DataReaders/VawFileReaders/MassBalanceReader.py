@@ -5,14 +5,14 @@ Created on 31.05.2018
 '''
 
 from .VawFileReader import VawFileReader
-from src.DataObjects.MassBalance import MassBalance
-from src.DataObjects.MassBalance import MassBalanceObservation
-from src.DataObjects.MassBalance import MassBalanceFixDate
-from src.DataObjects.MassBalance import ElevationBand
-from src.DataObjects.MassBalance import MassBalanceTypeEnum
-from src.DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
-from src.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
-from src.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from DataObjects.MassBalance import MassBalance
+from DataObjects.MassBalance import MassBalanceObservation
+from DataObjects.MassBalance import MassBalanceFixDate
+from DataObjects.MassBalance import ElevationBand
+from DataObjects.MassBalance import MassBalanceTypeEnum
+from DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
+from DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
+from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 import re
 import copy
 

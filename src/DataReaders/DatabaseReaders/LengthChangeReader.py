@@ -6,9 +6,9 @@ Created on 22.05.2018
 
 from .GlamosDatabaseReader import GlamosDatabaseReader
 
-from src.DataObjects.Glacier import Glacier
-from src.DataObjects.LengthChange import LengthChange
-from src.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
+from DataObjects.Glacier import Glacier
+from DataObjects.LengthChange import LengthChange
+from DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
 
 import uuid
 

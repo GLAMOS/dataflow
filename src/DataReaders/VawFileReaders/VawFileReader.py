@@ -6,10 +6,10 @@ Created on 18.05.2018
 
 import datetime
 from ..FileDataReader import AsciiFileDateReader
-from src.DataObjects.Glacier import Glacier
-from src.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
+from DataObjects.Glacier import Glacier
+from DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
 
-from src.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 
 class VawFileReader(AsciiFileDateReader):
     '''

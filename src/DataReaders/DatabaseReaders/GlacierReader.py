@@ -5,7 +5,7 @@ Created on 22.05.2018
 '''
 
 from .GlamosDatabaseReader import GlamosDatabaseReader
-from src.DataObjects.Glacier import Glacier
+from DataObjects.Glacier import Glacier
 import uuid
 
 class GlacierReader(GlamosDatabaseReader):
