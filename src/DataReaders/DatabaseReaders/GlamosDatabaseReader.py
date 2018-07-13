@@ -5,7 +5,7 @@ Created on 22.05.2018
 '''
 
 from ..DatabaseReader import PostgreSqlReader
-
+from abc import abstractmethod
 
 class GlamosDatabaseReader(PostgreSqlReader):
     '''
@@ -24,3 +24,14 @@ class GlamosDatabaseReader(PostgreSqlReader):
         
         super().__init__(accessConfigurationFullFileName)
         
+    @abstractmethod
+    def getData(self, glacier):
+        '''
+        Abstract method to retrieve data from the database.
+        
+        The method has to be implemented in all classes which inherit from DataReaders.DatabaseReaders.GlamosDatabaseReader.GlamosDatabaseReader
+        
+        @type glacier: DataObject.Glacier.Glacier
+        @param glacier: Glacier of which the attributes given by the reader class has to be retrieved.
+        '''
+        raise NotImplementedError("The abstract method getData() is not implemented yet.")
