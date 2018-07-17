@@ -65,7 +65,7 @@ if __name__ == '__main__':
     
     focusGlaciers = ['B52 /24', 'B45 /04'] # Schwarzberg-Gletscher (VAW-ID = 10), Griesgletscher (VAW-ID = 3)
     
-    # Getting the src.DataReaders.DatabaseReaders.GlacierReader ready to retrieve glacier objects from the database.
+    # Getting the dataflow.DataReaders.DatabaseReaders.GlacierReader ready to retrieve glacier objects from the database.
     glacierReader = GlacierReader(privateDatabaseAccessConfiguration)
     # Empty directory for the found focus glaciers.
     glaciers = dict()
