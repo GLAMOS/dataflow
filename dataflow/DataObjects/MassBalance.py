@@ -8,9 +8,33 @@ from .Glamos import GlamosData
 from .Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
 from .Enumerations.MassBalanceEnumerations import AnalysisMethodEnum
 from datetime import date
+from pandas import DataFrame
 
 class MassBalance(GlamosData):
     # TODO: Class documentation
+    
+    # ---- Static methods of the class ---
+    @staticmethod
+    def createTable(massBalances):
+        '''
+        Reformats the given dictionary of mass-balances into a pandas.DataFrame.
+        
+        @type massBalances: dict
+        @param massBalances: Dictionary with mass-balances of an individual glacier.
+
+        @rtype: pandas.DataFrame
+        @return: Data frame (table) of the mass-balance observations.
+        '''
+
+        # Definition of the data-frame based on the original definition of the VAW ASCII files.
+        # date0;date_s;date1;winter balance; annual balance
+    
+        plist = ['dateFromAnnual', 'dateToWinter', 'dateToAnnual', 'winterMassBalance', 'annualMassBalance', 'massBalanceType']
+        dataFrame = DataFrame([[getattr(massBalances[i], p) for p in plist ] for i in massBalances.keys()])
+        
+        return dataFrame
+
+    # ---- Members of the class ---
     
     _massBalanceType = MassBalanceTypeEnum.NotDefinedUnknown
 

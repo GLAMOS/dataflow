@@ -5,6 +5,9 @@ Created on 18.05.2018
 '''
 
 from .Glamos import GlamosData
+from dataflow.DataObjects.MassBalance import MassBalance
+from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
+#import dataflow.DataObjects.Enumerations.MassBalanceEnumerations.MassBalanceTypeEnum
 
 class Glacier(GlamosData):
     '''
@@ -70,6 +73,19 @@ class Glacier(GlamosData):
         '''
         return self._massBalances
     
+    @property
+    def massBalanceTable(self):
+        '''
+        Get the entire mass-balance time series of the glacier as pandas.DataFrame.
+        
+        #TODO: More specific description of the data frame.
+
+        @rtype: pandas.DataFrame
+        @return: Data frame (table) of the mass-balance observations.
+        '''
+        
+        return MassBalance.createTable(self._massBalances)
+
     @property
     def volumeChanges(self):
         '''
