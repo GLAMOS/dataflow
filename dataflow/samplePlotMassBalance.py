@@ -150,7 +150,7 @@ if __name__ == '__main__':
     
     focusGlaciers = ['A50i/19', 'B36 /26', 'B56 /03', 'B43 /03']
 
-    # Getting the src.DataReaders.DatabaseReaders.GlacierReader ready to retrieve glacier objects from the database.
+    # Getting the dataflow.DataReaders.DatabaseReaders.GlacierReader ready to retrieve glacier objects from the database.
     glacierReader = GlacierReader(privateDatabaseAccessConfiguration)
     # Empty directory for the found focus glaciers.
     glaciers = dict()
