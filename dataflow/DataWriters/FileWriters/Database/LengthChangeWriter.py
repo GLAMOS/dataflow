@@ -4,8 +4,8 @@ Created on 18.05.2018
 @author: yvo
 '''
 
-from ..FileWriter import FileWriter
-from DataObjects.Glacier import Glacier
+from dataflow.DataWriters.FileWriters.FileWriter import FileWriter
+
 
 class CopyLengthChangeData(FileWriter):
     '''

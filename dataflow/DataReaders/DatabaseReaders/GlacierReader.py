@@ -4,9 +4,10 @@ Created on 22.05.2018
 @author: yvo
 '''
 
-from .GlamosDatabaseReader import GlamosDatabaseReader
-from DataObjects.Glacier import Glacier
+from dataflow.DataReaders.DatabaseReaders.GlamosDatabaseReader import GlamosDatabaseReader
+from dataflow.DataObjects.Glacier import Glacier
 import uuid
+
 
 class GlacierReader(GlamosDatabaseReader):
     '''

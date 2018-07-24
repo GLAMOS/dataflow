@@ -4,10 +4,9 @@ Created on 18.05.2018
 @author: yvo
 '''
 
-from .Glamos import GlamosData
+from dataflow.DataObjects.Glamos import GlamosData
 from dataflow.DataObjects.MassBalance import MassBalance
-from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
-#import dataflow.DataObjects.Enumerations.MassBalanceEnumerations.MassBalanceTypeEnum
+
 
 class Glacier(GlamosData):
     '''

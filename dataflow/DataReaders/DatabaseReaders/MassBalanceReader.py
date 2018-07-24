@@ -4,15 +4,15 @@ Created on 12.07.2018
 @author: yvo
 '''
 
-from .GlamosDatabaseReader import GlamosDatabaseReader
-from DataObjects.Glacier import Glacier
-from DataObjects.MassBalance import MassBalanceObservation
-from DataObjects.MassBalance import MassBalanceFixDate
-from DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
-from DataObjects.Enumerations.MassBalanceEnumerations import AnalysisMethodEnum
-from DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
-
+from dataflow.DataReaders.DatabaseReaders.GlamosDatabaseReader import GlamosDatabaseReader
+from dataflow.DataObjects.Glacier import Glacier
+from dataflow.DataObjects.MassBalance import MassBalanceObservation
+from dataflow.DataObjects.MassBalance import MassBalanceFixDate
+from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
+from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import AnalysisMethodEnum
+from dataflow.DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
 import uuid
+
 
 class MassBalanceReader(GlamosDatabaseReader):
     '''

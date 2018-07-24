@@ -6,9 +6,10 @@ Created on 11.07.2018
 
 from .VawFileReader import VawFileReader
 import re
-from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-from DataObjects.VolumeChange import VolumeChange
-from ..Exceptions.InvalidDataFileError import InvalidDataFileError
+from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from dataflow.DataObjects.VolumeChange import VolumeChange
+from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
+
 
 class VolumeChangeReader(VawFileReader):
     '''

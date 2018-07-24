@@ -4,7 +4,7 @@ Created on 11.07.2018
 @author: yvo
 '''
 
-from .GlamosDatabaseWriter import GlamosDatabaseWriter
+from dataflow.DataWriters.DatabaseWriters.GlamosDatabaseWriter import GlamosDatabaseWriter
 import logging
 
 class VolumeChangeWriter(GlamosDatabaseWriter):

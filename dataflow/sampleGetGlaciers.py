@@ -16,7 +16,7 @@ Preconditions:
 import os
 
 # Import of the reader objects.
-from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 
 # Private configuration file for the database access.
 
