@@ -7,6 +7,7 @@ Created on 18.05.2018
 from .Glamos import GlamosData
 from dataflow.DataObjects.MassBalance import MassBalance
 from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
+from dataflow.DataObjects.Inventory import Inventory
 #import dataflow.DataObjects.Enumerations.MassBalanceEnumerations.MassBalanceTypeEnum
 
 class Glacier(GlamosData):
@@ -88,6 +89,11 @@ class Glacier(GlamosData):
         '''
         
         return MassBalance.createDataFrame(self._massBalances)
+    
+    @property
+    def latestInventoryGeometry(self):
+        
+        return Inventory.latestInventory(self._inventories).geometryWellKnownText
 
     @property
     def volumeChanges(self):
@@ -215,3 +221,6 @@ class Glacier(GlamosData):
         #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the VolumeChange class.
         self._volumeChanges[volumeChange.dateFrom] = volumeChange
         
+    def addInventory(self, inventory):
+        
+        self._inventories[inventory.edition] = inventory
