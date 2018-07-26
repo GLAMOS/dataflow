@@ -14,8 +14,8 @@ Preconditions:
 '''
 
 # Import of the reader objects.
-from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
-from DataReaders.DatabaseReaders.LengthChangeReader import LengthChangeReader
+from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from dataflow.DataReaders.DatabaseReaders.LengthChangeReader import LengthChangeReader
 
 # Private configuration file for the database access.
 privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.private.cfg"

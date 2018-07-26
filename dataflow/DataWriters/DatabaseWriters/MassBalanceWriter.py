@@ -4,8 +4,9 @@ Created on 15.06.2018
 @author: yvo
 '''
 
-from .GlamosDatabaseWriter import GlamosDatabaseWriter
+from dataflow.DataWriters.DatabaseWriters.GlamosDatabaseWriter import GlamosDatabaseWriter
 import logging
+
 
 class MassBalanceWriter(GlamosDatabaseWriter):
     '''

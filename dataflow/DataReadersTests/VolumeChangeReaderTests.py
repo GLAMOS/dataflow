@@ -7,9 +7,9 @@ Created on 11.07.2018
 import unittest
 import datetime
 
-from DataReaders.VawFileReaders.VolumeChangeReader import VolumeChangeReader
-from DataObjects.Glacier import Glacier
-from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from dataflow.DataReaders.VawFileReaders.VolumeChangeReader import VolumeChangeReader
+from dataflow.DataObjects.Glacier import Glacier
+from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 
 
 class VolumeChangeReaderTest(unittest.TestCase):

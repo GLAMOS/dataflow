@@ -6,6 +6,7 @@ Created on 18.05.2018
 
 import uuid
 
+
 class GlamosData(object):
     '''
     Main class for all GLAMOS-related data-objects sharing the common basic attributes and methods.

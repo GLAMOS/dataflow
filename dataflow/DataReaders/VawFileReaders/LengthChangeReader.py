@@ -4,8 +4,9 @@ Created on 18.05.2018
 @author: yvo
 '''
 
-from .VawFileReader import VawFileReader
-from DataObjects.LengthChange import LengthChange
+from dataflow.DataReaders.VawFileReaders import VawFileReader
+from dataflow.DataObjects.LengthChange import LengthChange
+
 
 class LengthChangeReader(VawFileReader):
     '''
