@@ -4,7 +4,6 @@ Created on 10.07.2018
 @author: yvo
 '''
 
-
 class DatabaseConnectionError(Exception):
     '''
     Generic error class for database-connection-related errors.

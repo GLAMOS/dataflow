@@ -6,7 +6,6 @@ Created on 18.05.2018
 
 import logging
 
-
 class DataWriter(object):
     '''
     Generic main class of all data writer objects used for the GLAMOS data interface.

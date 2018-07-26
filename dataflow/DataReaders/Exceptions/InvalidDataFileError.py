@@ -4,7 +4,6 @@ Created on 12.07.2018
 @author: yvo
 '''
 
-
 class InvalidDataFileError(Exception):
     '''
     Generic error class for invalid data files.

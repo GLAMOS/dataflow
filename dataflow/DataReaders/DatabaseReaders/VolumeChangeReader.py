@@ -4,10 +4,10 @@ Created on 12.07.2018
 @author: yvo
 '''
 
-from dataflow.DataReaders.DatabaseReaders.GlamosDatabaseReader import GlamosDatabaseReader
-from dataflow.DataObjects.VolumeChange import VolumeChange
-import uuid
+from .GlamosDatabaseReader import GlamosDatabaseReader
+from DataObjects.VolumeChange import VolumeChange
 
+import uuid
 
 class VolumeChangeReader(GlamosDatabaseReader):
     '''

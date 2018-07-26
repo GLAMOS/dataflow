@@ -3,11 +3,10 @@ Created on 22.05.2018
 
 @author: yvo
 '''
-from dataflow.DataWriters.FileWriters import PostgreSqlWriter
+from ..DatabaseWriter import PostgreSqlWriter
 import psycopg2
 import configparser
 import logging
-
 
 class GlamosDatabaseWriter(PostgreSqlWriter):
     '''

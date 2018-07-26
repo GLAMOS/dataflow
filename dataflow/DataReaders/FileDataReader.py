@@ -4,13 +4,13 @@ Created on 18.05.2018
 @author: yvo
 '''
 
-from dataflow.DataReaders.DataReader import DataReader
-
+from .DataReader import DataReader
 
 class FileDateReader(DataReader):
     '''
     classdocs
     '''
+
 
     def __init__(self):
         '''

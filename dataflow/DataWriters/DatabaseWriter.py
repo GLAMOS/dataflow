@@ -4,10 +4,10 @@ Created on 22.05.2018
 @author: yvo
 '''
 
-from dataflow.DataWriters.DataWriter import DataWriter
-
+from .DataWriter import DataWriter
 
 # TODO: Simplifying the database classes. One super class for Readers and Writers.
+
 class DatabaseWriter(DataWriter):
     '''
     classdocs
