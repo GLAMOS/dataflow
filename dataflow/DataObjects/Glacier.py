@@ -21,6 +21,7 @@ class Glacier(GlamosData):
         _lengthChanges   Dictionary containing the entire time series of type DataObjects.LengthChange.LengthChange objects
         _massBalance     Dictionary containing the entire time series of type DataObjects.MassBalance.MassBalance objects
         _volumeChanges   Dictionary containing the entire time series of type DataObjects.VolumeChange.VolumeChange objects
+        _inventories     Dictionary containing the available inventory data of the glacier.
     '''
 
     _pkVaw         = None
@@ -36,6 +37,8 @@ class Glacier(GlamosData):
     _massBalances  = None
     
     _volumeChanges = None
+    
+    _inventories   = None
     
     @property
     def pkVaw(self):
@@ -92,6 +95,14 @@ class Glacier(GlamosData):
         Get the entire volume change time series of the glacier.
         '''
         return self._volumeChanges
+    
+    @property
+    def inventories(self):
+        '''
+        Get all available inventories.
+        '''
+        
+        return self._inventories
 
     def __init__(self, pk = None, pkVaw = None, pkSgi = None, name = None):
         '''
@@ -119,6 +130,8 @@ class Glacier(GlamosData):
         self._lengthChanges = dict()
         self._massBalances  = dict()
         self._volumeChanges = dict()
+        
+        self._inventories   = dict()
         
     def __str__(self):
         '''
