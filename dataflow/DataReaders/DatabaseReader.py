@@ -4,7 +4,12 @@ Created on 22.05.2018
 @author: yvo
 '''
 
-from .DataReader import DataReader
+from dataflow.DataReaders import DataReader
+import psycopg2
+from psycopg2 import OperationalError
+from .Exceptions.DatabaseConnectionError import DatabaseConnectionError
+import configparser
+
 
 class DatabaseReader(DataReader):
     '''
@@ -27,14 +32,6 @@ class DatabaseReader(DataReader):
         
         self._accessConfigurationFullFileName = accessConfigurationFullFileName
 
-
-
-
-
-import psycopg2
-from psycopg2 import OperationalError
-from .Exceptions.DatabaseConnectionError import DatabaseConnectionError
-import configparser
      
 class PostgreSqlReader(DatabaseReader):
     '''

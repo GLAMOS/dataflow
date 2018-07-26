@@ -4,7 +4,8 @@ Created on 11.07.2018
 @author: yvo
 '''
 
-from .Glamos import GlamosData
+from dataflow.DataObjects.Glamos import GlamosData
+
 
 class VolumeChange(GlamosData):
     '''

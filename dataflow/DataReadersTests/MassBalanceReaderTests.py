@@ -6,10 +6,10 @@ Created on 06.07.2018
 import unittest
 import configparser
 
-from DataReaders.VawFileReaders.MassBalanceReader import MassBalanceReader
-from DataObjects.Glacier import Glacier
-from DataObjects.MassBalance import MassBalanceObservation
-from DataObjects.MassBalance import MassBalanceFixDate
+from dataflow.DataReaders.VawFileReaders.MassBalanceReader import MassBalanceReader
+from dataflow.DataObjects.Glacier import Glacier
+from dataflow.DataObjects.MassBalance import MassBalanceObservation
+from dataflow.DataObjects.MassBalance import MassBalanceFixDate
 
 class MassBalanceReaderTests(unittest.TestCase):
     '''
