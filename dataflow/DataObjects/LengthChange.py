@@ -4,8 +4,7 @@ Created on 18.05.2018
 @author: yvo
 '''
 
-from dataflow.DataObjects.Glamos import GlamosData
-
+from .Glamos import GlamosData
 
 class LengthChange(GlamosData):
     '''

@@ -4,7 +4,6 @@ Created on 18.05.2018
 @author: yvo
 '''
 
-
 class DataReader(object):
     '''
     Generic main class of all data reader objects used for the GLAMOS data interface.

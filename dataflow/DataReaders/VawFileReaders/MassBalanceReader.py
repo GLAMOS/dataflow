@@ -4,15 +4,15 @@ Created on 31.05.2018
 @author: yvo
 '''
 
-from dataflow.DataReaders.VawFileReaders import VawFileReader
-from dataflow.DataObjects.MassBalance import MassBalance
-from dataflow.DataObjects.MassBalance import MassBalanceObservation
-from dataflow.DataObjects.MassBalance import MassBalanceFixDate
-from dataflow.DataObjects.MassBalance import ElevationBand
-from dataflow.DataObjects.MassBalance import MassBalanceTypeEnum
-from dataflow.DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
-from dataflow.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
-from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from .VawFileReader import VawFileReader
+from DataObjects.MassBalance import MassBalance
+from DataObjects.MassBalance import MassBalanceObservation
+from DataObjects.MassBalance import MassBalanceFixDate
+from DataObjects.MassBalance import ElevationBand
+from DataObjects.MassBalance import MassBalanceTypeEnum
+from DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
+from DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
+from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 import re
 import copy
 

@@ -6,12 +6,12 @@ Created on 18.05.2018
 Main script to import all VAW mass-balance data files into the GLAMOS database.
 '''
 
-from dataflow.DataWriters.FileWriters.Database.LengthChangeWriter import CopyLengthChangeData
-from dataflow.DataWriters.DatabaseWriters.MassBalanceWriter import MassBalanceWriter
-from dataflow.DataReaders.VawFileReaders.LengthChangeReader import LengthChangeReader
-from dataflow.DataReaders.VawFileReaders.MassBalanceReader import MassBalanceReader
-from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
-from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from DataWriters.FileWriters.Database.LengthChangeWriter import CopyLengthChangeData
+from DataWriters.DatabaseWriters.MassBalanceWriter import MassBalanceWriter
+from DataReaders.VawFileReaders.LengthChangeReader import LengthChangeReader
+from DataReaders.VawFileReaders.MassBalanceReader import MassBalanceReader
+from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 
 import configparser
 import os

@@ -4,9 +4,8 @@ Created on 22.05.2018
 @author: yvo
 '''
 
-from dataflow.DataReaders.DatabaseReader import PostgreSqlReader
+from ..DatabaseReader import PostgreSqlReader
 from abc import abstractmethod
-
 
 class GlamosDatabaseReader(PostgreSqlReader):
     '''

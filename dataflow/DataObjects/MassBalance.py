@@ -4,12 +4,11 @@ Created on 31.05.2018
 @author: yvo
 '''
 
-from dataflow.DataObjects.Glamos import GlamosData
-from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
-from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import AnalysisMethodEnum
+from .Glamos import GlamosData
+from .Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
+from .Enumerations.MassBalanceEnumerations import AnalysisMethodEnum
 from datetime import date
 from pandas import DataFrame
-
 
 class MassBalance(GlamosData):
     # TODO: Class documentation

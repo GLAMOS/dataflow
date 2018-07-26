@@ -11,10 +11,10 @@ import configparser
 import os
 import sys
 
-from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
-from dataflow.DataReaders.DatabaseReaders.VolumeChangeReader import VolumeChangeReader
-from dataflow.DataReaders.DatabaseReaders.LengthChangeReader import LengthChangeReader
-from dataflow.DataReaders.DatabaseReaders.MassBalanceReader import MassBalanceReader
+from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from DataReaders.DatabaseReaders.VolumeChangeReader import VolumeChangeReader
+from DataReaders.DatabaseReaders.LengthChangeReader import LengthChangeReader
+from DataReaders.DatabaseReaders.MassBalanceReader import MassBalanceReader
 
 def printMassBalanceDataFrames(glaciers):
     

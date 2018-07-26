@@ -4,11 +4,10 @@ Created on 22.05.2018
 @author: yvo
 '''
 
-from dataflow.DataWriters.DatabaseWriters.GlamosDatabaseWriter import GlamosDatabaseWriter
-from dataflow.DataObjects.Glacier import Glacier
-from dataflow.DataObjects.LengthChange import LengthChange
+from .GlamosDatabaseWriter import GlamosDatabaseWriter
+from DataObjects.Glacier import Glacier
+from DataObjects.LengthChange import LengthChange
 import uuid
-
 
 class LengthChangeWriter(GlamosDatabaseWriter):
     '''

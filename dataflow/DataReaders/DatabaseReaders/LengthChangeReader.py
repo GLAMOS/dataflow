@@ -4,10 +4,11 @@ Created on 22.05.2018
 @author: yvo
 '''
 
-from dataflow.DataReaders.DatabaseReaders.GlamosDatabaseReader import GlamosDatabaseReader
+from .GlamosDatabaseReader import GlamosDatabaseReader
 
-from dataflow.DataObjects.LengthChange import LengthChange
-from dataflow.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
+from DataObjects.Glacier import Glacier
+from DataObjects.LengthChange import LengthChange
+from DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
 
 import uuid
 

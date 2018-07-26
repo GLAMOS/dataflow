@@ -4,8 +4,7 @@ Created on 18.05.2018
 @author: yvo
 '''
 
-from dataflow.DataWriters.DataWriter import DataWriter
-
+from ..DataWriter import DataWriter
 
 class FileWriter(DataWriter):
     '''
