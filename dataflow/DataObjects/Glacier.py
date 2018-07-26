@@ -77,7 +77,7 @@ class Glacier(GlamosData):
         return self._massBalances
     
     @property
-    def massBalanceTable(self):
+    def massBalanceDataFrame(self):
         '''
         Get the entire mass-balance time series of the glacier as pandas.DataFrame.
         
@@ -87,7 +87,7 @@ class Glacier(GlamosData):
         @return: Data frame (table) of the mass-balance observations.
         '''
         
-        return MassBalance.createTable(self._massBalances)
+        return MassBalance.createDataFrame(self._massBalances)
 
     @property
     def volumeChanges(self):

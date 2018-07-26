@@ -8,7 +8,7 @@ data of glaciers from the database.
 '''
 
 import configparser
-import os
+import inspect
 import sys
 
 from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
@@ -21,7 +21,22 @@ def printMassBalanceDataFrames(glaciers):
     for glacier in glaciers.values():
         print("---")
         print(glacier)
-        print(glacier.massBalanceTable)
+        
+        # Check the availability of mass-balance object for inspection and printing the data-frame.
+        if len(glacier.massBalances.values()):
+
+        
+            print("Available columns and their documentations:")
+            for column in list(glacier.massBalanceDataFrame):
+                
+                docColumn = "Documentation not available yet"
+                
+                # TODO: Getting the doc string of the columns of the data frame by inspecting the members of a MassBalance object.
+                
+                print("- {0}: {1}".format(column, docColumn))
+                
+            
+            print(glacier.massBalanceDataFrame)
 
 if __name__ == '__main__':
     

@@ -15,7 +15,7 @@ class MassBalance(GlamosData):
     
     # ---- Static methods of the class ---
     @staticmethod
-    def createTable(massBalances):
+    def createDataFrame(massBalances):
         '''
         Reformats the given dictionary of mass-balances into a pandas.DataFrame.
         
@@ -30,7 +30,7 @@ class MassBalance(GlamosData):
         # date0;date_s;date1;winter balance; annual balance
     
         plist = ['dateFromAnnual', 'dateToWinter', 'dateToAnnual', 'winterMassBalance', 'annualMassBalance', 'massBalanceType']
-        dataFrame = DataFrame([[getattr(massBalances[i], p) for p in plist ] for i in massBalances.keys()])
+        dataFrame = DataFrame([[getattr(massBalances[i], p) for p in plist ] for i in massBalances.keys()], columns = plist)
         
         return dataFrame
 
