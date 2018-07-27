@@ -10,8 +10,8 @@ import configparser
 import os
 import sys
 
-from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
-from DataReaders.DatabaseReaders.VolumeChangeReader import VolumeChangeReader
+from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from dataflow.DataReaders.DatabaseReaders.VolumeChangeReader import VolumeChangeReader
 
 def plotVolumeChange(glacier):
     '''
@@ -63,7 +63,7 @@ if __name__ == '__main__':
         print("Private database configuration '{0}' is not existing! Check path! Application will terminate.".format(privateDatabaseAccessConfiguration))
         sys.exit(1)
     
-    focusGlaciers = ['B52 /24', 'B45 /04'] # Schwarzberg-Gletscher (VAW-ID = 10), Griesgletscher (VAW-ID = 3)
+    focusGlaciers = ['B52/24', 'B45/04'] # Schwarzberg-Gletscher (VAW-ID = 10), Griesgletscher (VAW-ID = 3)
     
     # Getting the dataflow.DataReaders.DatabaseReaders.GlacierReader ready to retrieve glacier objects from the database.
     glacierReader = GlacierReader(privateDatabaseAccessConfiguration)

@@ -4,16 +4,16 @@ Created on 18.05.2018
 @author: yvo
 '''
 
-from DataWriters.FileWriters.Database.LengthChangeWriter import CopyLengthChangeData
-from DataWriters.DatabaseWriters.MassBalanceWriter import MassBalanceWriter
-from DataReaders.VawFileReaders.LengthChangeReader import LengthChangeReader
-from DataReaders.VawFileReaders.MassBalanceReader import MassBalanceReader
-from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
-from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-from DataObjects.MassBalance import MassBalanceObservation
-from DataObjects.MassBalance import MassBalanceFixDate
-from DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
-from DataObjects.Glacier import Glacier
+from dataflow.DataWriters.FileWriters.Database.LengthChangeWriter import CopyLengthChangeData
+from dataflow.DataWriters.DatabaseWriters.MassBalanceWriter import MassBalanceWriter
+from dataflow.DataReaders.VawFileReaders.LengthChangeReader import LengthChangeReader
+from dataflow.DataReaders.VawFileReaders.MassBalanceReader import MassBalanceReader
+from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from dataflow.DataObjects.MassBalance import MassBalanceObservation
+from dataflow.DataObjects.MassBalance import MassBalanceFixDate
+from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
+from dataflow.DataObjects.Glacier import Glacier
 
 import matplotlib.pyplot as plt
 
@@ -148,7 +148,7 @@ if __name__ == '__main__':
         print("Private database configuration '{0}' is not existing! Check path! Application will terminate.".format(privateDatabaseAccessConfiguration))
         sys.exit(1)
     
-    focusGlaciers = ['A50i/19', 'B36 /26', 'B56 /03', 'B43 /03']
+    focusGlaciers = ['A50i/19', 'B36/26', 'B56/03', 'B43/03']
 
     # Getting the dataflow.DataReaders.DatabaseReaders.GlacierReader ready to retrieve glacier objects from the database.
     glacierReader = GlacierReader(privateDatabaseAccessConfiguration)

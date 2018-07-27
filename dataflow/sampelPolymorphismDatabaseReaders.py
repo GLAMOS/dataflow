@@ -11,11 +11,10 @@ import configparser
 import os
 import sys
 
-from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
-from DataReaders.DatabaseReaders.VolumeChangeReader import VolumeChangeReader
-from DataReaders.DatabaseReaders.LengthChangeReader import LengthChangeReader
-from DataReaders.DatabaseReaders.MassBalanceReader import MassBalanceReader
-
+from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from dataflow.DataReaders.DatabaseReaders.VolumeChangeReader import VolumeChangeReader
+from dataflow.DataReaders.DatabaseReaders.LengthChangeReader import LengthChangeReader
+from dataflow.DataReaders.DatabaseReaders.MassBalanceReader import MassBalanceReader
 
 def listData(glaciers):
     '''
@@ -64,7 +63,7 @@ if __name__ == '__main__':
         print("Private database configuration '{0}' is not existing! Check path! Application will terminate.".format(privateDatabaseAccessConfiguration))
         sys.exit(1)
     
-    focusGlaciers = ['C14 /10', 'B36 /26', 'B83 /03'] # Basodino (VAW-ID = 104), Aletsch (VAW-ID = 5), Corbassiere (VAW-ID = 38)
+    focusGlaciers = ['C14/10', 'B36/26', 'B83/03'] # Basodino (VAW-ID = 104), Aletsch (VAW-ID = 5), Corbassiere (VAW-ID = 38)
     
     # Getting the dataflow.DataReaders.DatabaseReaders.GlacierReader ready to retrieve glacier objects from the database.
     glacierReader = GlacierReader(privateDatabaseAccessConfiguration)

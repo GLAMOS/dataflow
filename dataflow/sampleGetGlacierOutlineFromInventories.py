@@ -7,7 +7,7 @@ Created on 26.07.2018
 import configparser
 import sys
 
-from DataReaders.DatabaseReaders.GlacierReader import GlacierReader
+from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 from dataflow.DataReaders.DatabaseReaders.InventoryReader import InventoryReader
 
 def printLatestOutline(glaciers):
