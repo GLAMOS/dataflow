@@ -7,7 +7,7 @@ from setuptools import setup, find_packages  # Always prefer setuptools
 DISTNAME = 'dataflow'
 LICENSE = 'MIT'
 AUTHOR = 'dataflow Developers'
-AUTHOR_EMAIL = 'glacier@vaw.baug.ethz.ch'
+AUTHOR_EMAIL = 'data@glamos.ch'
 URL = 'github.com/GLAMOS/dataflow'
 CLASSIFIERS = [
         # How mature is this project? Common values are
