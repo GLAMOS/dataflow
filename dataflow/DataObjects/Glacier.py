@@ -4,7 +4,7 @@ Created on 18.05.2018
 @author: yvo
 '''
 
-from .Glamos import GlamosData
+from dataflow.DataObjects.Glamos import GlamosData
 from dataflow.DataObjects.MassBalance import MassBalance
 from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
 from dataflow.DataObjects.Inventory import Inventory
@@ -92,6 +92,12 @@ class Glacier(GlamosData):
     
     @property
     def latestInventoryGeometry(self):
+        '''
+        Gets the geometry from the latest inventory available of the glacier as WellKnownText.
+        
+        @rtype: string
+        @return: Entire outline of the latest inventory available as WellKnownText.
+        '''
         
         return Inventory.latestInventory(self._inventories).geometryWellKnownText
 
