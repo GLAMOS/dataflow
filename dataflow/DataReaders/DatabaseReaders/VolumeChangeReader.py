@@ -4,8 +4,11 @@ Created on 12.07.2018
 @author: yvo
 '''
 
-from .GlamosDatabaseReader import GlamosDatabaseReader
-from DataObjects.VolumeChange import VolumeChange
+from dataflow.DataReaders.DatabaseReaders.GlamosDatabaseReader import GlamosDatabaseReader
+from dataflow.DataObjects.VolumeChange import VolumeChange
+from dataflow.DataObjects.Enumerations.HeightCaptureMethodEnumeration import HeightCaptureMethodEnum
+from dataflow.DataObjects.Enumerations.VolumeChangeEnumerations import AnalysisMethodEnum
+
 
 import uuid
 
@@ -61,22 +64,27 @@ class VolumeChangeReader(GlamosDatabaseReader):
         '''
         
         # Converting the PostgreSQL data types into Python data types.
-        pk                   = uuid.UUID(dbRecord[0])
-        dateFrom             = dbRecord[2]
-        dateTo               = dbRecord[3]
-        areaFrom             = float(dbRecord[4])
-        areaTo               = float(dbRecord[5])
-        elevationMaximumFrom = float(dbRecord[6])
-        elevationMinimumFrom = float(dbRecord[7])
-        elevationMaximumTo   = float(dbRecord[8])
-        elevationMinimumTo   = float(dbRecord[9])
-        volumeChange         = float(dbRecord[10])
-        heightChangeMean     = float(dbRecord[11])
+        pk                      = uuid.UUID(dbRecord[0])
+        dateFrom                = dbRecord[2]
+        dateTo                  = dbRecord[3]
+        areaFrom                = float(dbRecord[4])
+        areaTo                  = float(dbRecord[5])
+        heightCaptureMethodFrom = HeightCaptureMethodEnum(int(dbRecord[6]))
+        heightCaptureMethodTo   = HeightCaptureMethodEnum(int(dbRecord[7]))
+        analysisMethod          = AnalysisMethodEnum(int(dbRecord[8]))
+        elevationMaximumFrom    = float(dbRecord[9])
+        elevationMinimumFrom    = float(dbRecord[10])
+        elevationMaximumTo      = float(dbRecord[11])
+        elevationMinimumTo      = float(dbRecord[12])
+        volumeChange            = float(dbRecord[13])
+        heightChangeMean        = float(dbRecord[14])
 
         return VolumeChange(
             pk, 
             dateFrom, dateTo, 
             areaFrom, areaTo, 
+            heightCaptureMethodFrom, heightCaptureMethodTo,
+            analysisMethod,
             elevationMaximumFrom, elevationMinimumFrom, 
             elevationMaximumTo, elevationMinimumTo,
             volumeChange, 

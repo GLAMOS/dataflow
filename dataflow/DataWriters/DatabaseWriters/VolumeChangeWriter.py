@@ -50,11 +50,13 @@ class VolumeChangeWriter(GlamosDatabaseWriter):
         
             for volumeChange in glacier.volumeChanges.values():
                 
-                statement = "INSERT INTO volume_change.volume_change (pk, fk_glacier, date_from, date_to, area_from, area_to, elevation_maximum_from, elevation_minimum_from, elevation_maximum_to, elevation_minimum_to, volume_change, height_change_mean) VALUES ('{0}', '{1}', '{2}', '{3}', {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11});".format(
+                statement = "INSERT INTO volume_change.volume_change (pk, fk_glacier, date_from, date_to, area_from, area_to, fk_height_capture_method_from, fk_height_capture_method_to, fk_analysis_method, elevation_maximum_from, elevation_minimum_from, elevation_maximum_to, elevation_minimum_to, volume_change, height_change_mean) VALUES ('{0}', '{1}', '{2}', '{3}', {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14});".format(
                     volumeChange.pk,
                     glacier.pk,
                     volumeChange.dateFrom, volumeChange.dateTo,
                     volumeChange.areaFrom, volumeChange.areaTo,
+                    volumeChange.heightCaptureMethodFrom.value, volumeChange.heightCaptureMethodTo.value,
+                    volumeChange.analysisMethod.value,
                     volumeChange.elevationMaximumFrom, volumeChange.elevationMinimumFrom,
                     volumeChange.elevationMaximumTo, volumeChange.elevationMinimumTo,
                     volumeChange.volumeChange,

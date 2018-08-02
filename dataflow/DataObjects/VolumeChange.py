@@ -4,41 +4,51 @@ Created on 11.07.2018
 @author: yvo
 '''
 
-from .Glamos import GlamosData
+from dataflow.DataObjects.Glamos import GlamosData
+from dataflow.DataObjects.Enumerations.HeightCaptureMethodEnumeration import HeightCaptureMethodEnum
+from dataflow.DataObjects.Enumerations.VolumeChangeEnumerations import AnalysisMethodEnum
 
 class VolumeChange(GlamosData):
     '''
     Volume change observation between two dates.
     
     Attributes:
-    _dateFrom              date     Date of the reference measurement at t0
-    _dateTo                date     Date of the volume change measurement at t1
-    _areaFrom              float    Size of the area used at t0 [km2]
-    _areaTo                float    Size of the area used at t1 [km2]
-    _elevationMaximumFrom  float    Maximum elevation at date t0 [masl]
-    _elevationMinimumFrom  float    Minimum elevation at date t0 [masl]
-    _elevationMaximumTo    float    Maximum elevation at date t1 [masl]
-    _elevationMinimumTo    float    Minimum elevation at date t1 [masl]
-    _volumeChange          float    Difference of volume between t1 - t0 [km3]
-    _heightChangeMean      float    Mean difference of surface height between t1 - t0 [m]
+    _dateFrom                date                       Date of the reference measurement at t0
+    _dateTo                  date                       Date of the volume change measurement at t1
+    _areaFrom                float                      Size of the area used at t0 [km2]
+    _areaTo                  float                      Size of the area used at t1 [km2]
+    _heightCaptureMethodFrom HeightCaptureMethodEnum    Method to derive the surface model at the from-date
+    _heightCaptureMethodTo   HeightCaptureMethodEnum    Method to derive the surface model at the to-date
+    _analysisMethod          AnalysisMethodEnum         Method of the analysis
+    _elevationMaximumFrom    float                      Maximum elevation at date t0 [masl]
+    _elevationMinimumFrom    float                      Minimum elevation at date t0 [masl]
+    _elevationMaximumTo      float                      Maximum elevation at date t1 [masl]
+    _elevationMinimumTo      float                      Minimum elevation at date t1 [masl]
+    _volumeChange            float                      Difference of volume between t1 - t0 [km3]
+    _heightChangeMean        float                      Mean difference of surface height between t1 - t0 [m]
     '''
 
-    _dateFrom             = None
-    _dateTo               = None
-    _areaFrom             = None
-    _areaTo               = None
-    _elevationMaximumFrom = None
-    _elevationMinimumFrom = None
-    _elevationMaximumTo   = None
-    _elevationMinimumTo   = None
-    _volumeChange         = None
-    _heightChangeMean     = None
+    _dateFrom                = None
+    _dateTo                  = None
+    _areaFrom                = None
+    _areaTo                  = None
+    _heightCaptureMethodFrom = None
+    _heightCaptureMethodTo   = None
+    _analysisMethod          = None
+    _elevationMaximumFrom    = None
+    _elevationMinimumFrom    = None
+    _elevationMaximumTo      = None
+    _elevationMinimumTo      = None
+    _volumeChange            = None
+    _heightChangeMean        = None
     
 
     def __init__(self, 
         pk = None,
         dateFrom = None, dateTo = None,
         areaFrom = None, areaTo = None,
+        heightCaptureMethodFrom = None, heightCaptureMethodTo = None,
+        analysisMethod = None,
         elevationMaximumFrom = None, elevationMinimumFrom = None,
         elevationMaximumTo = None, elevationMinimumTo = None,
         volumeChange = None,
@@ -56,6 +66,12 @@ class VolumeChange(GlamosData):
         @param areaFrom: Size of the area used at t0 [km2]
         @type areaTo: float
         @param areaTo: Size of the area used at t1 [km2]
+        @type heightCaptureMethodFrom: dataflow.DataObjects.Enumerations.HeightCaptureMethodEnumeration.HeightCaptureMethodEnum
+        @param heightCaptureMethodFrom: Method to derive the surface model at the from-date
+        @type heightCaptureMethodTo: dataflow.DataObjects.Enumerations.HeightCaptureMethodEnumeration.HeightCaptureMethodEnum
+        @param heightCaptureMethodTo: Method to derive the surface model at the to-date
+        @type analysisMethod: dataflow.DataObjects.Enumerations.VolumeChangeEnumerations.AnalysisMethodEnum
+        @param analysisMethod: Type of the analysis method to derive the volume change value.
         @type elevationMaximumFrom: float
         @param elevationMaximumFrom: Maximum elevation at date t0 [masl]
         @type elevationMinimumFrom: float
@@ -72,16 +88,19 @@ class VolumeChange(GlamosData):
         
         super().__init__(pk)
         
-        self._dateFrom             = dateFrom
-        self._dateTo               = dateTo
-        self._areaFrom             = areaFrom
-        self._areaTo               = areaTo
-        self._elevationMaximumFrom = elevationMaximumFrom
-        self._elevationMinimumFrom = elevationMinimumFrom
-        self._elevationMaximumTo   = elevationMaximumTo
-        self._elevationMinimumTo   = elevationMinimumTo
-        self._volumeChange         = volumeChange
-        self._heightChangeMean     = heightChangeMean
+        self._dateFrom                = dateFrom
+        self._dateTo                  = dateTo
+        self._areaFrom                = areaFrom
+        self._areaTo                  = areaTo
+        self._heightCaptureMethodFrom = heightCaptureMethodFrom
+        self._heightCaptureMethodTo   = heightCaptureMethodTo
+        self._analysisMethod          = analysisMethod
+        self._elevationMaximumFrom    = elevationMaximumFrom
+        self._elevationMinimumFrom    = elevationMinimumFrom
+        self._elevationMaximumTo      = elevationMaximumTo
+        self._elevationMinimumTo      = elevationMinimumTo
+        self._volumeChange            = volumeChange
+        self._heightChangeMean        = heightChangeMean
         
     def __str__(self):
         '''
@@ -136,6 +155,36 @@ class VolumeChange(GlamosData):
         '''
         return self._areaTo
     
+    @property
+    def heightCaptureMethodFrom(self):
+        '''
+        Method to derive the surface model at the from-date
+        
+        @rtype: dataflow.DataObjects.Enumerations.HeightCaptureMethodEnumeration.HeightCaptureMethodEnum
+        @return: Method to derive the surface model at the from-date
+        '''
+        return self._heightCaptureMethodFrom
+
+    @property
+    def heightCaptureMethodTo(self):
+        '''
+        Method to derive the surface model at the to-date
+        
+        @rtype: dataflow.DataObjects.Enumerations.HeightCaptureMethodEnumeration.HeightCaptureMethodEnum
+        @return: Method to derive the surface model at the to-date
+        '''
+        return self._heightCaptureMethodTo
+
+    @property
+    def analysisMethod(self):
+        '''
+        Type of the analysis method to derive the volume change value.
+        
+        @rtype: dataflow.DataObjects.Enumerations.VolumeChangeEnumerations.AnalysisMethodEnum
+        @return: Type of the analysis method to derive the volume change value.
+        '''
+        return self._analysisMethod
+
     @property
     def elevationMaximumFrom(self):
         '''

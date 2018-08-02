@@ -6,9 +6,11 @@ Created on 11.07.2018
 
 from .VawFileReader import VawFileReader
 import re
-from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-from DataObjects.VolumeChange import VolumeChange
-from ..Exceptions.InvalidDataFileError import InvalidDataFileError
+from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from dataflow.DataObjects.VolumeChange import VolumeChange
+from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
+from dataflow.DataObjects.Enumerations.HeightCaptureMethodEnumeration import HeightCaptureMethodEnum
+from dataflow.DataObjects.Enumerations.VolumeChangeEnumerations import AnalysisMethodEnum
 
 class VolumeChangeReader(VawFileReader):
     '''
@@ -105,6 +107,8 @@ class VolumeChangeReader(VawFileReader):
                     None,
                     referenceReadingData[self.__FILE_COLUMN_DATE], volumeChangeReadingData[self.__FILE_COLUMN_DATE],
                     referenceReadingData[self.__FILE_COLUMN_AREA], volumeChangeReadingData[self.__FILE_COLUMN_AREA],
+                    HeightCaptureMethodEnum.NotDefinedUnknown, HeightCaptureMethodEnum.NotDefinedUnknown, 
+                    AnalysisMethodEnum.NotDefinedUnknown,
                     referenceReadingData[self.__FILE_COLUMN_ELEVATION_MAXIMUM], referenceReadingData[self.__FILE_COLUMN_ELEVATION_MINIMUM],
                     volumeChangeReadingData[self.__FILE_COLUMN_ELEVATION_MAXIMUM], volumeChangeReadingData[self.__FILE_COLUMN_ELEVATION_MINIMUM],
                     volumeChangeReadingData[self.__FILE_COLUMN_VOLUME_CHANGE],
