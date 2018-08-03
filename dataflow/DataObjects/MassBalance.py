@@ -4,9 +4,10 @@ Created on 31.05.2018
 @author: yvo
 '''
 
-from .Glamos import GlamosData
-from .Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
-from .Enumerations.MassBalanceEnumerations import AnalysisMethodEnum
+from dataflow.DataObjects.Glamos import GlamosData
+from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import MassBalanceTypeEnum
+from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import AnalysisMethodEnum
+
 from datetime import date
 from pandas import DataFrame
 
@@ -297,11 +298,11 @@ class ElevationBand(GlamosData):
     An object of the type ElevationBand is always part of an object of type MassBalance.
     
     Attributes:
-        _elevationFrom      Minimum elevation in masl of the band.
-        _elevationEnd       Maximum elevation in masl of the band.
-        _winterMassBalance  Winter mass balance in mm w.e. of the band.
-        _annualMassBalance  Annual mass balance in mm w.e. of the band.
-        _surface            Total glacier surface of the band in km2.
+        _elevationFrom      int     Minimum elevation in masl of the band.
+        _elevationEnd       int     Maximum elevation in masl of the band.
+        _winterMassBalance  int     Winter mass balance in mm w.e. of the band.
+        _annualMassBalance  int     Annual mass balance in mm w.e. of the band.
+        _surface            float   Total glacier surface of the band in km2.
     '''
     
     _elevationFrom = None
@@ -310,6 +311,9 @@ class ElevationBand(GlamosData):
     _annualMassBalance = None
     _surface = None
     
+    #FIXME: Adding _remarks as member.
+    
+    # FIXME: Adding remarks = None to the constructor as soon as _remarks is implemented as member in the ElevationBand class.
     def __init__(self, pk = None, 
              elevationFrom = None, elevationTo = None,
              winterMassBalance = None, annualMassBalance = None,
