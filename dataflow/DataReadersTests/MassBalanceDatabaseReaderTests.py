@@ -5,6 +5,7 @@ Created on 03.08.2018
 '''
 import unittest
 import datetime
+import time
 
 from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 from dataflow.DataReaders.DatabaseReaders.MassBalanceReader import MassBalanceReader
@@ -68,6 +69,17 @@ class MassBalanceDatabaseReaderTests(unittest.TestCase):
         
         self.assertEqual(206, len(self._clariden.massBalances), "Total number of mass-balance readings")
 
+    def testTimeDataAcquisition(self):
+        
+        start = time.time()
+        time.clock() 
+    
+        # Reading mass-balance data and elevation bands of an expensive glacier.
+        self._massBalanceReader.getData(self._glacierReader.getGlacierBySgi("A50i/19"))
+        
+        elapsed = time.time() - start
+        
+        self.assertLess(elapsed, 4.0, "Time to retrieve all mass-balance data")
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
