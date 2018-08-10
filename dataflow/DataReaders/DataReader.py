@@ -40,7 +40,8 @@ class DataReader(object):
         self._glacier = glacier
         
     def __del__(self):
-        
-        print("D E S T R U C T O R")
+        '''
+        Destructor of the DataReader and inherited classes. Deletes all main objects of the class.
+        '''
         
         self._glacier = None

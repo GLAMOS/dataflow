@@ -4,6 +4,9 @@ Created on 31.05.2018
 @author: yvo
 '''
 
+import re
+import copy
+
 from dataflow.DataReaders.VawFileReaders.VawFileReader import VawFileReader
 from dataflow.DataObjects.MassBalance import MassBalance
 from dataflow.DataObjects.MassBalance import MassBalanceObservation
@@ -13,8 +16,6 @@ from dataflow.DataObjects.MassBalance import MassBalanceTypeEnum
 from dataflow.DataObjects.Exceptions.MassBalanceError import MassBalanceTypeNotDefinedError
 from dataflow.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
 from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-import re
-import copy
 
 class MassBalanceReader(VawFileReader):
     '''
@@ -101,18 +102,23 @@ class MassBalanceReader(VawFileReader):
         @raise GlacierNotFoundError: Exception in case of not a corresponding glacier was found.
         '''
         
+        # Setting up a new dictionary for the header lines.
+        if self._headerLineContent == None:
+            self._headerLineContent = dict()
+
         # Setting the parameters of the data file.
         self._numberHeaderLines = self.__NUMBER_HEADER_LINES
         #self._headerLineContent[3] = "Method (currently not used)"
         self._headerLineContent[self.__NUMBER_ELEVATION_BUCKETS] = "Number of elevation buckets"
         self._headerLineContent[self.__START_ELEVATION_BUCKETS] = "Start elevation of elevation buckets"
-        self._headerLineContent[self.__END_ELEVATION_BUCKETS] = "End elevation of elevation buckets"
-        
+        self._headerLineContent[self.__END_ELEVATION_BUCKETS] = "End elevation of elevation buckets"  
+
         try:
             super().__init__(fullFileName, glaciers)
+
         except GlacierNotFoundError as glacierNotFoundError:
             raise glacierNotFoundError
-        
+
         # Setting the specialised reader parameters of the header.
         self._numberElevationBuckets = int(self._headerLineContent[self.__NUMBER_ELEVATION_BUCKETS])
         self._startElevationBuckets  = int(self._headerLineContent[self.__START_ELEVATION_BUCKETS])

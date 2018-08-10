@@ -5,11 +5,11 @@ Created on 18.05.2018
 '''
 
 import datetime
-from ..FileDataReader import AsciiFileDateReader
-from DataObjects.Glacier import Glacier
-from DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
 
-from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from dataflow.DataReaders.FileDataReader import AsciiFileDateReader
+from dataflow.DataObjects.Glacier import Glacier
+from dataflow.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
+from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 
 class VawFileReader(AsciiFileDateReader):
     '''
@@ -35,7 +35,7 @@ class VawFileReader(AsciiFileDateReader):
     
     _numberDataLines = -1
         
-    _headerLineContent = dict()
+    _headerLineContent = None
     
     _HEADER_POSITION_SHORTNAME     = 1
     _HEADER_POSITION_VAWIDENTIFIER = 2
@@ -56,6 +56,10 @@ class VawFileReader(AsciiFileDateReader):
         @raise GlacierNotFoundError: Exception if glacier was not found or initialised.
         '''
         
+        # Setting up a new dictionary for the header lines.
+        if self._headerLineContent == None:
+            self._headerLineContent = dict()
+        
         # Definition of the header line content
         self._headerLineContent[self._HEADER_POSITION_SHORTNAME] = "Glacier short name"
         self._headerLineContent[self._HEADER_POSITION_VAWIDENTIFIER] = "VAW identifier"
@@ -63,8 +67,6 @@ class VawFileReader(AsciiFileDateReader):
         super().__init__(fullFileName)
 
         self.parseHeader()
-        
-        print("Given data file -> " + fullFileName)
         
         givenVawId = int(self._headerLineContent[self._HEADER_POSITION_VAWIDENTIFIER])
 

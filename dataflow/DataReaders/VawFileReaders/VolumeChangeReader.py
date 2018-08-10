@@ -4,8 +4,9 @@ Created on 11.07.2018
 @author: yvo
 '''
 
-from .VawFileReader import VawFileReader
 import re
+
+from dataflow.DataReaders.VawFileReaders.VawFileReader import VawFileReader
 from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 from dataflow.DataObjects.VolumeChange import VolumeChange
 from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
@@ -14,13 +15,21 @@ from dataflow.DataObjects.Enumerations.VolumeChangeEnumerations import AnalysisM
 
 class VolumeChangeReader(VawFileReader):
     '''
-    classdocs
+    Reader-class for parsing the VAW-ASCII-based volume change data files.
+    
+    The header of the files follows the syntax:
+    ---
+    # Glacier state and evolution data; <glacier name>; <VAW glacier id>
+    #   name; date; volume; area; length; h_max; h_min; dV; dh_mean; dl
+    #
+    ---
     '''
     
     # Additional header definition.
-    __NUMBER_HEADER_LINES        = 3
+    # Number of header lines.
+    __NUMBER_HEADER_LINES            = 3
 
-    # Definition of the columns in the mass balance ASCII files.
+    # Definition of the columns in the mass balance ASCII files (0-based index).
     __FILE_COLUMN_DATE               = 1
     __FILE_COLUMN_AREA               = 3
     __FILE_COLUMN_ELEVATION_MAXIMUM  = 5

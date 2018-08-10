@@ -6,17 +6,31 @@ Created on 11.07.2018
 '''
 import unittest
 import datetime
+import configparser
 
-from DataReaders.VawFileReaders.VolumeChangeReader import VolumeChangeReader
-from DataObjects.Glacier import Glacier
-from DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
+from dataflow.DataReaders.VawFileReaders.VolumeChangeReader import VolumeChangeReader
+from dataflow.DataObjects.Glacier import Glacier
+from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 
 
 class VolumeChangeReaderTest(unittest.TestCase):
-
-    _glaciers      = dict()
+    '''
+    Test class of the file-based data-reader dataflow.DataReaders.VawFileReaders.VolumeChangeReader.VolumeChangeReader.
     
-    _vawDataFiles  = []
+    Attributes:
+    _glaciers                 dict                          Dictionary with dataflow.DataObjects.Glacier.Glacier objects.
+    _vawDataFiles             list                          List of VAW-ASCII files for testing the reader object.
+    _DATAFLOW_CONFIGURATION   string                        Path to configuration file of the dataflow application.
+    _config                   configparser.ConfigParser     Configuration parser for the dataflow application.
+    '''
+
+    _glaciers               = dict()
+    
+    _vawDataFiles           = []
+    
+    _DATAFLOW_CONFIGURATION = r"../dataflow.cfg"
+    
+    _config                 = None
 
     def setUp(self):
         '''
@@ -38,10 +52,14 @@ class VolumeChangeReaderTest(unittest.TestCase):
         self._vawDataFiles.append("./VawDataFiles/gietro_glev.dat")
         self._vawDataFiles.append("./VawDataFiles/gorner_glev.dat")
         
+        # Setup of the configuration parser for the application.
+        self._config = configparser.ConfigParser()
+        self._config.read(self._DATAFLOW_CONFIGURATION)
+        
         # Setup of class-wide parser objects.
         self._volumeChangeParsers = []
-        self._volumeChangeParsers.append(VolumeChangeReader(self._vawDataFiles[0], self._glaciers)) # Corbassière
-        self._volumeChangeParsers.append(VolumeChangeReader(self._vawDataFiles[1], self._glaciers)) # Findelen
+        self._volumeChangeParsers.append(VolumeChangeReader(self._config, self._vawDataFiles[0], self._glaciers)) # Corbassière
+        self._volumeChangeParsers.append(VolumeChangeReader(self._config, self._vawDataFiles[1], self._glaciers)) # Findelen
         # Running the parsing processes.
         for volumeChangeParser in self._volumeChangeParsers:
             volumeChangeParser.parse()
@@ -60,7 +78,7 @@ class VolumeChangeReaderTest(unittest.TestCase):
         Test if the corresponding glacier to the data file is found.
         '''
         
-        volumeChangeReader = VolumeChangeReader(self._vawDataFiles[0], self._glaciers)
+        volumeChangeReader = VolumeChangeReader(self._config, self._vawDataFiles[0], self._glaciers)
         
         self.assertTrue(volumeChangeReader.glacier.pkVaw == 38, "Corresponding glacier found")
 
@@ -71,7 +89,7 @@ class VolumeChangeReaderTest(unittest.TestCase):
         '''
 
         try:
-            VolumeChangeReader(self._vawDataFiles[3], self._glaciers)
+            VolumeChangeReader(self._config, self._vawDataFiles[3], self._glaciers)
         
         except Exception as e:
             if type(e) is GlacierNotFoundError:
@@ -87,7 +105,7 @@ class VolumeChangeReaderTest(unittest.TestCase):
         Test if the correct number of data lines in the file was found.
         '''
         
-        volumeChangeReader = VolumeChangeReader(self._vawDataFiles[0], self._glaciers)
+        volumeChangeReader = VolumeChangeReader(self._config, self._vawDataFiles[0], self._glaciers)
         volumeChangeReader.parse()
         
         self.assertTrue(volumeChangeReader.numberDataLines == 6, "Correct number of data lines parsed")
@@ -97,7 +115,7 @@ class VolumeChangeReaderTest(unittest.TestCase):
         Test if the correct number of volume change data in the file was found.
         '''
         
-        volumeChangeReader = VolumeChangeReader(self._vawDataFiles[0], self._glaciers)
+        volumeChangeReader = VolumeChangeReader(self._config, self._vawDataFiles[0], self._glaciers)
         volumeChangeReader.parse()
         
         self.assertTrue(
@@ -109,7 +127,7 @@ class VolumeChangeReaderTest(unittest.TestCase):
         Test if the from- and to-date of the volume changes are correctly parsed and set.
         '''
         
-        volumeChangeReader = VolumeChangeReader(self._vawDataFiles[0], self._glaciers)
+        volumeChangeReader = VolumeChangeReader(self._config, self._vawDataFiles[0], self._glaciers)
         volumeChangeReader.parse()
         
         # Setting the correct from-date. 
@@ -141,7 +159,7 @@ class VolumeChangeReaderTest(unittest.TestCase):
         # TODO: Getting the reading of reference data dynamically from the test data files.
         
         # Getting test volume change observations.
-        volumeChangeReader = VolumeChangeReader(self._vawDataFiles[0], self._glaciers)
+        volumeChangeReader = VolumeChangeReader(self._config, self._vawDataFiles[0], self._glaciers)
         volumeChangeReader.parse()
         
         # Choosing randomly an observation from the dictionary.
