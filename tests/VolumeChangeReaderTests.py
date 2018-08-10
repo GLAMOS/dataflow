@@ -12,6 +12,8 @@ from dataflow.DataReaders.VawFileReaders.VolumeChangeReader import VolumeChangeR
 from dataflow.DataObjects.Glacier import Glacier
 from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 
+from Helper import UnitTestHelper
+
 
 class VolumeChangeReaderTest(unittest.TestCase):
     '''
@@ -28,7 +30,7 @@ class VolumeChangeReaderTest(unittest.TestCase):
     
     _vawDataFiles           = []
     
-    _DATAFLOW_CONFIGURATION = r"../../dataflow/dataflow.cfg"
+    _DATAFLOW_CONFIGURATION = UnitTestHelper.getDataflowConfigurationFilePath()
     
     _config                 = None
 

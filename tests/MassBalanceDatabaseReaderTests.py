@@ -11,6 +11,8 @@ from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 from dataflow.DataReaders.DatabaseReaders.MassBalanceReader import MassBalanceReader
 from dataflow.DataObjects.Glacier import Glacier
 
+from Helper import UnitTestHelper
+
 class MassBalanceDatabaseReaderTests(unittest.TestCase):
     '''
     Test class of the file-based data-reader dataflow.DataReaders.DatabaseReaders.MassBalanceReader.MassBalanceReader.
@@ -22,7 +24,7 @@ class MassBalanceDatabaseReaderTests(unittest.TestCase):
     _clariden                         dataflow.DataObjects.Glacier.Glacier                                       Glacier object with mass-balances to be tested.
     '''
     
-    _DATABASE_ACCESS_CONFIGURATION = r"../databaseAccessConfiguration.private.cfg"
+    _DATABASE_ACCESS_CONFIGURATION = UnitTestHelper.getDatabaseAccessConfigurationFilePath()
     
     _glacierReader                 = None
     _massBalanceReader             = None

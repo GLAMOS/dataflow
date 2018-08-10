@@ -5,7 +5,7 @@ Created on 04.08.2018
 '''
 
 '''
-Module to collect, and run, all UnitTests of dataflow.DataReadersTests.
+Module to collect, and run, all UnitTests concerning classes of dataflow.DataWriters.
 
 The module can be started as independent Python run, or the method
 createTestSuite() can be called externally to retrieve all
@@ -18,11 +18,6 @@ this list only.
 
 import unittest
 
-from dataflow.DataReadersTests import GlacierReaderTests
-from dataflow.DataReadersTests import MassBalanceDatabaseReaderTests
-from dataflow.DataReadersTests import MassBalanceReaderTests
-from dataflow.DataReadersTests import VolumeChangeReaderTests
-
 def getTestModules():
     '''
     Defines a list of all modules in the package with UnitTests which have
@@ -34,10 +29,7 @@ def getTestModules():
     @return: List of modules in the package with UnitTests which have to run.
     '''
     return [
-        MassBalanceDatabaseReaderTests,
-        GlacierReaderTests,
-        MassBalanceReaderTests,
-        VolumeChangeReaderTests
+
         ]
 
 def createTestSuite():

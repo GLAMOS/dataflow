@@ -5,18 +5,20 @@ Created on 27.07.2018
 '''
 import unittest
 
-
 from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 from dataflow.DataReaders.Exceptions.InvalidCoordinatesError import InvalidCoordinatesError
 
+from Helper import UnitTestHelper
 
 class GlacierReaderTests(unittest.TestCase):
 
     _glacierReader = None
+    
+    _DATABASE_ACCESS_CONFIGURATION = UnitTestHelper.getDatabaseAccessConfigurationFilePath()
 
     def setUp(self):
         
-        self._glacierReader = GlacierReader(r"../databaseAccessConfiguration.private.cfg")
+        self._glacierReader = GlacierReader(self._DATABASE_ACCESS_CONFIGURATION)
 
 
     def tearDown(self):

@@ -11,16 +11,20 @@ from dataflow.DataObjects.Glacier import Glacier
 from dataflow.DataObjects.MassBalance import MassBalanceObservation
 from dataflow.DataObjects.MassBalance import MassBalanceFixDate
 
+from Helper import UnitTestHelper
+
 class MassBalanceReaderTests(unittest.TestCase):
     '''
     Unit-test class for the VAW-file-based data-reader for mass-balance observations.
     '''
 
-    _glaciers      = dict()
+    _glaciers               = dict()
     
-    _vawDataFiles  = []
+    _vawDataFiles           = []
     
-    _configuration = configparser.ConfigParser()
+    _configuration          = configparser.ConfigParser()
+    
+    _DATAFLOW_CONFIGURATION = UnitTestHelper.getDataflowConfigurationFilePath()
 
     def setUp(self):
         '''
@@ -37,7 +41,7 @@ class MassBalanceReaderTests(unittest.TestCase):
         self._glaciers[adler.pkSgi]    = adler
         
         # Reading the configuration file.
-        self._configuration.read("../dataflow.cfg")
+        self._configuration.read(self._DATAFLOW_CONFIGURATION)
         
         # Setup of the input files.
         self._vawDataFiles.append("./VawDataFiles/adler_fix.dat")
