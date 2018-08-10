@@ -28,7 +28,7 @@ class VolumeChangeReaderTest(unittest.TestCase):
     
     _vawDataFiles           = []
     
-    _DATAFLOW_CONFIGURATION = r"../dataflow.cfg"
+    _DATAFLOW_CONFIGURATION = r"../../dataflow/dataflow.cfg"
     
     _config                 = None
 
