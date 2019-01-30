@@ -47,25 +47,20 @@ class LengthChangeWriter(GlamosDatabaseWriter):
             
             for lengthChange in glacier.lengthChanges.values():
                 
-                # TODO: Check if length change is already stored in the database.
-                # statement = SELECT * FROM length_change.length_change_data WHERE fk_something = glacier.fk_something
-                # if GlamosDatabaseWriter.isRecordStored(statement) == True:
-                    # TODO: Insert length change if not in database. 
-                    # writeData(insertStatement)
-                # else:
-                #     writeLoggerInformation
-                
+                # Check if length change is already stored in the database.               
                 checkStatement = "SELECT * FROM {0} WHERE fk_glacier = '{1}' AND date_from = '{2}' AND date_to = '{3}';".format(
                     'length_change.length_change_data',
                     glacier.pkVaw,
                     lengthChange.dateFrom,
                     lengthChange.dateTo)
         
+                # Record is already in database. No further inserts needed.
                 if super().isRecordStored(checkStatement) == True:
                     
                     message = "The record {0} is already stored in the database. No further inserts.".format(str(lengthChange))
                     print(message)
                 
+                # The record is not yet stored in the database. Insert will be done.
                 else:
                     
                     message = "The record {0} is not yet stored in the database. Insert will be done ...".format(str(lengthChange))
