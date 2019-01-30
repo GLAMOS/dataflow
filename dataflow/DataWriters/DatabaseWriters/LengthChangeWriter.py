@@ -47,7 +47,12 @@ class LengthChangeWriter(GlamosDatabaseWriter):
             
             for lengthChange in glacier.lengthChanges.values():
                 
-                # Check if length change is already stored in the database.               
+                # Check if length change is already stored in the database.
+                # The statement has to describe a SELECT which returns a unique record based on the definition of the record set.
+                # In case the length-change data the following factors define a unique data record:
+                # - The same glacier (fk_glacier)
+                # - The same start date of the observation (date_from)
+                # - The same end date of the observation (date_to) 
                 checkStatement = "SELECT * FROM {0} WHERE fk_glacier = '{1}' AND date_from = '{2}' AND date_to = '{3}';".format(
                     'length_change.length_change_data',
                     glacier.pkVaw,
