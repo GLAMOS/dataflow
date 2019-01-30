@@ -3,8 +3,12 @@ Created on 22.05.2018
 
 @author: yvo
 '''
-from ..DatabaseWriter import PostgreSqlWriter
+from dataflow.DataWriters.DatabaseWriter import PostgreSqlWriter
+from dataflow.DataReaders.Exceptions.DatabaseConnectionError import DatabaseConnectionError
+from dataflow.DataWriters.Exceptions.NotUniqueDataRecordError import NotUniqueDataRecordError
+
 import psycopg2
+from psycopg2 import OperationalError
 import configparser
 import logging
 
@@ -68,11 +72,67 @@ class GlamosDatabaseWriter(PostgreSqlWriter):
         
     
     def isRecordStored(self, statement):
+        '''
+        Check if a record is already stored in the database. The retrieving of the record is defined
+        by the given statement.
         
-        # TODO: Returns True if statement returns exactly one record.
+        @type statement: string
+        @param statement: Entire SQL-statement used to retrieve a single record of the database.
         
-        # TODO: Returns False if statement returns exactly no record.
+        @rtype: boolean
+        @return: True if the record is already stored in the database; False if the record is not yet stored in the database.
         
-        # TODO: Raises an exception if statement returns 2 or more records.
+        @raise DatabaseConnectionError: Exception in case of connection problems with the database.
+        @raise NotUniqueDataRecordError: Exception in case of more than 1 data record found.
+        '''
         
-        pass 
+        isRecordStored = False
+        
+        try:
+            results = list()
+            
+            self._connection = psycopg2.connect(self._connectionString)
+            self._cursor = self._connection.cursor()
+
+            # Getting the records from the database.
+            self._cursor.execute(statement)
+            
+            for recordReturned in self._cursor:
+                results.append(recordReturned)
+
+            # Check the results and define the return value
+            if len(results) == 0:
+                isRecordStored = False
+            elif len(results) == 1:
+                isRecordStored = True
+            else:
+                message = "The statement '{0}' returns {1} records instead of 0 or 1 record.".format(
+                    statement,
+                    len(results))
+                raise NotUniqueDataRecordError(message)
+        
+        except OperationalError as operationalError:
+            
+            errorMessage = ""
+            
+            if len(operationalError.args) > 0:
+                errorMessage = "Error message from the database: " + operationalError.args[0]
+            else:
+                errorMessage = "Undefined operational error of the database"
+            
+            raise DatabaseConnectionError(errorMessage)
+        
+        except Exception as e:
+            
+            errorMessage = "Problem during accessing or retrieving data from the database: {0}".format(e)
+            print(errorMessage)
+            
+            #TODO: Improving the error handling, logging etc.
+        
+        finally:
+            if self._connection != None:
+                self._connection.close()
+            if self._cursor != None:
+                self._cursor.close()
+                
+            return isRecordStored

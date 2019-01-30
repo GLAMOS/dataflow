@@ -115,7 +115,8 @@ class LengthChange(GlamosData):
         '''
         return self._remarks
 
-    def __init__(self, pk = None, 
+    def __init__(self,
+                 pk = None, 
                  dateFrom = None, dateFromQuality = None, 
                  dateTo = None, dateToQuality = None, 
                  measurementType = None, 

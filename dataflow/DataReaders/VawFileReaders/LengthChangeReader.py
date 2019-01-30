@@ -3,9 +3,9 @@ Created on 18.05.2018
 
 @author: yvo
 '''
-
-from .VawFileReader import VawFileReader
-from DataObjects.LengthChange import LengthChange
+from dataflow.DataReaders.VawFileReaders.VawFileReader import VawFileReader
+from dataflow.DataObjects.LengthChange import LengthChange
+from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
 
 class LengthChangeReader(VawFileReader):
     '''
@@ -22,9 +22,9 @@ class LengthChangeReader(VawFileReader):
         - ___NUMBER_HEADER_LINES    Number of header lines used in the length change file.
     '''
 
-    ___NUMBER_HEADER_LINES = 3
+    __NUMBER_HEADER_LINES = 3
 
-    def __init__(self, fullFileName):
+    def __init__(self, config, fullFileName, glaciers):
         '''
         Constructor of the class.
         
@@ -32,11 +32,14 @@ class LengthChangeReader(VawFileReader):
         @param fullFileName: Absolute file path.
         '''
         
-        super().__init__(fullFileName)
-        
         # Setting the parameters of the data file.
-        self._numberHeaderLines = self.___NUMBER_HEADER_LINES
+        self._numberHeaderLines = self.__NUMBER_HEADER_LINES
         #self._headerLineContent[3] = "Length change (can be ignored)"
+        
+        try:
+            super().__init__(fullFileName, glaciers)
+        except GlacierNotFoundError as glacierNotFoundError:
+            raise glacierNotFoundError
     
     def parse(self):
         '''
@@ -66,19 +69,32 @@ class LengthChangeReader(VawFileReader):
                 
                 try:
                         
-                    if lineCounter > self._NUMBER_HEADER_LINES:
+                    if lineCounter > self.__NUMBER_HEADER_LINES:
                         data = self._getData(line)
 
                         if data[4] == "m" or data[4] == "r" or data[4] == "o":
+                            
+                            # Dealing with possible None values of the data:
+                            observer = data[7].strip()
+                            if len(observer) == 0:
+                                observer = None
+                            elevationMin = data[6]
+                            if len(str(elevationMin)) == 0:
+                                elevationMin = None
+                            
+                            # Attributes of the database which are not supported by the ASCII files
+                            remarks = None
 
-                            lengthChange = LengthChange(None, 
-                                         data[0], data[1], 
-                                         data[2], data[3],
-                                         data[4], 
-                                         data[5], "",
-                                         data[6], 
-                                         data[7],
-                                         "")
+                            # Getting an object of type LengthChange with the parsed information.
+                            lengthChange = LengthChange(
+                                        None, 
+                                        data[0], data[1], 
+                                        data[2], data[3],
+                                        data[4], 
+                                        data[5], "",
+                                        elevationMin, 
+                                        observer,
+                                        remarks)
                             
                             lengthChangeList.append(lengthChange)
                             
