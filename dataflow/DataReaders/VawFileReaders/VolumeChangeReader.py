@@ -12,6 +12,7 @@ from dataflow.DataObjects.VolumeChange import VolumeChange
 from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
 from dataflow.DataObjects.Enumerations.HeightCaptureMethodEnumeration import HeightCaptureMethodEnum
 from dataflow.DataObjects.Enumerations.VolumeChangeEnumerations import AnalysisMethodEnum
+from dataflow.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
 
 class VolumeChangeReader(VawFileReader):
     '''
@@ -36,6 +37,8 @@ class VolumeChangeReader(VawFileReader):
     __FILE_COLUMN_ELEVATION_MINIMUM  = 6
     __FILE_COLUMN_VOLUME_CHANGE      = 7
     __FILE_COLUMN_HEIGHT_CHANGE_MEAN = 8
+    # Secondary / Meta information retrieved from the primary data.
+    __FILE_COLUMN_DATE_QUALITY       = 21
     
     def __init__(self, config, fullFileName, glaciers):
         '''
@@ -114,7 +117,8 @@ class VolumeChangeReader(VawFileReader):
                 # Creating a new volume change object based on the reference and the observation data.
                 volumeChange = VolumeChange(
                     None,
-                    referenceReadingData[self.__FILE_COLUMN_DATE], volumeChangeReadingData[self.__FILE_COLUMN_DATE],
+                    referenceReadingData[self.__FILE_COLUMN_DATE], referenceReadingData[self.__FILE_COLUMN_DATE_QUALITY], 
+                    volumeChangeReadingData[self.__FILE_COLUMN_DATE], volumeChangeReadingData[self.__FILE_COLUMN_DATE_QUALITY],
                     referenceReadingData[self.__FILE_COLUMN_AREA], volumeChangeReadingData[self.__FILE_COLUMN_AREA],
                     HeightCaptureMethodEnum.NotDefinedUnknown, HeightCaptureMethodEnum.NotDefinedUnknown, 
                     AnalysisMethodEnum.NotDefinedUnknown,
@@ -140,8 +144,15 @@ class VolumeChangeReader(VawFileReader):
         
         # Getting the data columns into the dictionary.
         # Getting the date out of the data. Because every fucking file of VAW has it own format for date, an additional hack is needed (replace the - sign)
-        referenceDate = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE].strip().replace("-", ""))[0]
+        referenceDateInformation = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE].strip().replace("-", ""))
+        # Getting the date object
+        referenceDate = referenceDateInformation[0]
+        # Getting the quality index of the reference date
+        referenceDateQuality = DateQualityTypeEnum(referenceDateInformation[1])
+        
+        # Filling up of the parsed data to piped into an object.
         data[self.__FILE_COLUMN_DATE]               = referenceDate
+        data[self.__FILE_COLUMN_DATE_QUALITY]       = referenceDateQuality
         data[self.__FILE_COLUMN_AREA]               = float(dataLineParts[self.__FILE_COLUMN_AREA].strip())
         data[self.__FILE_COLUMN_ELEVATION_MAXIMUM]  = float(dataLineParts[self.__FILE_COLUMN_ELEVATION_MAXIMUM].strip())
         data[self.__FILE_COLUMN_ELEVATION_MINIMUM]  = float(dataLineParts[self.__FILE_COLUMN_ELEVATION_MINIMUM].strip())

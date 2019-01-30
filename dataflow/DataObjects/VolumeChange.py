@@ -14,7 +14,9 @@ class VolumeChange(GlamosData):
     
     Attributes:
     _dateFrom                date                       Date of the reference measurement at t0
+    _dateFromQuality         DateQualityTypeEnum        Indicator if the start date is known or estimated.
     _dateTo                  date                       Date of the volume change measurement at t1
+    _dateToQuality           DateQualityTypeEnum        Indicator if the end date is known or estimated.
     _areaFrom                float                      Size of the area used at t0 [km2]
     _areaTo                  float                      Size of the area used at t1 [km2]
     _heightCaptureMethodFrom HeightCaptureMethodEnum    Method to derive the surface model at the from-date
@@ -29,7 +31,9 @@ class VolumeChange(GlamosData):
     '''
 
     _dateFrom                = None
+    _dateFromQuality         = None
     _dateTo                  = None
+    _dateToQuality           = None
     _areaFrom                = None
     _areaTo                  = None
     _heightCaptureMethodFrom = None
@@ -45,7 +49,10 @@ class VolumeChange(GlamosData):
 
     def __init__(self, 
         pk = None,
-        dateFrom = None, dateTo = None,
+        dateFrom = None, 
+        dateFromQuality = None, 
+        dateTo = None,
+        dateToQuality = None,        
         areaFrom = None, areaTo = None,
         heightCaptureMethodFrom = None, heightCaptureMethodTo = None,
         analysisMethod = None,
@@ -60,8 +67,12 @@ class VolumeChange(GlamosData):
         @param pk: Unique identifier
         @type dateFrom: date
         @param dateFrom: Date of the reference measurement at t0
+        @type dateFromQuality: DateQualityTypeEnum
+        @param dateFromQuality: Indicator if the start date is known or estimated.
         @type dateTo: date
         @param dateTo: Date of the volume change measurement at t1
+        @type dateToQuality: DateQualityTypeEnum
+        @param dateToQuality: Indicator if the end date is known or estimated.
         @type areaFrom: float
         @param areaFrom: Size of the area used at t0 [km2]
         @type areaTo: float
@@ -89,7 +100,9 @@ class VolumeChange(GlamosData):
         super().__init__(pk)
         
         self._dateFrom                = dateFrom
+        self._dateFromQuality         = dateFromQuality
         self._dateTo                  = dateTo
+        self._dateToQuality           = dateToQuality
         self._areaFrom                = areaFrom
         self._areaTo                  = areaTo
         self._heightCaptureMethodFrom = heightCaptureMethodFrom
@@ -126,6 +139,16 @@ class VolumeChange(GlamosData):
         return self._dateFrom
     
     @property
+    def dateFromQuality(self):
+        '''
+        Indicator if the start date is known or estimated.
+        
+        @rtype: DateQualityTypeEnum
+        @return: Indicator if the start date is known or estimated.
+        '''
+        return self._dateFromQuality
+    
+    @property
     def dateTo(self):
         '''
         Date of the volume change measurement at t1.
@@ -134,6 +157,16 @@ class VolumeChange(GlamosData):
         @return: Date of the volume change measurement at t1.
         '''
         return self._dateTo
+        
+    @property
+    def dateToQuality(self):
+        '''
+        Indicator if the end date is known or estimated.
+        
+        @rtype: DateQualityTypeEnum
+        @return: Indicator if the end date is known or estimated.
+        '''    
+        return self._dateToQuality
     
     @property
     def areaFrom(self):
