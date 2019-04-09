@@ -111,3 +111,6 @@ dataflow/databaseAccessConfiguration.private.cfg
 /databaseAccessConfiguration.cfg.private
 /databaseAccessConfiguration.private.cfg
 dataflow/test.py
+
+# Pycharm project files
+.idea/
