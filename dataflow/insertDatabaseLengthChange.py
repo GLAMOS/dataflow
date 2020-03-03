@@ -46,7 +46,7 @@ def insertDatabaseLengthChange(allGlaciers):
             print("----------------------------------------------------")
             print("--- Start parsing input length change data file. ---")
             print("\n")
-            print("Current iput data file: {0}".format(inputFilePath))
+            print("Current input data file: {0}".format(inputFilePath))
             
             # Start with parsing the data file.
             if os.path.isfile(inputFilePath):
@@ -77,7 +77,7 @@ def insertDatabaseLengthChange(allGlaciers):
                     lengthChangeWriter.write(lengthChangeReader.glacier)
 
                 else:
-                    raise Exception("VolumeChangeReader is None")
+                    raise Exception("LengthChangeReader is None")
                 
                 
             except GlacierNotFoundError as glacierNotFoundError:
