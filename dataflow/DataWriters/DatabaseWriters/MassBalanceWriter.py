@@ -73,7 +73,7 @@ class MassBalanceWriter(GlamosDatabaseWriter):
             for massBalance in glacier.massBalances.values():
                 
                 # TODO: Getting the hard coded column names into the header or an external lookup file.
-                statement = "INSERT INTO mass_balance.mass_balance (pk, fk_glacier, fk_mass_balance_type, fk_embargo_type, fk_analysis_method, date_from_annual, date_to_annual, date_from_winter, date_to_winter, area, mass_balance_annual, mass_balance_winter, equilibrium_line_altitude, accumulation_area_ratio, elevation_minimum, elevation_maximum, remarks, reference) VALUES ('{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}', '{7}', '{8}', {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, '{17}');".format(
+                statement = "INSERT INTO mass_balance.glacier_seasonal (pk, fk_glacier, fk_mass_balance_type, fk_embargo_type, fk_analysis_method, date_from_annual, date_to_annual, date_from_winter, date_to_winter, area, mass_balance_annual, mass_balance_winter, equilibrium_line_altitude, accumulation_area_ratio, elevation_minimum, elevation_maximum, remarks, reference) VALUES ('{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}', '{7}', '{8}', {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, '{17}');".format(
                     massBalance.pk,
                     glacier.pk,
                     massBalance.massBalanceType.value,
@@ -106,7 +106,7 @@ class MassBalanceWriter(GlamosDatabaseWriter):
                     if elevationBand.elevationFrom != None and elevationBand.elevationTo != None and elevationBand.annualMassBalance != None and elevationBand.winterMassBalance != None and elevationBand.surface:
                         
                         # TODO: Getting the hard coded column names into the header or an external lookup file.
-                        elevationBandStatement = "INSERT INTO mass_balance.elevation_distribution (pk, fk_mass_balance, elevation_from, elevation_to, mass_balance_annual, mass_balance_winter, area) VALUES ('{0}', '{1}', {2}, {3}, {4}, {5}, {6})".format(
+                        elevationBandStatement = "INSERT INTO mass_balance.elevation_distribution (pk, fk_glacier_seasonal, elevation_from, elevation_to, mass_balance_annual, mass_balance_winter, area) VALUES ('{0}', '{1}', {2}, {3}, {4}, {5}, {6})".format(
                             elevationBand.pk, massBalance.pk, 
                             elevationBand.elevationFrom, elevationBand.elevationTo, 
                             elevationBand.annualMassBalance, elevationBand.winterMassBalance, 

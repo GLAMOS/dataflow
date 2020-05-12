@@ -105,12 +105,7 @@ venv.bak/
 .mypy_cache/
 
 # configuration files
-dataflow/databaseAccessConfiguration.private.cfg
-*.private.cfg
-/databaseAccessConfiguration.cfg
-/databaseAccessConfiguration.cfg.private
-/databaseAccessConfiguration.private.cfg
-dataflow/test.py
+/*.cfg
 
 # Pycharm project files
 .idea/

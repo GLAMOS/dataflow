@@ -18,7 +18,7 @@ import os
 config = configparser.ConfigParser()
 config.read("dataflow.cfg")
 
-privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.private.cfg"
+privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.gldirw.cfg"
 
 def insertDatabaseMassbalance(allGlaciers):
     '''
@@ -108,7 +108,7 @@ def insertDatabaseMassbalance(allGlaciers):
                     
                 except GlacierNotFoundError as glacierNotFoundError:
                     print(glacierNotFoundError.message)
-                    
+
                 finally:
                     if massBalanceReader != None:
                         massBalanceReader = None

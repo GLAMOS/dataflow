@@ -18,7 +18,7 @@ from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFile
 config = configparser.ConfigParser()
 config.read("dataflow.cfg")
 
-privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.private.cfg"
+privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.gldirw.cfg"
 
 def insertDatabaseVolumeChange(allGlaciers):
     '''
@@ -61,8 +61,9 @@ def insertDatabaseVolumeChange(allGlaciers):
                                       
                     # In case of a successful parsing process, a writer will be instantiated for immediate writing into the database.
                     if volumeChangeReader != None:
-                        
-                        print("\n--- Start writing to the database. Will take a while ... take a break ... ---\n")
+
+                        print("\n" + str(inputFileName))
+                        print("--- Start writing to the database. Will take a while ... take a break ... ---\n")
         
                         # Getting the writer object ready and start inserting into the database.
                         volumeChangeWriter = VolumeChangeWriter(privateDatabaseAccessConfiguration)

@@ -20,7 +20,7 @@ from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFile
 config = configparser.ConfigParser()
 config.read("dataflow.cfg")
 
-privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.private.cfg"
+privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.gldirw.cfg"
 
 def insertDatabaseLengthChange(allGlaciers):
     '''
@@ -96,7 +96,7 @@ def insertDatabaseLengthChange(allGlaciers):
                 
                 
     else:
-        raise Exception("Data directory not existing")
+        raise Exception("Data directory " + dataDirectoryPath + " existing")
 
 if __name__ == '__main__':
 
