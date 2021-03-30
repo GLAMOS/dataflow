@@ -24,23 +24,14 @@ class LengthChange(GlamosData):
     '''
 
     _dateFrom = None
-    
     _dateFromQuality = None
-    
     _dateTo = None
-    
     _dateToQuality = None
-    
     _measurementType = None
-    
     _variationQuantitative = None #TODO: Redundant value based on VAW ASCII file. Can be eliminated.
-    
     _variationQuantitativeAccuracy = None
-    
     _elevationMin = None
-    
     _observer = None
-
     _remarks = None
     
     @property

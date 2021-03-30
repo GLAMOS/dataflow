@@ -105,3 +105,4 @@ class VolumeChangeWriter(GlamosDatabaseWriter):
         finally:
             
             self._connection.close()
+
