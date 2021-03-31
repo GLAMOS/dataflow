@@ -23,7 +23,7 @@ class MassBalanceTypeNotDefinedError(Exception):
 
 class ObservationTypeNotDefinedError(Exception):
     '''
-    Exception class if undefined mass balance type.
+    Exception class if undefined observation type.
     '''
 
     def __init__(self, message):
