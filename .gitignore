@@ -1,3 +1,7 @@
+# Database configure files
+dataflow/databaseAccessConfiguration.gladmin.cfg
+dataflow/databaseAccessConfiguration.gldiro.cfg
+dataflow/databaseAccessConfiguration.gldirw.cfg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
