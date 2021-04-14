@@ -56,13 +56,16 @@ class MassBalancePointWriter(GlamosDatabaseWriter):
                 # - The same start date of the observation (date_from)
                 # - The same end date of the observation (date_to)
 
-                checkStatement = "SELECT * FROM {0} WHERE fk_glacier = '{1}' AND name = '{2}' AND fk_observation_type ='{3}' AND date_from = '{4}' AND date_to = '{5}' AND latitude = '{6}' AND longitude = '{7}';".format(
+                checkStatement = "SELECT * FROM {0} WHERE fk_glacier = '{1}' AND name = '{2}' AND " \
+                                 "fk_observation_type ='{3}' AND date_from = '{4}' AND time_from = '{5}' AND " \
+                                 "date_to = '{6}' AND time_to = '{7}' AND " \
+                                 "latitude = '{8}' AND longitude = '{9}';".format(
                     'mass_balance.point',
                     glacier.pk,
                     massbalancePoint.name,
                     massbalancePoint.observationType,
-                    massbalancePoint.dateFrom,
-                    massbalancePoint.dateTo,
+                    massbalancePoint.dateFrom, massbalancePoint.timeFrom,
+                    massbalancePoint.dateTo, massbalancePoint.timeTo,
                     massbalancePoint.latitude,
                     massbalancePoint.longitude)
                 # Record is already in database. No further inserts needed.
