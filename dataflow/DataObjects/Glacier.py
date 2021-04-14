@@ -26,19 +26,13 @@ class Glacier(GlamosData):
     '''
 
     _pkVaw         = None
-    
     _pkSgi         = None
-    
     _pkGlims       = None
-    
     _name          = None
-    
     _lengthChanges = None
-    
     _massBalances  = None
-    
+    _massBalancePoints = None
     _volumeChanges = None
-    
     _inventories   = None
     
     @property
@@ -89,6 +83,13 @@ class Glacier(GlamosData):
         '''
         
         return MassBalance.createDataFrame(self._massBalances)
+
+    @property
+    def massBalancePoints(self):
+        '''
+        Get the entire mass balance point time series of the glacier.
+        '''
+        return self._massBalancePoints
     
     @property
     def latestInventoryGeometry(self):
@@ -141,6 +142,7 @@ class Glacier(GlamosData):
         
         self._lengthChanges = dict()
         self._massBalances  = dict()
+        self._massBalancePoints = dict()
         self._volumeChanges = dict()
         
         self._inventories   = dict()
@@ -208,13 +210,24 @@ class Glacier(GlamosData):
     def addMassBalance(self, massBalance):
         '''
         Adding an individual measurement of a mass balance. Containing the balance between two years.
-        
+
         @type massBalance: DataObjects.MassBalance.MassBalance
         @param massBalance: Mass balance between two specified years.
         '''
-        
+
         #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalance class.
         self._massBalances[massBalance.dateFromAnnual] = massBalance
+
+    def addMassBalancePoint(self, massBalancePoint):
+        '''
+        Adding an individual measurement of a massbalance point. Containing the change between two years.
+
+        @type massbalancePoint: DataObjects.MassBalancePoint.MassBalancePoint
+        @param massbalancePoints: Mass Balance between two specified years.
+        '''
+
+        # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalancePoint class.
+        self._massBalancePoints[massBalancePoint.pk] = massBalancePoint
         
     def addVolumeChange(self, volumeChange):
         '''
@@ -226,6 +239,7 @@ class Glacier(GlamosData):
         
         #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the VolumeChange class.
         self._volumeChanges[volumeChange.dateFrom] = volumeChange
+
         
     def addInventory(self, inventory):
         

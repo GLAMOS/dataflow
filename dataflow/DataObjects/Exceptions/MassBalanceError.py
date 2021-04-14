@@ -13,9 +13,25 @@ class MassBalanceTypeNotDefinedError(Exception):
     def __init__(self, message):
         '''
         Constructor
-        
+
         @type message: string
         @param message: Message of the exception
         '''
-        
+
+        self.message = message
+
+
+class ObservationTypeNotDefinedError(Exception):
+    '''
+    Exception class if undefined observation type.
+    '''
+
+    def __init__(self, message):
+        '''
+        Constructor
+
+        @type message: string
+        @param message: Message of the exception
+        '''
+
         self.message = message

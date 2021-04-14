@@ -25,6 +25,7 @@ class MassBalancePoint(GlamosData):
     _timeFrom           time
     _dateTo             date
     _timeTo             time
+    _period             float
     _dateAccuracy       DateAccuracyEnum
     _latitude           float
     _longitude          float
@@ -48,6 +49,7 @@ class MassBalancePoint(GlamosData):
     _timeFrom = None
     _dateTo = None
     _timeTo = None
+    _period = None
     _dateAccuracy = None
     _latitude = None
     _longitude = None
@@ -65,10 +67,12 @@ class MassBalancePoint(GlamosData):
     _source = None
 
     def __init__(self,
+        pk=None,
         name = None,
         observationType = None,
         dateFrom = None, timeFrom = None,
-        dateTo = None,timeTo = None,
+        dateTo = None, timeTo = None,
+        period = None,
         dateAccuracy = None,
         latitude = None, longitude = None, altitude = None, positionAccuracy = None,
         massbalance_raw = None,
@@ -89,6 +93,7 @@ class MassBalancePoint(GlamosData):
         self._timeFrom          = timeFrom
         self._dateTo            = dateTo
         self._timeTo            = timeTo
+        self._period            = period
         self._dateAccuracy      = dateAccuracy
         self._latitude          = latitude
         self._longitude         = longitude
@@ -104,3 +109,169 @@ class MassBalancePoint(GlamosData):
         self._reading_error     = reading_error
         self._density_error     = density_error
         self._source            = source
+
+    def __str__(self):
+        ''' String representation of the massbalance point object.
+
+                @rtype: str
+                @return: String representation of the massbalance point object.
+                '''
+
+        stringRepresentationTemplate = "Mass balance point {0} between {1} and {2}: {3} mm w.e."
+
+        return stringRepresentationTemplate.format(
+            self.name, self.dateFrom, self.dateTo, self.massbalance_we)
+    @property
+    def name(self):
+        '''
+        Gets the name of point mass balance.
+        '''
+        return self._name
+
+    @property
+    def observationType(self):
+        '''
+        Gets the observation Type.
+        '''
+        return self._observationType
+
+    @property
+    def dateFrom(self):
+        '''
+        Gets the start date of the point massbalance.
+        '''
+        return self._dateFrom
+
+    @property
+    def timeFrom(self):
+        '''
+        Gets the start time of the point massbalance.
+        '''
+        return self._timeFrom
+
+    @property
+    def dateTo(self):
+        '''
+        Gets the end date of the point massbalance.
+        '''
+        return self._dateTo
+
+    @property
+    def timeTo(self):
+        '''
+        Gets the end time of the point massbalance.
+        '''
+        return self._timeTo
+
+    @property
+    def period(self):
+        '''
+        Gets the period of the point massbalance.
+        '''
+        return self._period
+
+    @property
+    def dateAccuracy(self):
+        '''
+        Gets the date accuracy of the point mass balance.
+        '''
+        return self._dateAccuracy
+
+    @property
+    def latitude(self):
+        '''
+        Gets the latitude of the point mass balance.
+        '''
+        return self._latitude
+
+    @property
+    def longitude(self):
+        '''
+        Gets the longitude of the point mass balance.
+        '''
+        return self._longitude
+
+    @property
+    def altitude(self):
+        '''
+        Gets the altitude of the point mass balance.
+        '''
+        return self._altitude
+
+    @property
+    def positionAccuracy(self):
+        '''
+        Gets the position accuracy of the point mass balance.
+        '''
+        return self._positionAccuracy
+
+    @property
+    def massbalance_raw(self):
+        '''
+        Gets the raw massbalance of the point mass balance.
+        '''
+        return self._massbalance_raw
+
+    @property
+    def density(self):
+        '''
+        Gets the density of the point mass balance.
+        '''
+        return self._density
+
+    @property
+    def densityAccuracy(self):
+        '''
+        Gets the density accuracy of the point mass balance.
+        '''
+        return self._densityAccuracy
+
+    @property
+    def massbalance_we(self):
+        '''
+        Gets the water equivalent mass balance of the point mass balance.
+        '''
+        return self._massbalance_we
+
+    @property
+    def measurement_quality(self):
+        '''
+        Gets the measurement quality of the point mass balance.
+        '''
+        return self._measurement_quality
+
+    @property
+    def measurement_type(self):
+        '''
+        Gets the measurement type of the point mass balance.
+        '''
+        return self._measurement_type
+
+    @property
+    def massbalance_error(self):
+        '''
+        Gets the massbalance error of the point mass balance.
+        '''
+        return self._massbalance_error
+
+    @property
+    def reading_error(self):
+        '''
+        Gets the reading error of the point mass balance.
+        '''
+        return self._reading_error
+
+    @property
+    def density_error(self):
+        '''
+        Gets the density error of the point mass balance.
+        '''
+        return self._density_error
+
+    @property
+    def source(self):
+        '''
+        Gets the source of the point mass balance.
+        '''
+        return self._source
+
