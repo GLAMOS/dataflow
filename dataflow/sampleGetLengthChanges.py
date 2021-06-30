@@ -56,4 +56,4 @@ def printGlacierLengthChangeBySgi(pkSgi):
 if __name__ == '__main__':
     
     # Print the length change data of the Aletsch glacier.
-    printGlacierLengthChangeBySgi('B36/26')
+    printGlacierLengthChangeBySgi('B36-26')

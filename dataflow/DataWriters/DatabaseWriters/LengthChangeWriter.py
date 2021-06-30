@@ -11,7 +11,7 @@ from dataflow.DataObjects.LengthChange import LengthChange
 
 class LengthChangeWriter(GlamosDatabaseWriter):
     '''
-    Database writer for objects of the type 
+    Database writer for objects of the type length change
     
     Attributes:
     _lengthChangeObservationCounter int  Counter of length-change observations written to the database

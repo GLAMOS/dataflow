@@ -51,7 +51,7 @@ if __name__ == '__main__':
     config = configparser.ConfigParser()
     config.read("dataflow.cfg")
 
-    privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.private.cfg"
+    privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.gladmin.cfg"
     
     if os.path.exists(privateDatabaseAccessConfiguration) == True:
         if os.path.isfile(privateDatabaseAccessConfiguration) == True:
@@ -63,7 +63,7 @@ if __name__ == '__main__':
         print("Private database configuration '{0}' is not existing! Check path! Application will terminate.".format(privateDatabaseAccessConfiguration))
         sys.exit(1)
     
-    focusGlaciers = ['B52/24', 'B45/04'] # Schwarzberg-Gletscher (VAW-ID = 10), Griesgletscher (VAW-ID = 3)
+    focusGlaciers = ['B52-24', 'B45-04'] # Schwarzberg-Gletscher (VAW-ID = 10), Griesgletscher (VAW-ID = 3)
     
     # Getting the dataflow.DataReaders.DatabaseReaders.GlacierReader ready to retrieve glacier objects from the database.
     glacierReader = GlacierReader(privateDatabaseAccessConfiguration)
