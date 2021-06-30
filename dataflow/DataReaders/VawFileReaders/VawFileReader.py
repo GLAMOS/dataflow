@@ -232,3 +232,16 @@ class VawFileReader(AsciiFileDateReader):
             headerValue = lineParts[key].strip()
             
             self._headerLineContent[key] = headerValue
+    def _reformatTime(self, time):
+        if len(time) <= 3:
+            time = '1200'
+        else:
+            time
+        return time
+
+    def _notNine(self, value):
+        if value == '9':
+            value = 0
+        else:
+            value
+        return value
