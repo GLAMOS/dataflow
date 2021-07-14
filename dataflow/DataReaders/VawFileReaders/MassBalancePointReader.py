@@ -77,17 +77,17 @@ class MassBalancePointReader(VawFileReader):
 
         # Check if the given file is a correct point mass balance file.
         isMassbalancePointFile = False
-        searchResult = re.search(config.get("MassbalancePoint", "annualPatternFilename"), fullFileName)
+        searchResult = re.search(config.get("MassBalancePoint", "annualPatternFilename"), fullFileName)
         if searchResult != None:
             self._ObservationType = ObservationTypeEnum.Annual
             isMassbalancePointFile = True
 
-        searchResult = re.search(config.get("MassbalancePoint", "wintersnowPatternFilename"), fullFileName)
+        searchResult = re.search(config.get("MassBalancePoint", "wintersnowPatternFilename"), fullFileName)
         if searchResult != None:
             self._ObservationType = ObservationTypeEnum.Wintersnow
             isMassbalancePointFile = True
 
-        searchResult = re.search(config.get("MassbalancePoint", "intermediatePatternFilename"), fullFileName)
+        searchResult = re.search(config.get("MassBalancePoint", "intermediatePatternFilename"), fullFileName)
         if searchResult != None:
             self._ObservationType = ObservationTypeEnum.Intermediate
             isMassbalancePointFile = True
@@ -211,6 +211,8 @@ class MassBalancePointReader(VawFileReader):
         data[self.__FILE_COLUMN_SOURCE] = dataLineParts[self.__FILE_COLUMN_SOURCE].strip()
 
         return (data)
+
+
     def replace_source(self,source):
         # TODO: function not used yet
         source_replaced = []
