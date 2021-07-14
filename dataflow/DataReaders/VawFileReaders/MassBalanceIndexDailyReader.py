@@ -28,8 +28,9 @@ class MassBalanceIndexDailyReader(VawFileReader):
     # Additional header definition.
     __METHOD_TYPE = 3
     __STAKE_NAME = 4
-    _method_type = -1
-    _stake_name = -1
+    _methodType = -1
+    _stakeName = -1
+
     # Number of header lines.
     __NUMBER_HEADER_LINES = 4
 
@@ -76,8 +77,8 @@ class MassBalanceIndexDailyReader(VawFileReader):
 
         # Setting the specialised reader parameters of the header.
         print(self._headerLineContent)
-        self._method_type = str(self._headerLineContent[self.__METHOD_TYPE])
-        self._stake_name = str(self._headerLineContent[self.__STAKE_NAME])
+        self._methodType = str(self._headerLineContent[self.__METHOD_TYPE])
+        self._stakeName = str(self._headerLineContent[self.__STAKE_NAME])
 
         # Check if the given file is a correct index daily mass balance file.
         isMassBalanceIndexDailyFile = False
