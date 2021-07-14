@@ -31,6 +31,7 @@ class Glacier(GlamosData):
     _name          = None
     _lengthChanges = None
     _massBalances  = None
+    _massBalanceIndexDailys = None
     _massBalancePoints = None
     _volumeChanges = None
     _inventories   = None
@@ -83,6 +84,13 @@ class Glacier(GlamosData):
         '''
         
         return MassBalance.createDataFrame(self._massBalances)
+
+    @property
+    def massBalanceIndexDailys(self):
+        '''
+        Get the entire mass balance point time series of the glacier.
+        '''
+        return self._massBalanceIndexDailys
 
     @property
     def massBalancePoints(self):
@@ -142,6 +150,7 @@ class Glacier(GlamosData):
         
         self._lengthChanges = dict()
         self._massBalances  = dict()
+        self._massBalanceIndexDailys = dict()
         self._massBalancePoints = dict()
         self._volumeChanges = dict()
         
@@ -217,6 +226,17 @@ class Glacier(GlamosData):
 
         #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalance class.
         self._massBalances[massBalance.dateFromAnnual] = massBalance
+
+    def addMassBalanceIndexDaily(self, massBalanceIndexDaily):
+        '''
+        Adding an individual massbalance index daily. Containing the change between two years.
+
+        @type massbalanceIndexDaily: DataObjects.MassBalanceIndexDaily.MassBalanceIndexDaily
+        @param massbalanceIndexDaily: Mass Balance on a daily index.
+        '''
+
+        # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalanceIndexDaily class.
+        self._massBalanceIndexDailys[massBalanceIndexDaily.pk] = massBalanceIndexDaily
 
     def addMassBalancePoint(self, massBalancePoint):
         '''
