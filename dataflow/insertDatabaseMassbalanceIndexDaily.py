@@ -66,7 +66,7 @@ def insertDatabaseMassbalanceIndexDaily(allGlaciers):
                     massBalanceIndexDailyWriter = MassBalanceIndexDailyWriter(privateDatabaseAccessConfiguration)
                     massBalanceIndexDailyWriter.write(massBalanceIndexDailyReader.glacier)
                 else:
-                    raise Exception("MassBalancePointReader is None")
+                    raise Exception("MassBalanceIndexDailyReader is None")
 
             except GlacierNotFoundError as glacierNotFoundError:
                 print(glacierNotFoundError.message)
