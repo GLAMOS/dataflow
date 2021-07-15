@@ -150,6 +150,7 @@ class Glacier(GlamosData):
         
         self._lengthChanges = dict()
         self._massBalances  = dict()
+        self._massBalanceIndexSeasonals = dict()
         self._massBalanceIndexDailys = dict()
         self._massBalancePoints = dict()
         self._volumeChanges = dict()
@@ -226,6 +227,17 @@ class Glacier(GlamosData):
 
         #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalance class.
         self._massBalances[massBalance.dateFromAnnual] = massBalance
+
+    def addMassBalanceIndexSeasonal(self, massBalanceIndexSeasonal):
+        '''
+        Adding an individual massbalance index seasonal. Containing the change between two years.
+
+        @type massbalanceIndexSeasonal: DataObjects.MassBalanceIndexSeasonal.MassBalanceIndexSeasonal
+        @param massbalanceIndexSeasonal: Mass Balance on a seasonal index.
+        '''
+
+        # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalanceIndexSeasonal class.
+        self._massBalanceIndexSeasonals[massBalanceIndexSeasonal.pk] = massBalanceIndexSeasonal
 
     def addMassBalanceIndexDaily(self, massBalanceIndexDaily):
         '''
