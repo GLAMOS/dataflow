@@ -41,7 +41,7 @@ class VawFileReader(AsciiFileDateReader):
     
     _dataSource = None
     
-    _DATA_SOURCE_PREFIX = "# © "
+    _DATA_SOURCE_PREFIX = "# "
     
     def __init__(self, fullFileName, glaciers):
         '''
@@ -114,16 +114,12 @@ class VawFileReader(AsciiFileDateReader):
                 lineCounter += 1
                 
                 try:
-                        
                     if lineCounter == 1:
-                            
                         self._getMetadata(line)
                         
                     if self._numberHeaderLines == lineCounter:
-                        
                         self._dataSource = line.strip()
                         self._dataSource = self._dataSource.replace(self._DATA_SOURCE_PREFIX, "")
-
 
                 #TODO: Implementing own exceptions.
                 except Exception as e:

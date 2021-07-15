@@ -82,7 +82,7 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
                     print(message)
 
                     # Preparing the INSERT of a not yet inserted record.
-                    insertStatement = "INSERT INTO mass_balance.index_daily (pk, fk_glacier, name, date, balance, accumulation, melt, fk_surface_type, temperature, precipitation) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', {8}, {9});"
+                    insertStatement = "INSERT INTO mass_balance.index_daily (pk, fk_glacier, name, date, balance, accumulation, melt, fk_surface_type, temperature, precipitation,reference) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', {8}, {9}, '{10}');"
 
                     # Handling possible NULL values:
                     # TODO: if Null values possible
@@ -102,7 +102,8 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
                         massbalanceIndexDaily.melt,
                         massbalanceIndexDaily.surface_type,
                         massbalanceIndexDaily.temp,
-                        massbalanceIndexDaily.precip_solid)
+                        massbalanceIndexDaily.precip_solid,
+                        massbalanceIndexDaily.reference)
 
                     self._writeData(insertStatement)
                     self._connection.commit()

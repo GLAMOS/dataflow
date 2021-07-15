@@ -35,12 +35,12 @@ class MassBalanceIndexDaily(GlamosData):
     _balance = None
     _accumulation = None
     _melt = None
-    _reference = None
-    _investigator = None
-    _creation_date = None
     _surface_type = None
     _temp = None
     _precip_solid = None
+    _reference = None
+    _investigator = None
+    _creation_date = None
 
     def __init__(self,
         pk = None,
@@ -48,8 +48,8 @@ class MassBalanceIndexDaily(GlamosData):
         date = None,
         latitude = None, longitude = None, altitude = None,
         balance = None, accumulation = None, melt = None,
-        reference = None, investigator = None, creation_date = None,
-        surface_type = None, temp = None, precip_solid = None):
+        surface_type = None, temp = None, precip_solid = None,
+        reference=None, investigator=None, creation_date=None,):
 
         super().__init__(pk)
 
@@ -61,12 +61,13 @@ class MassBalanceIndexDaily(GlamosData):
         self._balance = balance
         self._accumulation = accumulation
         self._melt = melt
-        self._reference = reference
-        self._investigator = investigator
-        self._creation_date = creation_date
         self._surface_type = surface_type
         self._temp = temp
         self._precip_solid = precip_solid
+        self._reference = reference
+        self._investigator = investigator
+        self._creation_date = creation_date
+
 
     def __str__(self):
         ''' String representation of the massbalance index daily object.

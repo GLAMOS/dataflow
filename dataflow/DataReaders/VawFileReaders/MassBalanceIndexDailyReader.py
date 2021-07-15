@@ -75,6 +75,12 @@ class MassBalanceIndexDailyReader(VawFileReader):
         self._headerLineContent[self.__METHOD_TYPE] = "Method type"
         self._headerLineContent[self.__STAKE_NAME] = "Stake name"
 
+
+        try:
+            super().__init__(fullFileName, glaciers)
+        except GlacierNotFoundError as glacierNotFoundError:
+            raise glacierNotFoundError
+
         # Setting the specialised reader parameters of the header.
         print(self._headerLineContent)
         self._methodType = str(self._headerLineContent[self.__METHOD_TYPE])
@@ -91,10 +97,7 @@ class MassBalanceIndexDailyReader(VawFileReader):
             raise InvalidDataFileError(message)
         # TODO: Additional test for file check to be included. If possible, implementation in a generic way in super-class VawFileReader.
 
-        try:
-            super().__init__(fullFileName, glaciers)
-        except GlacierNotFoundError as glacierNotFoundError:
-            raise glacierNotFoundError
+
 
     def __str__(self):
         pass
@@ -117,10 +120,11 @@ class MassBalanceIndexDailyReader(VawFileReader):
                         data = self._getData(line)
 
                         massBalanceIndexDaily = MassBalanceIndexDaily(
-                            name=self.__STAKE_NAME,
+                            name=self._stakeName,
                             date=datetime.date(data[self.__FILE_COLUMN_YEAR], data[self.__FILE_COLUMN_MONTH], data[self.__FILE_COLUMN_DAY]),
                             balance=data[self.__FILE_COLUMN_BALANCE], accumulation=data[self.__FILE_COLUMN_ACCUMULATION], melt=data[self.__FILE_COLUMN_MELT],
-                            surface_type=data[self.__FILE_COLUMN_SURFACE_TYPE], temp=data[self.__FILE_COLUMN_TEMP], precip_solid=data[self.__FILE_COLUMN_PRECIP])
+                            surface_type=data[self.__FILE_COLUMN_SURFACE_TYPE], temp=data[self.__FILE_COLUMN_TEMP], precip_solid=data[self.__FILE_COLUMN_PRECIP],
+                            reference=self._dataSource)
 
                         self._massBalanceIndexDailyCounter += 1
                         self._glacier.addMassBalanceIndexDaily(massBalanceIndexDaily)
