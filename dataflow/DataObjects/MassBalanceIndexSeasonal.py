@@ -61,6 +61,7 @@ class MassBalanceIndexSeasonal(GlamosData):
     _c_a_fix = None
     _a_w_fix = None
     _a_a_fix = None
+    _reference = None
 
 
     def __init__(self,
@@ -70,7 +71,7 @@ class MassBalanceIndexSeasonal(GlamosData):
         analysis_method_type = None,
         latitude = None, longitude = None, altitude = None,
         b_w_meas = None, b_a_meas = None,
-        c_w_obs = None, c_a_obs = None, a_w_obs = None, a_a_obs = None, b_w_fix = None, b_a_fix = None ,c_w_fix = None, c_a_fix = None, a_w_fix = None, a_a_fix = None):
+        c_w_obs = None, c_a_obs = None, a_w_obs = None, a_a_obs = None, b_w_fix = None, b_a_fix = None ,c_w_fix = None, c_a_fix = None, a_w_fix = None, a_a_fix = None, reference=None):
 
         super().__init__(pk)
 
@@ -97,6 +98,7 @@ class MassBalanceIndexSeasonal(GlamosData):
         self._c_a_fix = c_a_fix
         self._a_w_fix = a_w_fix
         self._a_a_fix = a_a_fix
+        self._reference = reference
 
     def __str__(self):
         ''' String representation of the massbalance index seasonal object.
@@ -270,3 +272,10 @@ class MassBalanceIndexSeasonal(GlamosData):
         Gets the analysis method type of index seasonal.
         '''
         return self._a_a_fix
+
+    @property
+    def reference(self):
+        '''
+        Gets the reference of index seasonal.
+        '''
+        return self._reference
