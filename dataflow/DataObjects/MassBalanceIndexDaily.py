@@ -9,7 +9,7 @@ from dataflow.DataObjects.Glamos import GlamosData
 
 class MassBalanceIndexDaily(GlamosData):
     '''
-    Daily Index Mass Balance between two dates
+    Daily Index Mass Balance
     _name               string
     _date               date
     _latitude           float
@@ -49,7 +49,7 @@ class MassBalanceIndexDaily(GlamosData):
         latitude = None, longitude = None, altitude = None,
         balance = None, accumulation = None, melt = None,
         surface_type = None, temp = None, precip_solid = None,
-        reference=None, investigator=None, creation_date=None,):
+        reference=None, investigator=None, creation_date=None):
 
         super().__init__(pk)
 

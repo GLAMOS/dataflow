@@ -82,7 +82,7 @@ class MassBalanceIndexDailyReader(VawFileReader):
             raise glacierNotFoundError
 
         # Setting the specialised reader parameters of the header.
-        print(self._headerLineContent)
+
         self._methodType = str(self._headerLineContent[self.__METHOD_TYPE])
         self._stakeName = str(self._headerLineContent[self.__STAKE_NAME])
 

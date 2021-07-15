@@ -55,7 +55,7 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
                 # - The same name (name)
                 # - The date of daily value (date)
                 # - The values of entry (balance, accumulation, melt)
-                print(massbalanceIndexDaily.date)
+
                 checkStatement = "SELECT * FROM {0} WHERE fk_glacier = '{1}' AND name = '{2}' AND " \
                                  "date ='{3}' AND balance = '{4}' AND accumulation = '{5}' AND " \
                                  "melt = '{6}';".format(
@@ -66,8 +66,6 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
                     massbalanceIndexDaily.balance,
                     massbalanceIndexDaily.accumulation,
                     massbalanceIndexDaily.melt)
-
-                print(checkStatement)
 
                 # Record is already in database. No further inserts needed.
                 if super().isRecordStored(checkStatement) == True:
