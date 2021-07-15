@@ -6,15 +6,15 @@ Created on 14.07.2021
 
 from dataflow.DataWriters.DatabaseWriters.GlamosDatabaseWriter import GlamosDatabaseWriter
 from dataflow.DataObjects.Glacier import Glacier
-from dataflow.DataObjects.MassBalancePoint import MassBalancePoint
+from dataflow.DataObjects.MassBalanceIndexDaily import MassBalanceIndexDaily
 import datetime
 
 class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
     '''
-    Database writer for objects of the type mass balance point
+    Database writer for objects of the type mass balance index daily
 
     Attributes:
-    _MassBalancePointObservationCounter int  Counter of mass balance points written to the database
+    _MassBalanceIndexDailyCounter int  Counter of mass balance index daily written to the database
     '''
 
     _MassBalanceIndexDailyCounter = 0
