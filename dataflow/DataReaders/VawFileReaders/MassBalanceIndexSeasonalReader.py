@@ -170,12 +170,17 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
         dataLineParts = p.split(dataLine)
 
         data[self.__FILE_COLUMN_EVALUATION_METHOD] = int(dataLineParts[self.__FILE_COLUMN_EVALUATION_METHOD].strip())
+
         data[self.__FILE_COLUMN_DATE_0] = datetime.date(dataLineParts[self.__FILE_COLUMN_DATE_0].strip())
-        data[self.__FILE_COLUMN_DATE_FMEAS] = datetime.date(dataLineParts[self.__FILE_COLUMN_DATE_FMEAS].strip())
-        data[self.__FILE_COLUMN_DATE_FMIN] = datetime.date(dataLineParts[self.__FILE_COLUMN_DATE_FMIN].strip())
-        data[self.__FILE_COLUMN_DATE_FMEAS] = datetime.date(dataLineParts[self.__FILE_COLUMN_DATE_FMEAS].strip())
-        data[self.__FILE_COLUMN_DATE_SMAX] = datetime.date(dataLineParts[self.__FILE_COLUMN_DATE_SMAX].strip())
+        date_0_year = int(data[self.__FILE_COLUMN_DATE_0].year)
+        data[self.__FILE_COLUMN_DATE_FMEAS] = datetime.date(date_0_year,dataLineParts[self.__FILE_COLUMN_DATE_FMEAS].strip())
+        data[self.__FILE_COLUMN_DATE_FMIN] = datetime.date(date_0_year,dataLineParts[self.__FILE_COLUMN_DATE_FMIN].strip())
+
         data[self.__FILE_COLUMN_DATE_1] = datetime.date(dataLineParts[self.__FILE_COLUMN_DATE_1].strip())
+        date_1_year = int(data[self.__FILE_COLUMN_DATE_1].year)
+        data[self.__FILE_COLUMN_DATE_FMEAS] = datetime.date(date_1_year,dataLineParts[self.__FILE_COLUMN_DATE_FMEAS].strip())
+        data[self.__FILE_COLUMN_DATE_SMAX] = datetime.date(date_1_year,dataLineParts[self.__FILE_COLUMN_DATE_SMAX].strip())
+
         data[self.__FILE_COLUMN_LATITUDE] = float(dataLineParts[self.__FILE_COLUMN_LATITUDE].strip())
         data[self.__FILE_COLUMN_LONGITUDE] = float(dataLineParts[self.__FILE_COLUMN_LONGITUDE].strip())
         data[self.__FILE_COLUMN_ALTITUDE] = float(dataLineParts[self.__FILE_COLUMN_ALTITUDE].strip())
