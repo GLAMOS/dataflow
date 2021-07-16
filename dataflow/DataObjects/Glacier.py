@@ -21,6 +21,9 @@ class Glacier(GlamosData):
         _name            Common name of the glacier.
         _lengthChanges   Dictionary containing the entire time series of type DataObjects.LengthChange.LengthChange objects
         _massBalance     Dictionary containing the entire time series of type DataObjects.MassBalance.MassBalance objects
+        _massBalanceIndexSeasonals  ...tbd
+        _massBalanceIndexDailys     ...tbd
+        _massBalancePoints          ...tbd
         _volumeChanges   Dictionary containing the entire time series of type DataObjects.VolumeChange.VolumeChange objects
         _inventories     Dictionary containing the available inventory data of the glacier.
     '''
@@ -31,6 +34,7 @@ class Glacier(GlamosData):
     _name          = None
     _lengthChanges = None
     _massBalances  = None
+    _massBalanceIndexSeasonals = None
     _massBalanceIndexDailys = None
     _massBalancePoints = None
     _volumeChanges = None
@@ -84,6 +88,13 @@ class Glacier(GlamosData):
         '''
         
         return MassBalance.createDataFrame(self._massBalances)
+
+    @property
+    def massBalanceIndexSeasonals(self):
+        '''
+        Get the entire mass balance point time series of the glacier.
+        '''
+        return self._massBalanceIndexSeasonals
 
     @property
     def massBalanceIndexDailys(self):
@@ -241,7 +252,7 @@ class Glacier(GlamosData):
 
     def addMassBalanceIndexDaily(self, massBalanceIndexDaily):
         '''
-        Adding an individual massbalance index daily. Containing the change between two years.
+        Adding an individual massbalance index daily. Containing the modelled balance, accumulation and ablation on a specific date.
 
         @type massbalanceIndexDaily: DataObjects.MassBalanceIndexDaily.MassBalanceIndexDaily
         @param massbalanceIndexDaily: Mass Balance on a daily index.
@@ -252,10 +263,10 @@ class Glacier(GlamosData):
 
     def addMassBalancePoint(self, massBalancePoint):
         '''
-        Adding an individual measurement of a massbalance point. Containing the change between two years.
+        Adding an individual measurement of a massbalance point. Containing the measurement of a specific period.
 
         @type massbalancePoint: DataObjects.MassBalancePoint.MassBalancePoint
-        @param massbalancePoints: Mass Balance between two specified years.
+        @param massbalancePoints: Mass Balance between two specified dates.
         '''
 
         # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalancePoint class.
