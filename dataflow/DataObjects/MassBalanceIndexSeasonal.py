@@ -1,5 +1,5 @@
 '''
-Created on 22.03.2021
+Created on 22.07.2021
 
 @author: elias
 '''
@@ -12,7 +12,9 @@ from pandas import DataFrame
 
 class MassBalanceIndexSeasonal(GlamosData):
     '''
-        Index Mass Balance
+    Data object describing a single Index Seasonal Mass Balance
+
+    Attributes:
         _name           string  name of stake
         _date0       	date	date of begin of period  [yyyymmdd]
         _date_fmeas  	date	reference start date of measured winter balance / [yyyymmdd]
@@ -35,7 +37,7 @@ class MassBalanceIndexSeasonal(GlamosData):
         _c_a_fix     	int		total annual accumulation of fixed date period 1.Oct - 30.Sep  [mm w.e.]
         _a_w_fix     	int		total winter ablation of fixed date period 1.Oct - 30.Apr  [mm w.e.]
         _a_a_fix     	int		total annual ablation of fixed date period 1.Oct - 30.Sep  [mm w.e.]
-        _refernece      string
+        _reference      string  reference of data
         '''
 
     _name = None
@@ -61,6 +63,7 @@ class MassBalanceIndexSeasonal(GlamosData):
     _c_a_fix = None
     _a_w_fix = None
     _a_a_fix = None
+    _investigator =None
     _reference = None
 
 
@@ -71,8 +74,18 @@ class MassBalanceIndexSeasonal(GlamosData):
         analysis_method_type = None,
         latitude = None, longitude = None, altitude = None,
         b_w_meas = None, b_a_meas = None,
-        c_w_obs = None, c_a_obs = None, a_w_obs = None, a_a_obs = None, b_w_fix = None, b_a_fix = None ,c_w_fix = None, c_a_fix = None, a_w_fix = None, a_a_fix = None, reference=None):
+        c_w_obs = None, c_a_obs = None, a_w_obs = None, a_a_obs = None,
+        b_w_fix = None, b_a_fix = None ,c_w_fix = None, c_a_fix = None, a_w_fix = None, a_a_fix = None,
+        investigator = None, reference=None):
+        '''
+        Constructor of a mass balance indexz seasonal object. The object describes the modelledannual and winter mass balance,
+        accumulation and ablation at a specific stake
 
+        @type
+        @param
+
+        ... TODO integrate descriptions
+        '''
         super().__init__(pk)
 
         self._name = name
@@ -98,6 +111,7 @@ class MassBalanceIndexSeasonal(GlamosData):
         self._c_a_fix = c_a_fix
         self._a_w_fix = a_w_fix
         self._a_a_fix = a_a_fix
+        self._investigator = investigator
         self._reference = reference
 
     def __str__(self):
@@ -192,87 +206,93 @@ class MassBalanceIndexSeasonal(GlamosData):
     @property
     def b_w_meas(self):
         '''
-        Gets the b_w_meas of index seasonal.
+        Gets the total winter balance of measured period (date_fmeas to date_smeas) index seasonal.
         '''
         return self._b_w_meas
 
     @property
     def b_a_meas(self):
         '''
-        Gets the b_a_meas of index seasonal.
+        Gets the total annual balance of measured period (date_fmeas to date_1) of index seasonal.
         '''
         return self._b_a_meas
 
     @property
     def c_w_obs(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the total winter accumulation of observed period (date_0 to date_smeas) of index seasonal.
         '''
         return self._c_w_obs
 
     @property
     def c_a_obs(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the total annual accumulation of observed period (date_0 to date_1) of index seasonal.
         '''
         return self._c_a_obs
 
     @property
     def a_w_obs(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the total winter ablation of observed period (date_0 to date_smeas) of index seasonal.
         '''
         return self._a_w_obs
 
     @property
     def a_a_obs(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the total annual ablation of observed period (date_0 to date_1) of index seasonal.
         '''
         return self._a_a_obs
 
     @property
     def b_w_fix(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the total winter balance of fixed date period seasonal.
         '''
         return self._b_w_fix
 
     @property
     def b_a_fix(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the total annual balance of fixed date period of index seasonal.
         '''
         return self._b_a_fix
 
     @property
     def c_w_fix(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the total winter accumulation of fixed date period of index seasonal.
         '''
         return self._c_w_fix
 
     @property
     def c_a_fix(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the total annual accumulation of fixed date period of index seasonal.
         '''
         return self._c_a_fix
 
     @property
     def a_w_fix(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the total winter ablation of fixed date period of index seasonal.
         '''
         return self._a_w_fix
 
     @property
     def a_a_fix(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the total annual ablation of fixed date period of index seasonal.
         '''
         return self._a_a_fix
 
+    @property
+    def investigator(self):
+        '''
+        Gets the investigator of index seasonal.
+        '''
+        return self._investigator
     @property
     def reference(self):
         '''
