@@ -48,6 +48,7 @@ class MassBalanceIndexSeasonal(GlamosData):
     _date_smax = None
     _date_1 = None
     _analysis_method_type = None
+    _embargo_type = 0
     _latitude = None
     _longitude = None
     _altitude = None
@@ -71,7 +72,7 @@ class MassBalanceIndexSeasonal(GlamosData):
         pk=None,
         name = None, date_0 = None, date_fmeas = None, date_fmin = None,
         date_smeas = None, date_smax = None, date_1 = None,
-        analysis_method_type = None,
+        analysis_method_type = None, embargo_type=0,
         latitude = None, longitude = None, altitude = None,
         b_w_meas = None, b_a_meas = None,
         c_w_obs = None, c_a_obs = None, a_w_obs = None, a_a_obs = None,
@@ -96,6 +97,7 @@ class MassBalanceIndexSeasonal(GlamosData):
         self._date_smax = date_smax
         self._date_1 = date_1
         self._analysis_method_type = analysis_method_type
+        self._embargo_type = embargo_type
         self._latitude = latitude
         self._longitude = longitude
         self._altitude = altitude
@@ -181,6 +183,13 @@ class MassBalanceIndexSeasonal(GlamosData):
         Gets the analysis method type of index seasonal.
         '''
         return self._analysis_method_type
+
+    @property
+    def embargo_type(self):
+        '''
+        Gets the analysis method type of index seasonal.
+        '''
+        return self._embargo_type
 
     @property
     def latitude(self):

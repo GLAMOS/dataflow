@@ -50,7 +50,7 @@ def insertDatabaseMassbalanceIndexSeasonal(allGlaciers):
                 # The glacier object is still alive and could have mass-balance index daily objects of a
                 # parsing process before. To have a redundancy free insert into the database,
                 # possible mass-balance index daily readings have to be removed.
-                massBalanceIndexSeasonalReader.glacier.massBalanceSeasonalDailys.clear()
+                massBalanceIndexSeasonalReader.glacier.massBalanceIndexSeasonals.clear()
 
                 # Start of parsing the given data file.
                 massBalanceIndexSeasonalReader.parse()

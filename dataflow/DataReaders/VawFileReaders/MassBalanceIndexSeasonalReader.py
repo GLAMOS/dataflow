@@ -86,6 +86,11 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
         self._headerLineContent[self.__METHOD_TYPE] = "Method type"
         self._headerLineContent[self.__STAKE_NAME] = "Stake name"
 
+        try:
+            super().__init__(fullFileName, glaciers)
+        except GlacierNotFoundError as glacierNotFoundError:
+            raise glacierNotFoundError
+
         # Setting the specialised reader parameters of the header.
         print(self._headerLineContent)
         self._methodType = str(self._headerLineContent[self.__METHOD_TYPE])
@@ -102,10 +107,7 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
             raise InvalidDataFileError(message)
         # TODO: Additional test for file check to be included. If possible, implementation in a generic way in super-class VawFileReader.
 
-        try:
-            super().__init__(fullFileName, glaciers)
-        except GlacierNotFoundError as glacierNotFoundError:
-            raise glacierNotFoundError
+
 
     def __str__(self):
         pass
@@ -171,15 +173,15 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
 
         data[self.__FILE_COLUMN_EVALUATION_METHOD] = int(dataLineParts[self.__FILE_COLUMN_EVALUATION_METHOD].strip())
 
-        data[self.__FILE_COLUMN_DATE_0] = datetime.date(dataLineParts[self.__FILE_COLUMN_DATE_0].strip())
+        data[self.__FILE_COLUMN_DATE_0] = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE_0].strip())[0]
         date_0_year = int(data[self.__FILE_COLUMN_DATE_0].year)
-        data[self.__FILE_COLUMN_DATE_FMEAS] = datetime.date(date_0_year,dataLineParts[self.__FILE_COLUMN_DATE_FMEAS].strip())
-        data[self.__FILE_COLUMN_DATE_FMIN] = datetime.date(date_0_year,dataLineParts[self.__FILE_COLUMN_DATE_FMIN].strip())
+        data[self.__FILE_COLUMN_DATE_FMEAS] = self._reformateDateMmDd(dataLineParts[self.__FILE_COLUMN_DATE_FMEAS].strip(),date_0_year)[0]
+        data[self.__FILE_COLUMN_DATE_FMIN] = self._reformateDateMmDd(dataLineParts[self.__FILE_COLUMN_DATE_FMIN].strip(),date_0_year)[0]
 
-        data[self.__FILE_COLUMN_DATE_1] = datetime.date(dataLineParts[self.__FILE_COLUMN_DATE_1].strip())
+        data[self.__FILE_COLUMN_DATE_1] = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE_1].strip())[0]
         date_1_year = int(data[self.__FILE_COLUMN_DATE_1].year)
-        data[self.__FILE_COLUMN_DATE_FMEAS] = datetime.date(date_1_year,dataLineParts[self.__FILE_COLUMN_DATE_FMEAS].strip())
-        data[self.__FILE_COLUMN_DATE_SMAX] = datetime.date(date_1_year,dataLineParts[self.__FILE_COLUMN_DATE_SMAX].strip())
+        data[self.__FILE_COLUMN_DATE_SMEAS] = self._reformateDateMmDd(dataLineParts[self.__FILE_COLUMN_DATE_SMEAS].strip(),date_1_year)[0]
+        data[self.__FILE_COLUMN_DATE_SMAX] = self._reformateDateMmDd(dataLineParts[self.__FILE_COLUMN_DATE_SMAX].strip(),date_1_year)[0]
 
         data[self.__FILE_COLUMN_LATITUDE] = float(dataLineParts[self.__FILE_COLUMN_LATITUDE].strip())
         data[self.__FILE_COLUMN_LONGITUDE] = float(dataLineParts[self.__FILE_COLUMN_LONGITUDE].strip())

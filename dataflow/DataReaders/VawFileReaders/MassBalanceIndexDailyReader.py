@@ -75,7 +75,6 @@ class MassBalanceIndexDailyReader(VawFileReader):
         self._headerLineContent[self.__METHOD_TYPE] = "Method type"
         self._headerLineContent[self.__STAKE_NAME] = "Stake name"
 
-
         try:
             super().__init__(fullFileName, glaciers)
         except GlacierNotFoundError as glacierNotFoundError:

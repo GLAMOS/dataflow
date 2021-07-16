@@ -79,7 +79,7 @@ class MassBalanceIndexSeasonalWriter(GlamosDatabaseWriter):
                     print(message)
 
                     # Preparing the INSERT of a not yet inserted record.
-                    insertStatement = "INSERT INTO mass_balance.index_seasonal (pk, fk_glacier, fk_embargo_type, fk_analysis_method_type, name, date_from_annual, date_to_annual, date_from_winter, date_to_winter, date_fall_min, date_spring_max, latitude, longitude, altitude, b_w_meas, b_a_meas, c_w_obs, c_a_obs, a_w_obs, a_a_obs, b_w_fix, b_a_fix, c_w_fix, c_a_fix, a_w_fix, a_a_fix, investigator, reference) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', {8}, {9}, '{10}', '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}', '{18}', '{19}', '{20}', '{21}', '{22}', '{23}', '{24}', '{25}', '{26}', '{27}', '{28}');"
+                    insertStatement = "INSERT INTO mass_balance.index_seasonal (pk, fk_glacier, fk_embargo_type, fk_analysis_method_type, name, date_from_annual, date_to_annual, date_from_winter, date_to_winter, date_fall_min, date_spring_max, latitude, longitude, altitude, b_w_meas, b_a_meas, c_w_obs, c_a_obs, a_w_obs, a_a_obs, b_w_fix, b_a_fix, c_w_fix, c_a_fix, a_w_fix, a_a_fix, investigator, reference) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', {11}, {12}, {13}, '{14}', '{15}', '{16}', '{17}', '{18}', '{19}', '{20}', '{21}', '{22}', '{23}', '{24}', '{25}', '{26}', '{27}');"
 
                     # Handling possible NULL values:
                     # TODO: if Null values possible
@@ -92,7 +92,7 @@ class MassBalanceIndexSeasonalWriter(GlamosDatabaseWriter):
                     insertStatement = insertStatement.format(
                         massbalanceIndexSeasonal.pk,
                         glacier.pk,
-                        '0'. # fk_embargo_type by default 0
+                        massbalanceIndexSeasonal.embargo_type,
                         massbalanceIndexSeasonal.analysis_method_type,
                         massbalanceIndexSeasonal.name,
                         massbalanceIndexSeasonal.date_0,
