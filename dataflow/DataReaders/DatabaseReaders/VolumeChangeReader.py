@@ -44,7 +44,7 @@ class VolumeChangeReader(GlamosDatabaseReader):
         @param glacier: Glacier of which the time series of volume changes has to be retrieved.
         '''
         
-        statement = "SELECT * FROM {0} WHERE fk_glacier = '{1}';".format(self._TABLE_VOLUME_CHANGE, glacier.pk)
+        statement = "SELECT * FROM {0} WHERE pk_glacier = '{1}';".format(self._TABLE_VOLUME_CHANGE, glacier.pk)
         
         results = super().retriveData(statement)
         
