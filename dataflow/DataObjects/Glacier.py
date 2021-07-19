@@ -28,6 +28,7 @@ class Glacier(GlamosData):
         _inventories     Dictionary containing the available inventory data of the glacier.
     '''
 
+    _pkGlims       = None
     _pkVaw         = None
     _pkSgi         = None
     _pkGlims       = None
@@ -39,7 +40,14 @@ class Glacier(GlamosData):
     _massBalancePoints = None
     _volumeChanges = None
     _inventories   = None
-    
+
+    @property
+    def pk(self):
+        '''
+        Get the primary key of the glacier.
+        '''
+        return self._pk
+
     @property
     def pkVaw(self):
         '''
@@ -155,6 +163,7 @@ class Glacier(GlamosData):
         
         super().__init__(pk)
         
+        self._pkGlims = pk
         self._pkVaw   = pkVaw
         self._pkSgi   = pkSgi
         self._name    = name
