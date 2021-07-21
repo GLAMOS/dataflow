@@ -124,7 +124,6 @@ class VolumeChange(GlamosData):
         '''
         
         stringRepresentationTemplate = "Volume change between {0} and {1}: {2} km3"
-        
         return stringRepresentationTemplate.format(
             self.dateFrom, self.dateTo, self.volumeChange)
         

@@ -89,14 +89,14 @@ def parseMassBalance(configuration, glaciers):
     '''
     
     rootDirectoryPath = configuration.get("MassBalance", "rootDirectoryInput")
-    dataDirectoryName = configuration.get("MassBalance", "glacierDirectoryInput")
+    dataDirectoryName = configuration.get("MassBalance", "directoryInput")
     
     dataDirectoryPath = os.path.join(rootDirectoryPath, dataDirectoryName)
        
     if os.path.exists(dataDirectoryPath):
 
         for inputFileName in os.listdir(dataDirectoryPath):
-            
+            print(inputFileName)
             massBalanceReader = None
             
             inputFilePath = os.path.join(dataDirectoryPath, inputFileName)

@@ -41,6 +41,8 @@ def plotVolumeChange(glacier):
         plt.axis(
             [min(volumeChangesObservationsYear), max(volumeChangesObservationsYear),
              min(volumeChangesObservations), max(volumeChangesObservations)])
+        plt.xlabel('year')
+        plt.ylabel('$km^3$')
         plt.title("Mass-balance observations of {0}".format(glacier.name))
         plt.show()
         plt.gcf().clear()
