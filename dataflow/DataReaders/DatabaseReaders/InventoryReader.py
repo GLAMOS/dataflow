@@ -16,7 +16,7 @@ class InventoryReader(GlamosDatabaseReader):
     
     # ---- Members of the class ---
 
-    _TABLE_INVENTORY = "inventory.vw_inventories"
+    _TABLE_INVENTORY = "inventory.vw_inventory"
 
     def __init__(self, accessConfigurationFullFileName):
         '''
@@ -50,10 +50,10 @@ class InventoryReader(GlamosDatabaseReader):
             
     def _recordToObject(self, dbRecord):
         
-        pk          = uuid.UUID(dbRecord[0])
-        acquisition = int(dbRecord[2])
-        sgi_release = int(dbRecord[3])
-        geom_wkt    = dbRecord[4]
+        pk          = uuid.UUID(dbRecord[1])
+        acquisition = int(dbRecord[12])
+        sgi_release = int(dbRecord[13])
+        geom_wkt    = dbRecord[10]
         
         
         return Inventory(pk, sgi_release, geom_wkt, acquisition)

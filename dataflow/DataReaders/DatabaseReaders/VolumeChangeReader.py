@@ -65,19 +65,19 @@ class VolumeChangeReader(GlamosDatabaseReader):
         
         # Converting the PostgreSQL data types into Python data types.
         pk                      = uuid.UUID(dbRecord[0])
-        dateFrom                = dbRecord[2]
-        dateTo                  = dbRecord[3]
-        areaFrom                = float(dbRecord[4])
-        areaTo                  = float(dbRecord[5])
-        heightCaptureMethodFrom = HeightCaptureMethodEnum(int(dbRecord[6]))
+        dateFrom                = dbRecord[11]
+        dateTo                  = dbRecord[12]
+        areaFrom                = float(dbRecord[13])
+        areaTo                  = float(dbRecord[14])
+        heightCaptureMethodFrom = HeightCaptureMethodEnum(int(dbRecord[5]))
         heightCaptureMethodTo   = HeightCaptureMethodEnum(int(dbRecord[7]))
-        analysisMethod          = AnalysisMethodEnum(int(dbRecord[8]))
-        elevationMaximumFrom    = float(dbRecord[9])
-        elevationMinimumFrom    = float(dbRecord[10])
-        elevationMaximumTo      = float(dbRecord[11])
-        elevationMinimumTo      = float(dbRecord[12])
-        volumeChange            = float(dbRecord[13])
-        heightChangeMean        = float(dbRecord[14])
+        analysisMethod          = AnalysisMethodEnum(int(dbRecord[9]))
+        elevationMaximumFrom    = float(dbRecord[15])
+        elevationMinimumFrom    = float(dbRecord[16])
+        elevationMaximumTo      = float(dbRecord[17])
+        elevationMinimumTo      = float(dbRecord[18])
+        volumeChange            = float(dbRecord[19])
+        heightChangeMean        = float(dbRecord[20])
 
         return VolumeChange(
             pk, 

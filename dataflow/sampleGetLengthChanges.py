@@ -18,7 +18,7 @@ from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 from dataflow.DataReaders.DatabaseReaders.LengthChangeReader import LengthChangeReader
 
 # Private configuration file for the database access.
-privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.private.cfg"
+privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.gldiro.cfg"
 
 # Getting the database readers ready.
 glacierReader = GlacierReader(privateDatabaseAccessConfiguration)

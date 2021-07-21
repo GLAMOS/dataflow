@@ -24,9 +24,9 @@ class MassBalanceReader(GlamosDatabaseReader):
     _TABLE_ELEVATION_DISTRIBUTION   string   Absolute name of the table or view to retrieve the mass-balance elevation buckets data from (<schema>.<table | view>).
     '''
 
-    _TABLE_MASS_BALANCE            = "mass_balance.vw_mass_balance"
+    _TABLE_MASS_BALANCE            = "mass_balance.glacier_seasonal"
     
-    _TABLE_ELEVATION_DISTRIBUTION  = "mass_balance.vw_elevation_distribution"
+    _TABLE_ELEVATION_DISTRIBUTION  = "mass_balance.elevation_distribution"
 
     def __init__(self, accessConfigurationFullFileName):
         '''
@@ -58,7 +58,7 @@ class MassBalanceReader(GlamosDatabaseReader):
                 # OR-mapping of mass-balance database-record to mass-balance object.
                 massbalance = self._recordToObject(result)
                 
-                statementElevationBands = "SELECT * FROM {0} WHERE fk_mass_balance = '{1}';".format(self._TABLE_ELEVATION_DISTRIBUTION, massbalance.pk)
+                statementElevationBands = "SELECT * FROM {0} WHERE fk_glacier_seasonal = '{1}';".format(self._TABLE_ELEVATION_DISTRIBUTION, massbalance.pk)
                 resultElevationBands = super().retriveData(statementElevationBands)
                 
                 if resultElevationBands != None:

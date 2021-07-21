@@ -20,7 +20,7 @@ from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 
 # Private configuration file for the database access.
 
-privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.private.cfg"
+privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.gladmin.cfg"
 
 # Getting the database reader ready.
 glacierReader = GlacierReader(privateDatabaseAccessConfiguration)
@@ -52,9 +52,9 @@ def printAletschGlacier():
     Will print the Aletsch glacier stored in the database.
     '''
     
-    aletsch = glacierReader.getGlacierBySgi('B36/26')
+    aletsch = glacierReader.getGlacierBySgi('B36-26')
     
-    print(aletsch)
+    print('B36-26 -->' + str(aletsch))
     
     # Output:
     # 805d642e-4ec8-11e8-b774-985fd331b2ee, 5, aletsch
