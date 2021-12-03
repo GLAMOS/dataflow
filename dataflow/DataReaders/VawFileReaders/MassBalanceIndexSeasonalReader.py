@@ -98,7 +98,7 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
 
         # Check if the given file is a correct index seasonal mass balance file.
         isMassBalanceIndexSeasonalFile = False
-        searchResult = re.search(config.get("MassBalanceIndexSeasonal", "indexDailyPatternFilename"), fullFileName)
+        searchResult = re.search(config.get("MassBalanceIndexSeasonal", "indexSeasonalPatternFilename"), fullFileName)
         if searchResult != None:
             isMassBalanceIndexSeasonalFile = True
 

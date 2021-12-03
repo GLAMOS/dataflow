@@ -29,7 +29,7 @@ def insertDatabaseMassbalanceIndexDaily(allGlaciers):
     '''
 
     rootDirectoryPath = config.get("MassBalanceIndexDaily", "rootDirectoryInput")
-    dataDirectoryName = config.get("MassBalanceIndexDaily", "directoryInput")
+    dataDirectoryName = config.get("MassBalanceIndexDaily", "indexDailyDirectoryInput")
 
     dataDirectoryPath = os.path.join(rootDirectoryPath, dataDirectoryName)
 

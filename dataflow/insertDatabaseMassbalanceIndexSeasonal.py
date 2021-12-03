@@ -29,11 +29,11 @@ def insertDatabaseMassbalanceIndexSeasonal(allGlaciers):
     '''
 
     rootDirectoryPath = config.get("MassBalanceIndexSeasonal", "rootDirectoryInput")
-    dataDirectoryName = config.get("MassBalanceIndexSeasonal", "directoryInput")
+    dataDirectoryName = config.get("MassBalanceIndexSeasonal", "indexSeasonalDirectoryInput")
 
     dataDirectoryPath = os.path.join(rootDirectoryPath, dataDirectoryName)
     if os.path.exists(dataDirectoryPath):
-        # Loop over all mass-balance index daily data files in the directory.
+        # Loop over all mass-balance index seasonal data files in the directory.
         for inputFileName in os.listdir(dataDirectoryPath):
 
             inputFilePath = os.path.join(dataDirectoryPath, inputFileName)
@@ -47,9 +47,9 @@ def insertDatabaseMassbalanceIndexSeasonal(allGlaciers):
                 massBalanceIndexSeasonalReader = MassBalanceIndexSeasonalReader(config, inputFilePath, allGlaciers)
 
                 # Important note:
-                # The glacier object is still alive and could have mass-balance index daily objects of a
+                # The glacier object is still alive and could have mass-balance index seasonal objects of a
                 # parsing process before. To have a redundancy free insert into the database,
-                # possible mass-balance index daily readings have to be removed.
+                # possible mass-balance index seasonal readings have to be removed.
                 massBalanceIndexSeasonalReader.glacier.massBalanceIndexSeasonals.clear()
 
                 # Start of parsing the given data file.
