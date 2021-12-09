@@ -29,8 +29,8 @@ def insertDatabaseMassbalancePoint(allGlaciers):
     @param allGlaciers: Dictionary of all glaciers stored in the database. Key: SGI-ID; Value: Glacier
     '''
 
-    rootDirectoryPath = config.get("MassbalancePoint", "rootDirectoryInput")
-    dataDirectoryName = config.get("MassbalancePoint", "directoryInput")
+    rootDirectoryPath = config.get("MassBalancePoint", "rootDirectoryInput")
+    dataDirectoryName = config.get("MassBalancePoint", "pointDirectoryInput")
 
     dataDirectoryPath = os.path.join(rootDirectoryPath, dataDirectoryName)
 
