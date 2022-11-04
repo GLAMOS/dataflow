@@ -45,7 +45,7 @@ def printAllGlaciers():
         # C15 /01 -> 8243b05e-4ec8-11e8-897c-985fd331b2ee, 155, sassonero
         # B53 /07 -> 80077c00-4ec8-11e8-a5bc-985fd331b2ee, 156, hohbalm
         # ...
-        
+    print(len(allGlaciers))
 
 def printAletschGlacier():
     '''
@@ -60,7 +60,19 @@ def printAletschGlacier():
     # 805d642e-4ec8-11e8-b774-985fd331b2ee, 5, aletsch
 
 
+def printVorabGlacier():
+    '''
+    Will print the Vorab glacier stored in the database.
+    '''
+
+    vorab = glacierReader.getGlacierBySgi('A14p-01')
+
+    print('A14p-01 -->' + str(vorab))
+
+    # Output:
+    # 805d642e-4ec8-11e8-b774-985fd331b2ee, 5, aletsch
 if __name__ == '__main__':
 
     printAllGlaciers()
     printAletschGlacier()
+    printVorabGlacier()

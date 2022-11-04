@@ -78,7 +78,7 @@ class MassBalancePointWriter(GlamosDatabaseWriter):
                 else:
                     message = "The record {0} is not yet stored in the database. Insert will be done ...".format(
                         str(massbalancePoint))
-                    #print(message)
+                    print(message)
 
                     # Preparing the INSERT of a not yet inserted record.
                     insertStatement = "INSERT INTO mass_balance.point (pk, fk_glacier, name, fk_observation_type, date_from, time_from, date_to, time_to, fk_date_quality, period, latitude, longitude, altitude, fk_position_quality, massbalance_raw, density, fk_density_quality, massbalance_we, fk_measurement_quality, fk_measurement_type, massbalance_error, reading_error, density_error, source) VALUES ('{0}', '{1}', '{2}', {3}, '{4}', '{5}', '{6}', '{7}', {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, '{23}');"
@@ -98,12 +98,12 @@ class MassBalancePointWriter(GlamosDatabaseWriter):
                         massbalancePoint.observationType,
                         massbalancePoint.dateFrom, massbalancePoint.timeFrom,
                         massbalancePoint.dateTo, massbalancePoint.timeTo,
-                        massbalancePoint.dateQuality,
+                        massbalancePoint.dateAccuracy,
                         massbalancePoint.period,
                         massbalancePoint.latitude, massbalancePoint.longitude, massbalancePoint.altitude,
-                        massbalancePoint.positionQuality,
+                        massbalancePoint.positionAccuracy,
                         massbalancePoint.massbalance_raw,
-                        massbalancePoint.density, massbalancePoint.densityQuality,
+                        massbalancePoint.density, massbalancePoint.densityAccuracy,
                         massbalancePoint.massbalance_we,
                         massbalancePoint.measurement_quality, massbalancePoint.measurement_type,
                         massbalancePoint.massbalance_error, massbalancePoint.reading_error, massbalancePoint.density_error,

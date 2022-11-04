@@ -314,7 +314,7 @@ class GlacierReader(GlamosDatabaseReader):
             
         pkSgi = dbRecord[5]
         name = dbRecord[6]
-            
+
         return Glacier(pk, pkVaw, pkSgi, name)
         
     def _verticesToWktPolygon(self, polygonVertices):
