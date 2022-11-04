@@ -16,6 +16,8 @@ class LengthChange(GlamosData):
         _dateTo:    End date of the measurement.
         _dateToQuality:    Indicator if the end date is known or estimated.
         _measuremenType: Indicator if the measurement is done by field work, reconstructed or unknown.
+        _measuremenMethod: Indicator of the method that was used
+        _measuremenCondition: Indicator of the condition during the measurement
         _variationQuantitative: Indicator if the glacier was retreating, stable or advancing.
         _variationQuantitativeAccuracy: Accuracy of the data.
         _elevationMin: Minimal elevation above sea level of the glacier tongue.
@@ -28,6 +30,8 @@ class LengthChange(GlamosData):
     _dateTo = None
     _dateToQuality = None
     _measurementType = None
+    _measurementMethod = None
+    _measurementCondition = None
     _variationQuantitative = None #TODO: Redundant value based on VAW ASCII file. Can be eliminated.
     _variationQuantitativeAccuracy = None
     _elevationMin = None
@@ -68,6 +72,20 @@ class LengthChange(GlamosData):
         Gets the type of the measurement.
         '''
         return self._measurementType
+
+    @property
+    def measurementMethod(self):
+        '''
+        Gets the method of the measurement.
+        '''
+        return self._measurementMethod
+
+    @property
+    def measurementCondition(self):
+        '''
+        Gets the condition of the measurement.
+        '''
+        return self._measurementCondition
     
     @property
     def variationQuantitative(self):
@@ -110,8 +128,10 @@ class LengthChange(GlamosData):
                  pk = None, 
                  dateFrom = None, dateFromQuality = None, 
                  dateTo = None, dateToQuality = None, 
-                 measurementType = None, 
-                 variationQuantitative = None, variationQuantitativeAccuracy = None, 
+                 measurementType = None,
+                 measurementMethod=None,
+                 measurementCondition=None,
+                 variationQuantitative = None, variationQuantitativeAccuracy = None,
                  elevationMin = None, 
                  observer = None,
                  remarks = None):
@@ -133,6 +153,12 @@ class LengthChange(GlamosData):
         
         @type _measuremenType: string
         @param _measuremenType: Indicator if the measurement is done by field work, reconstructed or unknown.
+
+        @type _measuremenMethod: string
+        @param _measuremenMethod: Indicator if the method is used in fieldwork
+
+        @type _measuremenCondition: string
+        @param _measuremenCondition: Indicator if the condition that was during the field work, reconstructed or unknown.
         
         @type _variationQuantitative: string
         @param _variationQuantitative: Indicator if the glacier was retreating, stable or advancing.
@@ -157,6 +183,8 @@ class LengthChange(GlamosData):
         self._dateTo                        = dateTo
         self._dateToQuality                 = dateToQuality #TODO: Quality based on own object or enumeration based on database lookup table.
         self._measurementType               = measurementType #TODO: Type based on own object or enumeration based on database lookup table.
+        self._measurementMethod             = measurementMethod  # TODO: Type based on own object or enumeration based on database lookup table.
+        self._measurementCondition          = measurementCondition  # TODO: Type based on own object or enumeration based on database lookup table.
         self._variationQuantitative         = variationQuantitative
         self._variationQuantitativeAccuracy = variationQuantitativeAccuracy #TODO: Accuracy based on own object or enumeration based on database lookup table.
         self._elevationMin                  = elevationMin

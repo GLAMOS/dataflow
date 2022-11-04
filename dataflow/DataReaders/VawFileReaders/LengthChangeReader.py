@@ -16,13 +16,14 @@ class LengthChangeReader(VawFileReader):
     #  Length Change; Allalin; 11; 6.50
     #  surv.date; m-code; ref.date; lc; clc; h_min; observer
     #  dt:ddmmyyyy; ; dt:ddmmyyyy; (m); (m); (m asl);
+    #  © VAW / ETH Zürich; 2022; doi:10.18750/lengthchange.2021.r2021; www.glamos.ch
     ---
     
     Attributes:
         - ___NUMBER_HEADER_LINES    Number of header lines used in the length change file.
     '''
 
-    __NUMBER_HEADER_LINES = 3
+    __NUMBER_HEADER_LINES = 4
 
     def __init__(self, config, fullFileName, glaciers):
         '''
@@ -75,10 +76,10 @@ class LengthChangeReader(VawFileReader):
                         if data[4] == "m" or data[4] == "r" or data[4] == "o":
                             
                             # Dealing with possible None values of the data:
-                            observer = data[7].strip()
+                            observer = data[9].strip()
                             if len(observer) == 0:
                                 observer = None
-                            elevationMin = data[6]
+                            elevationMin = data[8]
                             if len(str(elevationMin)) == 0:
                                 elevationMin = None
                             
@@ -90,8 +91,8 @@ class LengthChangeReader(VawFileReader):
                                         None, 
                                         data[0], data[1], 
                                         data[2], data[3],
-                                        data[4], 
-                                        data[5], "",
+                                        data[4], data[5], data[6],
+                                        data[7], "",
                                         elevationMin, 
                                         observer,
                                         remarks)
@@ -122,18 +123,20 @@ class LengthChangeReader(VawFileReader):
         '''
     
         dateToReformated   = self._reformateDate(dataLine[:10])
-        dateFromReformated = self._reformateDate(dataLine[16:26])
+        dateFromReformated = self._reformateDate(dataLine[18:28])
         dateTo             = dateToReformated[0]
         dateToQuality      = dateToReformated[1]
         dateFrom           = dateFromReformated[0]
         dateFromQuality    = dateFromReformated[1]
     
         measurementType = dataLine[12:13]
+        measurementMethod = dataLine[13:14]
+        measurementCondition = dataLine[14:15]
     
-        variationQuantitative = float(dataLine[26:37].strip())
-    
+        variationQuantitative = float(dataLine[28:39].strip())
+
         elevationMin     = ""
-        elevationMinTemp = dataLine[42:54].strip()
+        elevationMinTemp = dataLine[44:56].strip()
         if elevationMinTemp != "NaN":
             try:
                 elevationMin = float(elevationMinTemp)
@@ -142,7 +145,8 @@ class LengthChangeReader(VawFileReader):
     
         observer = ""
         observerTemp = dataLine[54:].strip()
+
         if observerTemp != "-":
             observer = observerTemp
-    
-        return [dateFrom, dateFromQuality, dateTo, dateToQuality, measurementType, variationQuantitative, elevationMin, observer]
+
+        return [dateFrom, dateFromQuality, dateTo, dateToQuality, measurementType, measurementMethod, measurementCondition, variationQuantitative, elevationMin, observer]

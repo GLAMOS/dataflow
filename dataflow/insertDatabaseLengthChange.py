@@ -96,7 +96,7 @@ def insertDatabaseLengthChange(allGlaciers):
                 
                 
     else:
-        raise Exception("Data directory " + dataDirectoryPath + " existing")
+        raise Exception("Data directory " + dataDirectoryPath + " not existing")
 
 if __name__ == '__main__':
 

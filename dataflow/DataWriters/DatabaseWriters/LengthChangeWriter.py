@@ -72,7 +72,7 @@ class LengthChangeWriter(GlamosDatabaseWriter):
                     print(message)
                     
                     # Preparing the INSERT of a not yet inserted record.
-                    insertStatement = "INSERT INTO length_change.length_change_data (pk, fk_glacier, date_from, date_from_quality, date_to, date_to_quality, fk_measurement_type, variation_quantitative, variation_quantitative_accuracy, elevation_min, observer, remarks, fk_data_embargo_type) VALUES ('{0}', {1}, '{2}', {3}, '{4}', {5}, '{6}', {7}, {8}, {9}, {10}, {11}, {12});"
+                    insertStatement = "INSERT INTO length_change.length_change_data (pk, fk_glacier, date_from, date_from_quality, date_to, date_to_quality, fk_measurement_type, variation_quantitative, variation_quantitative_accuracy, elevation_min, observer, remarks, fk_data_embargo_type, fk_measurement_method, fk_measurement_condition) VALUES ('{0}', {1}, '{2}', {3}, '{4}', {5}, '{6}', '{7}', {8}, {9}, {10}, {11}, {12}, '{13}', '{14}');"
                 
                     # Handling possible NULL values:
                     elevationMin = 'NULL'
@@ -105,8 +105,11 @@ class LengthChangeWriter(GlamosDatabaseWriter):
                         elevationMin,
                         observer,
                         remarks,
-                        dataEmbargoType)
-                    
+                        dataEmbargoType,
+                        lengthChange.measurementMethod,
+                        lengthChange.measurementCondition)
+                    print(lengthChange.variationQuantitative)
+                    print(insertStatement)
                     self._writeData(insertStatement)
                     self._connection.commit()
                 
