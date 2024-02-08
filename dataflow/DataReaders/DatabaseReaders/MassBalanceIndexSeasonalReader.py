@@ -6,7 +6,7 @@ Created on 19.07.2021
 
 from dataflow.DataReaders.DatabaseReaders.GlamosDatabaseReader import GlamosDatabaseReader
 from dataflow.DataObjects.Glacier import Glacier
-from dataflow.DataObjects.MassBalanceIndexSeasonal import MassBalanceIndexSeasonal
+from dataflow.DataObjects.MassBalanceIndexTimeSeasonal import MassBalanceIndexSeasonal
 from dataflow.DataObjects.Enumerations.DateEnumerations import DateQualityTypeEnum
 
 import uuid
