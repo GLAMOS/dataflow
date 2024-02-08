@@ -22,8 +22,8 @@ class Glacier(GlamosData):
         _name            Common name of the glacier.
         _lengthChanges   Dictionary containing the entire time series of type DataObjects.LengthChange.LengthChange objects
         _massBalance     Dictionary containing the entire time series of type DataObjects.MassBalance.MassBalance objects
-        _massBalanceIndexSeasonals  ...tbd
-        _massBalanceIndexDailys     ...tbd
+        _massBalanceIndexTimeSeasonals  ...tbd
+        _massBalanceIndexTimeDailys     ...tbd
         _massBalancePoints          ...tbd
         _massBalanceSwissWide       ...tbd
         _volumeChanges   Dictionary containing the entire time series of type DataObjects.VolumeChange.VolumeChange objects
@@ -37,8 +37,10 @@ class Glacier(GlamosData):
     _name          = None
     _lengthChanges = None
     _massBalances  = None
-    _massBalanceIndexSeasonals = None
-    _massBalanceIndexDailys = None
+    _massBalanceIndexTimeSeasonals = None
+    _massBalanceIndexTimeDailys = None
+    _massBalanceIndexSpatialSeasonals = None
+    _massBalanceIndexSpatialDailys = None
     _massBalancePoints = None
     _massBalanceSwissWide = None
     _volumeChanges = None
@@ -107,18 +109,32 @@ class Glacier(GlamosData):
         return MassBalance.createDataFrame(self._massBalances)
 
     @property
-    def massBalanceIndexSeasonals(self):
+    def massBalanceIndexTimeSeasonals(self):
         '''
         Get the entire mass balance point time series of the glacier.
         '''
-        return self._massBalanceIndexSeasonals
+        return self._massBalanceIndexTimeSeasonals
 
     @property
-    def massBalanceIndexDailys(self):
+    def massBalanceIndexTimeDailys(self):
         '''
         Get the entire mass balance point time series of the glacier.
         '''
-        return self._massBalanceIndexDailys
+        return self._massBalanceIndexTimeDailys
+
+    @property
+    def massBalanceIndexSpatialSeasonals(self):
+        '''
+        Get the entire mass balance point spatial series of the glacier.
+        '''
+        return self._massBalanceIndexSpatialSeasonals
+
+    @property
+    def massBalanceIndexSpatialDailys(self):
+        '''
+        Get the entire mass balance point spatial series of the glacier.
+        '''
+        return self._massBalanceIndexSpatialDailys
 
     @property
     def massBalancePoints(self):
@@ -187,8 +203,10 @@ class Glacier(GlamosData):
         
         self._lengthChanges = dict()
         self._massBalances  = dict()
-        self._massBalanceIndexSeasonals = dict()
-        self._massBalanceIndexDailys = dict()
+        self._massBalanceIndexTimeSeasonals = dict()
+        self._massBalanceIndexTimeDailys = dict()
+        self._massBalanceIndexSpatialSeasonals = dict()
+        self._massBalanceIndexSpatialDailys = dict()
         self._massBalancePoints = dict()
         self._massBalanceSwissWide = dict()
         self._volumeChanges = dict()
@@ -266,27 +284,49 @@ class Glacier(GlamosData):
         #TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalance class.
         self._massBalances[massBalance.dateFromAnnual] = massBalance
 
-    def addMassBalanceIndexSeasonal(self, massBalanceIndexSeasonal):
+    def addMassBalanceIndexTimeSeasonal(self, massBalanceIndexTimeSeasonal):
         '''
         Adding an individual massbalance index seasonal. Containing the change between two years.
 
-        @type massBalanceIndexSeasonal: DataObjects.MassBalanceIndexSeasonal.MassBalanceIndexSeasonal
-        @param massBalanceIndexSeasonal: Mass Balance on a seasonal index.
+        @type massBalanceIndexTimeSeasonal: DataObjects.MassBalanceIndexTimeSeasonal.MassBalanceIndexTimeSeasonal
+        @param massBalanceIndexTimeSeasonal: Mass Balance on a seasonal index.
         '''
 
         # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalanceIndexSeasonal class.
-        self._massBalanceIndexSeasonals[massBalanceIndexSeasonal.pk] = massBalanceIndexSeasonal
+        self._massBalanceIndexTimeSeasonals[massBalanceIndexTimeSeasonal.pk] = massBalanceIndexTimeSeasonal
 
-    def addMassBalanceIndexDaily(self, massBalanceIndexDaily):
+    def addMassBalanceIndexTimeDaily(self, massBalanceIndexTimeDaily):
         '''
         Adding an individual massbalance index daily. Containing the modelled balance, accumulation and ablation on a specific date.
 
-        @type massBalanceIndexDaily: DataObjects.MassBalanceIndexDaily.MassBalanceIndexDaily
-        @param massBalanceIndexDaily: Mass Balance on a daily index.
+        @type massBalanceIndexTimeDaily: DataObjects.MassBalanceIndexTimeDaily.MassBalanceIndexTimeDaily
+        @param massBalanceIndexTimeDaily: Mass Balance on a daily index.
         '''
 
         # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalanceIndexDaily class.
-        self._massBalanceIndexDailys[massBalanceIndexDaily.pk] = massBalanceIndexDaily
+        self._massBalanceIndexTimeDailys[massBalanceIndexTimeDaily.pk] = massBalanceIndexTimeDaily
+
+    def addMassBalanceIndexSpatialSeasonal(self, massBalanceIndexSpatialSeasonal):
+        '''
+        Adding an individual massbalance index seasonal. Containing the change between two years.
+
+        @type massBalanceIndexSpatialSeasonal: DataObjects.MassBalanceIndexSpatialSeasonal.MassBalanceIndexSpatialSeasonal
+        @param massBalanceIndexSpatialSeasonal: Mass Balance on a seasonal index.
+        '''
+
+        # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalanceIndexSeasonal class.
+        self._massBalanceIndexSpatialSeasonals[massBalanceIndexSpatialSeasonal.pk] = massBalanceIndexSpatialSeasonal
+
+    def addMassBalanceIndexSpatialDaily(self, massBalanceIndexSpatialDaily):
+        '''
+        Adding an individual massbalance index daily. Containing the modelled balance, accumulation and ablation on a specific date.
+
+        @type massBalanceIndexSpatialDaily: DataObjects.MassBalanceIndexSpatialDaily.MassBalanceIndexSpatialDaily
+        @param massBalanceIndexSpatialDaily: Mass Balance on a daily index.
+        '''
+
+        # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalanceIndexDaily class.
+        self._massBalanceIndexSpatialDailys[massBalanceIndexSpatialDaily.pk] = massBalanceIndexSpatialDaily
 
     def addMassBalancePoint(self, massBalancePoint):
         '''
