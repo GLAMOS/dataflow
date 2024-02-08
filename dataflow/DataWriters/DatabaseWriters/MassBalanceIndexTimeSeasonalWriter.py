@@ -6,7 +6,7 @@ Created on 14.07.2021
 
 from dataflow.DataWriters.DatabaseWriters.GlamosDatabaseWriter import GlamosDatabaseWriter
 from dataflow.DataObjects.Glacier import Glacier
-from dataflow.DataObjects.MassBalanceIndexSeasonal import MassBalanceIndexSeasonal
+from dataflow.DataObjects.MassBalanceIndexTimeSeasonal import MassBalanceIndexSeasonal
 import datetime
 
 class MassBalanceIndexSeasonalWriter(GlamosDatabaseWriter):

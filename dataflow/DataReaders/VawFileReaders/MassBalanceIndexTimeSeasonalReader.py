@@ -9,7 +9,7 @@ import datetime
 
 from dataflow.DataReaders.VawFileReaders.VawFileReader import VawFileReader
 from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-from dataflow.DataObjects.MassBalanceIndexSeasonal import MassBalanceIndexSeasonal
+from dataflow.DataObjects.MassBalanceIndexTimeSeasonal import MassBalanceIndexSeasonal
 from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
 
 class MassBalanceIndexSeasonalReader(VawFileReader):

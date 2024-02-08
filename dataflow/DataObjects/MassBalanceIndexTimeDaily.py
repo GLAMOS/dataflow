@@ -7,7 +7,7 @@ Created on 22.03.2021
 from dataflow.DataObjects.Glamos import GlamosData
 
 
-class MassBalanceIndexDaily(GlamosData):
+class MassBalanceIndexTimeDaily(GlamosData):
     '''
     Daily Index Mass Balance
     _name               string

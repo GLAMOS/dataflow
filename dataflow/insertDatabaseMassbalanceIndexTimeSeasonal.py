@@ -11,8 +11,8 @@ import os
 
 from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-from dataflow.DataWriters.DatabaseWriters.MassBalanceIndexSeasonalWriter import MassBalanceIndexSeasonalWriter
-from dataflow.DataReaders.VawFileReaders.MassBalanceIndexSeasonalReader import MassBalanceIndexSeasonalReader
+from dataflow.DataWriters.DatabaseWriters.MassBalanceIndexTimeSeasonalWriter import MassBalanceIndexSeasonalWriter
+from dataflow.DataReaders.VawFileReaders.MassBalanceIndexTimeSeasonalReader import MassBalanceIndexSeasonalReader
 from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
 
 config = configparser.ConfigParser()

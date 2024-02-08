@@ -9,10 +9,10 @@ import datetime
 
 from dataflow.DataReaders.VawFileReaders.VawFileReader import VawFileReader
 from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-from dataflow.DataObjects.MassBalanceIndexDaily import MassBalanceIndexDaily
+from dataflow.DataObjects.MassBalanceIndexTimeDaily import MassBalanceIndexTimeDaily
 from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
 
-class MassBalanceIndexDailyReader(VawFileReader):
+class MassBalanceIndexTimeDailyReader(VawFileReader):
     '''
     Reader-class for parsing the VAW-ASCII-based mass balance index daily (_cum) data files.
 
@@ -47,7 +47,7 @@ class MassBalanceIndexDailyReader(VawFileReader):
     __FILE_COLUMN_TEMP = 9
     __FILE_COLUMN_PRECIP = 10
 
-    _massBalanceIndexDailyCounter = 0
+    _massBalanceIndexTimeDailyCounter = 0
 
     def __init__(self, config, fullFileName, glaciers):
         '''
@@ -86,13 +86,13 @@ class MassBalanceIndexDailyReader(VawFileReader):
         self._stakeName = str(self._headerLineContent[self.__STAKE_NAME])
 
         # Check if the given file is a correct index daily mass balance file.
-        isMassBalanceIndexDailyFile = False
-        searchResult = re.search(config.get("MassBalanceIndexDaily", "indexDailyPatternFilename"), fullFileName)
+        isMassBalanceIndexTimeDailyFile = False
+        searchResult = re.search(config.get("MassBalanceIndexTimeDaily", "indexTimeDailyPatternFilename"), fullFileName)
         if searchResult != None:
             isMassBalanceIndexDailyFile = True
 
-        if searchResult == None and isMassBalanceIndexDailyFile == False:
-            message = "The file {0} is not a index daily mass balance data file.".format(fullFileName)
+        if searchResult == None and isMassBalanceIndexTimeDailyFile == False:
+            message = "The file {0} is not a index time daily mass balance data file.".format(fullFileName)
             raise InvalidDataFileError(message)
         # TODO: Additional test for file check to be included. If possible, implementation in a generic way in super-class VawFileReader.
 
@@ -118,15 +118,15 @@ class MassBalanceIndexDailyReader(VawFileReader):
                     if lineCounter > self.__NUMBER_HEADER_LINES:
                         data = self._getData(line)
 
-                        massBalanceIndexDaily = MassBalanceIndexDaily(
+                        massBalanceIndexTimeDaily = MassBalanceIndexTimeDaily(
                             name=self._stakeName,
                             date=datetime.date(data[self.__FILE_COLUMN_YEAR], data[self.__FILE_COLUMN_MONTH], data[self.__FILE_COLUMN_DAY]),
                             balance=data[self.__FILE_COLUMN_BALANCE], accumulation=data[self.__FILE_COLUMN_ACCUMULATION], melt=data[self.__FILE_COLUMN_MELT],
                             surface_type=data[self.__FILE_COLUMN_SURFACE_TYPE], temp=data[self.__FILE_COLUMN_TEMP], precip_solid=data[self.__FILE_COLUMN_PRECIP],
                             reference=self._dataSource)
 
-                        self._massBalanceIndexDailyCounter += 1
-                        self._glacier.addMassBalanceIndexDaily(massBalanceIndexDaily)
+                        self._massBalanceIndexTimeDailyCounter += 1
+                        self._glacier.addMassBalanceIndexDaily(massBalanceIndexTimeDaily)
 
                 except Exception as e:
 

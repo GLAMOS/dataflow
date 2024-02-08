@@ -6,10 +6,10 @@ Created on 14.07.2021
 
 from dataflow.DataWriters.DatabaseWriters.GlamosDatabaseWriter import GlamosDatabaseWriter
 from dataflow.DataObjects.Glacier import Glacier
-from dataflow.DataObjects.MassBalanceIndexDaily import MassBalanceIndexDaily
+from dataflow.DataObjects.MassBalanceIndexTimeDaily import MassBalanceIndexTimeDaily
 import datetime
 
-class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
+class MassBalanceIndexTimeDailyWriter(GlamosDatabaseWriter):
     '''
     Database writer for objects of the type mass balance index daily
 
@@ -17,13 +17,13 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
     _MassBalanceIndexDailyCounter int  Counter of mass balance index daily written to the database
     '''
 
-    _MassBalanceIndexDailyCounter = 0
+    _MassBalanceIndexTimeDailyCounter = 0
 
     @property
     def massBalanceIndexDailyWritten(self):
         # TODO: Description
 
-        return self._MassBalanceIndexDailyCounter
+        return self._MassBalanceIndexTimeDailyCounter
 
     def __init__(self, accessConfigurationFullFileName):
         '''
@@ -47,7 +47,7 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
         '''
 
         try:
-            for massbalanceIndexDaily in glacier.massBalanceIndexDailys.values():
+            for massbalanceIndexTimeDaily in glacier.massBalanceIndexTimeDailys.values():
                 # Check if mass balance index daily is already stored in the database.
                 # The statement has to describe a SELECT which returns a unique record based on the definition of the record set.
                 # In case the mass balance data the following factors define a unique data record:
@@ -59,28 +59,28 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
                 checkStatement = "SELECT * FROM {0} WHERE fk_glacier = '{1}' AND name = '{2}' AND " \
                                  "date ='{3}' AND balance = '{4}' AND accumulation = '{5}' AND " \
                                  "melt = '{6}';".format(
-                    'mass_balance.index_daily',
+                    'mass_balance.index_time_daily',
                     glacier.pk,
-                    massbalanceIndexDaily.name,
-                    massbalanceIndexDaily.date,
-                    massbalanceIndexDaily.balance,
-                    massbalanceIndexDaily.accumulation,
-                    massbalanceIndexDaily.melt)
+                    massbalanceIndexTimeDaily.name,
+                    massbalanceIndexTimeDaily.date,
+                    massbalanceIndexTimeDaily.balance,
+                    massbalanceIndexTimeDaily.accumulation,
+                    massbalanceIndexTimeDaily.melt)
 
                 # Record is already in database. No further inserts needed.
                 if super().isRecordStored(checkStatement) == True:
                     message = "The record {0} is already stored in the database. No further inserts.".format(
-                        str(massbalanceIndexDaily))
+                        str(massbalanceIndexTimeDaily))
                     print(message)
 
                 # The record is not yet stored in the database. Insert will be done.
                 else:
                     message = "The record {0} is not yet stored in the database. Insert will be done ...".format(
-                        str(massbalanceIndexDaily))
+                        str(massbalanceIndexTimeDaily))
                     print(message)
 
                     # Preparing the INSERT of a not yet inserted record.
-                    insertStatement = "INSERT INTO mass_balance.index_daily (pk, fk_glacier, name, date, balance, accumulation, melt, fk_surface_type, temperature, precipitation,reference) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', {8}, {9}, '{10}');"
+                    insertStatement = "INSERT INTO mass_balance.index_time_daily (pk, fk_glacier, name, date, balance, accumulation, melt, fk_surface_type, temperature, precipitation,reference) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', {8}, {9}, '{10}');"
 
                     # Handling possible NULL values:
                     # TODO: if Null values possible
@@ -91,22 +91,22 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
 
                     # Getting the final INSERT-statement ready.
                     insertStatement = insertStatement.format(
-                        massbalanceIndexDaily.pk,
+                        massbalanceIndexTimeDaily.pk,
                         glacier.pk,
-                        massbalanceIndexDaily.name,
-                        massbalanceIndexDaily.date,
-                        massbalanceIndexDaily.balance,
-                        massbalanceIndexDaily.accumulation,
-                        massbalanceIndexDaily.melt,
-                        massbalanceIndexDaily.surface_type,
-                        massbalanceIndexDaily.temp,
-                        massbalanceIndexDaily.precip_solid,
-                        massbalanceIndexDaily.reference)
+                        massbalanceIndexTimeDaily.name,
+                        massbalanceIndexTimeDaily.date,
+                        massbalanceIndexTimeDaily.balance,
+                        massbalanceIndexTimeDaily.accumulation,
+                        massbalanceIndexTimeDaily.melt,
+                        massbalanceIndexTimeDaily.surface_type,
+                        massbalanceIndexTimeDaily.temp,
+                        massbalanceIndexTimeDaily.precip_solid,
+                        massbalanceIndexTimeDaily.reference)
 
                     self._writeData(insertStatement)
                     self._connection.commit()
 
-                    self._MassBalanceIndexDailyCounter += 1
+                    self._MassBalanceIndexTimeDailyCounter += 1
         except Exception as exception:
 
             raise exception
@@ -116,5 +116,5 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
             self._connection.close()
 
             print("\n")
-            print("-> A total of {0} mass balance index daily were inserted into the database.".format(
-                self._MassBalanceIndexDailyCounter))
+            print("-> A total of {0} mass balance index time daily were inserted into the database.".format(
+                self._MassBalanceIndexTimeDailyCounter))
