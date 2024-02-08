@@ -15,6 +15,7 @@ class Glacier(GlamosData):
     Class representing a specific glacier of the GLAMOS dataset.
     
     Attributes:
+        _pk              uuid of glacier
         _pkVaw           Integer-based key used by the VAW and the Annual Glacier Report for the glacier identification.
         _pkSgi           Swiss Glacier Inventory key of the glacier.
         _pkGlims         GLIMS key of the glacier.
@@ -24,11 +25,12 @@ class Glacier(GlamosData):
         _massBalanceIndexSeasonals  ...tbd
         _massBalanceIndexDailys     ...tbd
         _massBalancePoints          ...tbd
+        _massBalanceSwissWide       ...tbd
         _volumeChanges   Dictionary containing the entire time series of type DataObjects.VolumeChange.VolumeChange objects
         _inventories     Dictionary containing the available inventory data of the glacier.
     '''
 
-    _pkGlims       = None
+    _pk            = None
     _pkVaw         = None
     _pkSgi         = None
     _pkGlims       = None
@@ -38,6 +40,7 @@ class Glacier(GlamosData):
     _massBalanceIndexSeasonals = None
     _massBalanceIndexDailys = None
     _massBalancePoints = None
+    _massBalanceSwissWide = None
     _volumeChanges = None
     _inventories   = None
 
@@ -62,6 +65,12 @@ class Glacier(GlamosData):
         '''
         return self._pkSgi
 
+    @property
+    def pkGlims(self):
+        '''
+        Get the GLIMS key of the glacier.
+        '''
+        return self._pkGlims
     
     @property
     def name(self):
@@ -117,6 +126,13 @@ class Glacier(GlamosData):
         Get the entire mass balance point time series of the glacier.
         '''
         return self._massBalancePoints
+
+    @property
+    def massBalanceSwissWide(self):
+        '''
+        Get the entire mass balance swiss wide time series of the glacier.
+        '''
+        return self._massBalanceSwissWide
     
     @property
     def latestInventoryGeometry(self):
@@ -163,9 +179,10 @@ class Glacier(GlamosData):
         
         super().__init__(pk)
         
-        self._pkGlims = pk
+        self._pk      = pk
         self._pkVaw   = pkVaw
         self._pkSgi   = pkSgi
+        #self._pkGlims = pkGlims
         self._name    = name
         
         self._lengthChanges = dict()
@@ -173,6 +190,7 @@ class Glacier(GlamosData):
         self._massBalanceIndexSeasonals = dict()
         self._massBalanceIndexDailys = dict()
         self._massBalancePoints = dict()
+        self._massBalanceSwissWide = dict()
         self._volumeChanges = dict()
         
         self._inventories   = dict()
@@ -252,8 +270,8 @@ class Glacier(GlamosData):
         '''
         Adding an individual massbalance index seasonal. Containing the change between two years.
 
-        @type massbalanceIndexSeasonal: DataObjects.MassBalanceIndexSeasonal.MassBalanceIndexSeasonal
-        @param massbalanceIndexSeasonal: Mass Balance on a seasonal index.
+        @type massBalanceIndexSeasonal: DataObjects.MassBalanceIndexSeasonal.MassBalanceIndexSeasonal
+        @param massBalanceIndexSeasonal: Mass Balance on a seasonal index.
         '''
 
         # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalanceIndexSeasonal class.
@@ -263,8 +281,8 @@ class Glacier(GlamosData):
         '''
         Adding an individual massbalance index daily. Containing the modelled balance, accumulation and ablation on a specific date.
 
-        @type massbalanceIndexDaily: DataObjects.MassBalanceIndexDaily.MassBalanceIndexDaily
-        @param massbalanceIndexDaily: Mass Balance on a daily index.
+        @type massBalanceIndexDaily: DataObjects.MassBalanceIndexDaily.MassBalanceIndexDaily
+        @param massBalanceIndexDaily: Mass Balance on a daily index.
         '''
 
         # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalanceIndexDaily class.
@@ -274,12 +292,23 @@ class Glacier(GlamosData):
         '''
         Adding an individual measurement of a massbalance point. Containing the measurement of a specific period.
 
-        @type massbalancePoint: DataObjects.MassBalancePoint.MassBalancePoint
-        @param massbalancePoints: Mass Balance between two specified dates.
+        @type massBalancePoint: DataObjects.MassBalancePoint.MassBalancePoint
+        @param massBalancePoints: Mass Balance between two specified dates.
         '''
 
         # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalancePoint class.
         self._massBalancePoints[massBalancePoint.pk] = massBalancePoint
+
+    def addMassBalanceSwissWide(self, massBalanceSwissWide):
+        '''
+        Adding an individual measurement of a massbalance swiss wide. Containing the measurement of a specific year.
+
+        @type massBalanceSwissWide: DataObjects.MassBalanceSwissWide.MassBalanceSwissWide
+        @param massBalanceSwissWide: Mass Balance Swiss Wide of a specific year
+        '''
+
+        # TODO: Using a different key (e.g. overriding the __eq__ and __ne__ of the MassBalanceSwissWide class.
+        self._massBalanceSwissWide[massBalanceSwissWide.pk] = massBalanceSwissWide
         
     def addVolumeChange(self, volumeChange):
         '''

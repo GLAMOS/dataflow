@@ -1,7 +1,7 @@
 '''
-Created on 27.01.2019
+Created on 1.2.2024
 
-@author: yvo
+@author: elias
 
 Main script to import all VAW length change data files into the GLAMOS database.
 '''
