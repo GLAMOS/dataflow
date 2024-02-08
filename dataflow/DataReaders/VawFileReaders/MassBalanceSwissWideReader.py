@@ -110,7 +110,6 @@ class MassBalanceSwissWideReader():
                                 # Getting an object of type Mass Balance Swiss Wide with the parsed information.
                                 massBalanceSwissWide = MassBalanceSwissWide(
                                     sgi_id, year, area, mb_evo ,vol_evo)
-                                #print(massBalanceSwissWide)
 
                                 massBalanceSwissWideGlacierList.append(massBalanceSwissWide) # currently no use
 
@@ -121,7 +120,5 @@ class MassBalanceSwissWideReader():
                             lineCounter += 1
 
                     print(lineCounter - self._numberHeaderLines, " lines have been parsed")
-                    print(len(massBalanceSwissWideGlacierList))
-                    print(len(massBalanceSwissWideList))
 
         return massBalanceSwissWideList # currently no use

@@ -21,7 +21,6 @@ class MassBalanceSwissWide(GlamosData):
 
 
     _sgi_id=None
-    _fk_glacier = None
     _year=None
     _area = None
     _mb_evolution = None
@@ -33,13 +32,6 @@ class MassBalanceSwissWide(GlamosData):
         Gets the SGI-ID of the values.
         '''
         return self._sgi_id
-
-    @property
-    def fk_glacier(self):
-        '''
-        Gets the SGI-ID of the values.
-        '''
-        return self._fk_glacier
 
     @property
     def year(self):
@@ -71,7 +63,6 @@ class MassBalanceSwissWide(GlamosData):
 
     def __init__(self,
                  sgi_id=None,
-                 fk_glacier=None,
                  year=None,
                  area=None,
                  mb_evolution = None,
@@ -94,7 +85,6 @@ class MassBalanceSwissWide(GlamosData):
         '''
         super().__init__()
         self._sgi_id = sgi_id
-        self._fk_glacier = fk_glacier
         self._year = year
         self._area = area
         self._mb_evolution = mb_evolution
@@ -109,7 +99,6 @@ class MassBalanceSwissWide(GlamosData):
 
         lineToWrite = "Swiss wide extrapolation of glacier {0} in the year {1} -> area: {2} km2, massbalance change: {3} m w.e. and volume change {4} km3".format(
             self._sgi_id,
-            self._fk_glacier,
             self._year,
             self._area,
             self._mb_evolution,

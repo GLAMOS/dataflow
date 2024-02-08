@@ -48,7 +48,7 @@ if os.path.exists(dataDirectoryPath):
 glacierReader = GlacierReader(privateDatabaseAccessConfiguration)
 allGlaciers = glacierReader.getAllGlaciers()
 for glacier in allGlaciers:
-    print(glacier)
+    print(glacier.)
 
 
 
