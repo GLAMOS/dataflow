@@ -6,24 +6,24 @@ Created on 14.07.2021
 
 from dataflow.DataWriters.DatabaseWriters.GlamosDatabaseWriter import GlamosDatabaseWriter
 from dataflow.DataObjects.Glacier import Glacier
-from dataflow.DataObjects.MassBalanceIndexTimeDaily import MassBalanceIndexTimeDaily
+from dataflow.DataObjects.MassBalanceIndexSpatialDaily import MassBalanceIndexSpatialDaily
 import datetime
 
-class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
+class MassBalanceIndexSpatialDailyWriter(GlamosDatabaseWriter):
     '''
-    Database writer for objects of the type mass balance index daily
+    Database writer for objects of the type mass balance index spatial daily
 
     Attributes:
-    _MassBalanceIndexDailyCounter int  Counter of mass balance index daily written to the database
+    _MassBalanceIndexSpatialDailyCounter int  Counter of mass balance index spatial daily written to the database
     '''
 
-    _MassBalanceIndexDailyCounter = 0
+    _MassBalanceIndexSpatialDailyCounter = 0
 
     @property
-    def massBalanceIndexDailyWritten(self):
+    def massBalanceIndexSpatialDailyWritten(self):
         # TODO: Description
 
-        return self._MassBalanceIndexDailyCounter
+        return self._MassBalanceIndexSpatialDailyCounter
 
     def __init__(self, accessConfigurationFullFileName):
         '''
@@ -35,19 +35,19 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
 
         super().__init__(accessConfigurationFullFileName)
 
-    def isMassBalanceIndexDailyStored(self):
+    def isMassBalanceIndexSpatialDailyStored(self):
         pass
 
     def write(self, glacier):
         '''
-        Writes all mass balance index daily data of the given glacier into the database.
+        Writes all mass balance index spatial daily data of the given glacier into the database.
 
         @type glacier: dataflow.DataObjects.Glacier.Glacier
-        @param glacier: Glacier object with massbalance index daily data to be written into the database
+        @param glacier: Glacier object with massbalance index spatial daily data to be written into the database
         '''
 
         try:
-            for massbalanceIndexDaily in glacier.massBalanceIndexTimeDailys.values():
+            for massbalanceIndexSpatialDaily in glacier.massBalanceIndexSpatialDailys.values():
                 # Check if mass balance index daily is already stored in the database.
                 # The statement has to describe a SELECT which returns a unique record based on the definition of the record set.
                 # In case the mass balance data the following factors define a unique data record:
@@ -59,28 +59,28 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
                 checkStatement = "SELECT * FROM {0} WHERE fk_glacier = '{1}' AND name = '{2}' AND " \
                                  "date ='{3}' AND balance = '{4}' AND accumulation = '{5}' AND " \
                                  "melt = '{6}';".format(
-                    'mass_balance.index_daily',
+                    'mass_balance.index_spatial_daily',
                     glacier.pk,
-                    massbalanceIndexDaily.name,
-                    massbalanceIndexDaily.date,
-                    massbalanceIndexDaily.balance,
-                    massbalanceIndexDaily.accumulation,
-                    massbalanceIndexDaily.melt)
+                    massbalanceIndexSpatialDaily.name,
+                    massbalanceIndexSpatialDaily.date,
+                    massbalanceIndexSpatialDaily.balance,
+                    massbalanceIndexSpatialDaily.accumulation,
+                    massbalanceIndexSpatialDaily.melt)
 
                 # Record is already in database. No further inserts needed.
                 if super().isRecordStored(checkStatement) == True:
                     message = "The record {0} is already stored in the database. No further inserts.".format(
-                        str(massbalanceIndexDaily))
+                        str(massbalanceIndexSpatialDaily))
                     print(message)
 
                 # The record is not yet stored in the database. Insert will be done.
                 else:
                     message = "The record {0} is not yet stored in the database. Insert will be done ...".format(
-                        str(massbalanceIndexDaily))
+                        str(massbalanceIndexSpatialDaily))
                     print(message)
 
                     # Preparing the INSERT of a not yet inserted record.
-                    insertStatement = "INSERT INTO mass_balance.index_daily (pk, fk_glacier, name, date, balance, accumulation, melt, fk_surface_type, temperature, precipitation,reference) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', {8}, {9}, '{10}');"
+                    insertStatement = "INSERT INTO mass_balance.index_spatial_daily (pk, fk_glacier, name, date, balance, accumulation, melt, fk_surface_type, temperature, precipitation,reference) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', {8}, {9}, '{10}');"
 
                     # Handling possible NULL values:
                     # TODO: if Null values possible
@@ -91,22 +91,22 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
 
                     # Getting the final INSERT-statement ready.
                     insertStatement = insertStatement.format(
-                        massbalanceIndexDaily.pk,
+                        massbalanceIndexSpatialDaily.pk,
                         glacier.pk,
-                        massbalanceIndexDaily.name,
-                        massbalanceIndexDaily.date,
-                        massbalanceIndexDaily.balance,
-                        massbalanceIndexDaily.accumulation,
-                        massbalanceIndexDaily.melt,
-                        massbalanceIndexDaily.surface_type,
-                        massbalanceIndexDaily.temp,
-                        massbalanceIndexDaily.precip_solid,
-                        massbalanceIndexDaily.reference)
+                        massbalanceIndexSpatialDaily.name,
+                        massbalanceIndexSpatialDaily.date,
+                        massbalanceIndexSpatialDaily.balance,
+                        massbalanceIndexSpatialDaily.accumulation,
+                        massbalanceIndexSpatialDaily.melt,
+                        massbalanceIndexSpatialDaily.surface_type,
+                        massbalanceIndexSpatialDaily.temp,
+                        massbalanceIndexSpatialDaily.precip_solid,
+                        massbalanceIndexSpatialDaily.reference)
 
                     self._writeData(insertStatement)
                     self._connection.commit()
 
-                    self._MassBalanceIndexDailyCounter += 1
+                    self._MassBalanceIndexSpatialDailyCounter += 1
         except Exception as exception:
 
             raise exception
@@ -116,5 +116,5 @@ class MassBalanceIndexDailyWriter(GlamosDatabaseWriter):
             self._connection.close()
 
             print("\n")
-            print("-> A total of {0} mass balance index daily were inserted into the database.".format(
-                self._MassBalanceIndexDailyCounter))
+            print("-> A total of {0} mass balance index spatial daily were inserted into the database.".format(
+                self._MassBalanceIndexSpatialDailyCounter))

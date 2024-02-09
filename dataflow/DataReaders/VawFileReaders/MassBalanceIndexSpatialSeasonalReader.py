@@ -1,5 +1,5 @@
 '''
-Created on 14.07.2021
+Created on 8.2.2024
 
 @author: elias
 '''
@@ -9,56 +9,54 @@ import datetime
 
 from dataflow.DataReaders.VawFileReaders.VawFileReader import VawFileReader
 from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-from dataflow.DataObjects.MassBalanceIndexTimeSeasonal import MassBalanceIndexSeasonal
+from dataflow.DataObjects.MassBalanceIndexSpatialSeasonal import MassBalanceIndexSpatialSeasonal
 from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
 
-class MassBalanceIndexSeasonalReader(VawFileReader):
+class MassBalanceIndexSpatialSeasonalReader(VawFileReader):
     '''
-    Reader-class for parsing the VAW-ASCII-based mass balance index seasonal (_mb) data files.
+    Reader-class for parsing the VAW-ASCII-based mass balance index spatial seasonal (_pointmb) data files.
 
     The header of the files follows the syntax:
     ---
-    # Point mass balance ;  adler  ;  16 ; is ;   200
-    # id; date0;date_fmeas;date_fmin;date_smeas;date_smax;date1; x; y; z; b_w_meas;b_a_meas;c_w_obs;a_w_obs;c_a_obs;a_a_obs;b_w_fix;b_a_fix;c_w_fix;a_w_fix;c_a_fix;a_a_fix
-    # (-); (yyyymmdd);(mmdd);(mmdd);(mmdd);(mmdd);(yyyymmdd); (m); (m); (m asl.); (mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.)
-    # VAW / ETHZ ; 2020.11.20 ; Huss and Bauder, 2008, Annals of Glaciology; www.glamos.ch
+    # Point mass balance ; aletsch ; 5
+    # Fixed-dated annual balance:  1/10 - 30/ 9; fixed-date winter balance:  1/10 - 30/ 4
+    # id;Stake;date0;date_fmeas;date_fmin;date_smeas;date_smax;date1; x; y; z; b_w_meas;b_a_meas;c_w_obs;a_w_obs;c_a_obs;a_a_obs;b_w_fix;b_a_fix;c_w_fix;a_w_fix;c_a_fix;a_a_fix
+    # (-);(-);(yyyymmdd);(mmdd);(mmdd);(mmdd);(mmdd);(yyyymmdd); (m); (m); (m asl.); (mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.);(mm w.e.)
     ...
      ---
     '''
-    # Additional header definition.
-    __METHOD_TYPE = 3
-    __STAKE_NAME = 4
-    _methodType = -1
-    _stakeName = -1
+    # Additional header definition. --> not needed
+
 
     # Number of header lines.
     __NUMBER_HEADER_LINES = 4
 
     # Definition of the columns in the point mass balance ASCII files (0-based index).
     __FILE_COLUMN_EVALUATION_METHOD = 0
-    __FILE_COLUMN_DATE_0 = 1
-    __FILE_COLUMN_DATE_FMEAS = 2
-    __FILE_COLUMN_DATE_FMIN = 3
-    __FILE_COLUMN_DATE_SMEAS = 4
-    __FILE_COLUMN_DATE_SMAX = 5
-    __FILE_COLUMN_DATE_1 = 6
-    __FILE_COLUMN_LATITUDE = 7
-    __FILE_COLUMN_LONGITUDE = 8
-    __FILE_COLUMN_ALTITUDE = 9
-    __FILE_COLUMN_B_W_MEAS = 10
-    __FILE_COLUMN_B_A_MEAS = 11
-    __FILE_COLUMN_C_W_OBS = 12
-    __FILE_COLUMN_A_W_OBS = 13
-    __FILE_COLUMN_C_A_OBS = 14
-    __FILE_COLUMN_A_A_OBS = 15
-    __FILE_COLUMN_B_W_FIX = 16
-    __FILE_COLUMN_B_A_FIX = 17
-    __FILE_COLUMN_C_W_FIX = 18
-    __FILE_COLUMN_A_W_FIX = 19
-    __FILE_COLUMN_C_A_FIX = 20
-    __FILE_COLUMN_A_A_FIX = 21
+    __FILE_COLUMN_STAKENAME = 1
+    __FILE_COLUMN_DATE_0 = 2
+    __FILE_COLUMN_DATE_FMEAS = 3
+    __FILE_COLUMN_DATE_FMIN = 4
+    __FILE_COLUMN_DATE_SMEAS = 5
+    __FILE_COLUMN_DATE_SMAX = 6
+    __FILE_COLUMN_DATE_1 = 7
+    __FILE_COLUMN_LATITUDE = 8
+    __FILE_COLUMN_LONGITUDE = 9
+    __FILE_COLUMN_ALTITUDE = 10
+    __FILE_COLUMN_B_W_MEAS = 11
+    __FILE_COLUMN_B_A_MEAS = 12
+    __FILE_COLUMN_C_W_OBS = 13
+    __FILE_COLUMN_A_W_OBS = 14
+    __FILE_COLUMN_C_A_OBS = 15
+    __FILE_COLUMN_A_A_OBS = 16
+    __FILE_COLUMN_B_W_FIX = 17
+    __FILE_COLUMN_B_A_FIX = 18
+    __FILE_COLUMN_C_W_FIX = 19
+    __FILE_COLUMN_A_W_FIX = 20
+    __FILE_COLUMN_C_A_FIX = 21
+    __FILE_COLUMN_A_A_FIX = 22
 
-    _massBalanceIndexSeasonalCounter = 0
+    _massBalanceIndexSpatialSeasonalCounter = 0
 
     def __init__(self, config, fullFileName, glaciers):
         '''
@@ -83,27 +81,22 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
 
         # Setting the parameters of the data file.
         self._numberHeaderLines = self.__NUMBER_HEADER_LINES
-        self._headerLineContent[self.__METHOD_TYPE] = "Method type"
-        self._headerLineContent[self.__STAKE_NAME] = "Stake name"
 
         try:
             super().__init__(fullFileName, glaciers)
         except GlacierNotFoundError as glacierNotFoundError:
             raise glacierNotFoundError
 
-        # Setting the specialised reader parameters of the header.
-
-        self._methodType = str(self._headerLineContent[self.__METHOD_TYPE])
-        self._stakeName = str(self._headerLineContent[self.__STAKE_NAME])
+        # Setting the specialised reader parameters of the header. -> not needed
 
         # Check if the given file is a correct index seasonal mass balance file.
-        isMassBalanceIndexSeasonalFile = False
-        searchResult = re.search(config.get("MassBalanceIndexSeasonal", "indexSeasonalPatternFilename"), fullFileName)
+        isMassBalanceIndexSpatialSeasonalFile = False
+        searchResult = re.search(config.get("MassBalanceIndexSpatialSeasonal", "indexSpatialSeasonalPatternFilename"), fullFileName)
         if searchResult != None:
-            isMassBalanceIndexSeasonalFile = True
+            isMassBalanceIndexSpatialSeasonalFile = True
 
-        if searchResult == None and isMassBalanceIndexSeasonalFile == False:
-            message = "The file {0} is not a index seasonal mass balance data file.".format(fullFileName)
+        if searchResult == None and isMassBalanceIndexSpatialSeasonalFile == False:
+            message = "The file {0} is not a index spatial seasonal mass balance data file.".format(fullFileName)
             raise InvalidDataFileError(message)
         # TODO: Additional test for file check to be included. If possible, implementation in a generic way in super-class VawFileReader.
 
@@ -129,8 +122,8 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
                     if lineCounter > self.__NUMBER_HEADER_LINES:
                         data = self._getData(line)
 
-                        massBalanceIndexSeasonal = MassBalanceIndexSeasonal(
-                            name=self._stakeName,
+                        massBalanceIndexSpatialSeasonal = MassBalanceIndexSpatialSeasonal(
+                            name=data[self.__FILE_COLUMN_STAKENAME],
                             date_0=data[self.__FILE_COLUMN_DATE_0],
                             date_fmeas=data[self.__FILE_COLUMN_DATE_FMEAS],
                             date_fmin=data[self.__FILE_COLUMN_DATE_FMIN],
@@ -153,10 +146,10 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
                             c_a_fix=data[self.__FILE_COLUMN_A_W_FIX],
                             a_w_fix=data[self.__FILE_COLUMN_C_A_FIX],
                             a_a_fix=data[self.__FILE_COLUMN_A_A_FIX],
-                            reference=self._dataSource)
+                            reference=None)
 
-                        self._massBalanceIndexSeasonalCounter += 1
-                        self._glacier.addMassBalanceIndexSeasonal(massBalanceIndexSeasonal)
+                        self._massBalanceIndexSpatialSeasonalCounter += 1
+                        self._glacier.addMassBalanceIndexSpatialSeasonal(massBalanceIndexSpatialSeasonal)
 
                 except Exception as e:
 
@@ -172,7 +165,7 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
         dataLineParts = p.split(dataLine)
 
         data[self.__FILE_COLUMN_EVALUATION_METHOD] = int(dataLineParts[self.__FILE_COLUMN_EVALUATION_METHOD].strip())
-
+        data[self.__FILE_COLUMN_STAKENAME] = str(dataLineParts[self.__FILE_COLUMN_STAKENAME].strip())
         data[self.__FILE_COLUMN_DATE_0] = self._reformateDateYyyyMmDd(dataLineParts[self.__FILE_COLUMN_DATE_0].strip())[0]
         date_0_year = int(data[self.__FILE_COLUMN_DATE_0].year)
         data[self.__FILE_COLUMN_DATE_FMEAS] = self._reformateDateMmDd(dataLineParts[self.__FILE_COLUMN_DATE_FMEAS].strip(),date_0_year)[0]

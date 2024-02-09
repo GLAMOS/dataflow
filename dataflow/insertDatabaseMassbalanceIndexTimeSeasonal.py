@@ -11,8 +11,8 @@ import os
 
 from dataflow.DataReaders.DatabaseReaders.GlacierReader import GlacierReader
 from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-from dataflow.DataWriters.DatabaseWriters.MassBalanceIndexTimeSeasonalWriter import MassBalanceIndexSeasonalWriter
-from dataflow.DataReaders.VawFileReaders.MassBalanceIndexTimeSeasonalReader import MassBalanceIndexSeasonalReader
+from dataflow.DataWriters.DatabaseWriters.MassBalanceIndexTimeSeasonalWriter import MassBalanceIndexTimeSeasonalWriter
+from dataflow.DataReaders.VawFileReaders.MassBalanceIndexTimeSeasonalReader import MassBalanceIndexTimeSeasonalReader
 from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
 
 config = configparser.ConfigParser()
@@ -20,7 +20,7 @@ config.read("dataflow.cfg")
 
 privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.gldirw.cfg"
 
-def insertDatabaseMassbalanceIndexSeasonal(allGlaciers):
+def insertDatabaseMassbalanceIndexTimeSeasonal(allGlaciers):
     '''
     Parsing and writing all mass balance index seasonal data from VAW data-files into GLAMOS database.
 
@@ -28,8 +28,8 @@ def insertDatabaseMassbalanceIndexSeasonal(allGlaciers):
     @param allGlaciers: Dictionary of all glaciers stored in the database. Key: SGI-ID; Value: Glacier
     '''
 
-    rootDirectoryPath = config.get("MassBalanceIndexSeasonal", "rootDirectoryInput")
-    dataDirectoryName = config.get("MassBalanceIndexSeasonal", "indexSeasonalDirectoryInput")
+    rootDirectoryPath = config.get("MassBalanceIndexTimeSeasonal", "rootDirectoryInput")
+    dataDirectoryName = config.get("MassBalanceIndexTimeSeasonal", "indexTimeSeasonalDirectoryInput")
 
     dataDirectoryPath = os.path.join(rootDirectoryPath, dataDirectoryName)
     if os.path.exists(dataDirectoryPath):
@@ -39,31 +39,31 @@ def insertDatabaseMassbalanceIndexSeasonal(allGlaciers):
             inputFilePath = os.path.join(dataDirectoryPath, inputFileName)
 
             # Start with parsing the data file.
-            massBalanceIndexSeasonalReader = None
-            massBalanceIndexSeasonalWriter = None
+            massBalanceIndexTimeSeasonalReader = None
+            massBalanceIndexTimeSeasonalWriter = None
 
             try:
                 # Getting the reader object and start parsing.
-                massBalanceIndexSeasonalReader = MassBalanceIndexSeasonalReader(config, inputFilePath, allGlaciers)
+                massBalanceIndexTimeSeasonalReader = MassBalanceIndexTimeSeasonalReader(config, inputFilePath, allGlaciers)
 
                 # Important note:
                 # The glacier object is still alive and could have mass-balance index seasonal objects of a
                 # parsing process before. To have a redundancy free insert into the database,
                 # possible mass-balance index seasonal readings have to be removed.
-                massBalanceIndexSeasonalReader.glacier.massBalanceIndexSeasonals.clear()
+                massBalanceIndexTimeSeasonalReader.glacier.massBalanceIndexTimeSeasonals.clear()
 
                 # Start of parsing the given data file.
-                massBalanceIndexSeasonalReader.parse()
+                massBalanceIndexTimeSeasonalReader.parse()
 
                 # In case of a successful parsing process, a writer will be instantiated for immediate writing into the database.
-                if massBalanceIndexSeasonalReader != None:
+                if massBalanceIndexTimeSeasonalReader != None:
 
                     print("\n" + str(inputFileName))
                     print("--- Start writing to the database. Will take a while ... take a break ... ---\n")
 
                     # Getting the writer object ready and start inserting into the database.
-                    massBalanceIndexSeasonalWriter = MassBalanceIndexSeasonalWriter(privateDatabaseAccessConfiguration)
-                    massBalanceIndexSeasonalWriter.write(massBalanceIndexSeasonalReader.glacier)
+                    massBalanceIndexTimeSeasonalWriter = MassBalanceIndexTimeSeasonalWriter(privateDatabaseAccessConfiguration)
+                    massBalanceIndexTimeSeasonalWriter.write(massBalanceIndexTimeSeasonalReader.glacier)
                 else:
                     raise Exception("MassBalanceIndexSeasonalReader is None")
 
@@ -73,12 +73,12 @@ def insertDatabaseMassbalanceIndexSeasonal(allGlaciers):
                 print(invalidDataFileError.message)
 
             finally:
-                if massBalanceIndexSeasonalReader != None:
-                    massBalanceIndexSeasonalReader = None
-                    del (massBalanceIndexSeasonalReader)
-                if massBalanceIndexSeasonalWriter != None:
-                    massBalanceIndexSeasonalWriter = None
-                    del (massBalanceIndexSeasonalWriter)
+                if massBalanceIndexTimeSeasonalReader != None:
+                    massBalanceIndexTimeSeasonalReader = None
+                    del (massBalanceIndexTimeSeasonalReader)
+                if massBalanceIndexTimeSeasonalWriter != None:
+                    massBalanceIndexTimeSeasonalWriter = None
+                    del (massBalanceIndexTimeSeasonalWriter)
     else:
         raise Exception("Data directory not existing")
 
@@ -88,4 +88,4 @@ if __name__ == '__main__':
     glacierReader = GlacierReader(privateDatabaseAccessConfiguration)
     allGlaciers = glacierReader.getAllGlaciers()
 
-    insertDatabaseMassbalanceIndexSeasonal(allGlaciers)
+    insertDatabaseMassbalanceIndexTimeSeasonal(allGlaciers)

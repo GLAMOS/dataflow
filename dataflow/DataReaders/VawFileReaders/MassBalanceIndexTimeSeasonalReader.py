@@ -9,12 +9,12 @@ import datetime
 
 from dataflow.DataReaders.VawFileReaders.VawFileReader import VawFileReader
 from dataflow.DataObjects.Exceptions.GlacierNotFoundError import GlacierNotFoundError
-from dataflow.DataObjects.MassBalanceIndexTimeSeasonal import MassBalanceIndexSeasonal
+from dataflow.DataObjects.MassBalanceIndexTimeSeasonal import MassBalanceIndexTimeSeasonal
 from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFileError
 
-class MassBalanceIndexSeasonalReader(VawFileReader):
+class MassBalanceIndexTimeSeasonalReader(VawFileReader):
     '''
-    Reader-class for parsing the VAW-ASCII-based mass balance index seasonal (_mb) data files.
+    Reader-class for parsing the VAW-ASCII-based mass balance index time seasonal (_mb) data files.
 
     The header of the files follows the syntax:
     ---
@@ -58,7 +58,7 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
     __FILE_COLUMN_C_A_FIX = 20
     __FILE_COLUMN_A_A_FIX = 21
 
-    _massBalanceIndexSeasonalCounter = 0
+    _massBalanceIndexTimeSeasonalCounter = 0
 
     def __init__(self, config, fullFileName, glaciers):
         '''
@@ -97,13 +97,13 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
         self._stakeName = str(self._headerLineContent[self.__STAKE_NAME])
 
         # Check if the given file is a correct index seasonal mass balance file.
-        isMassBalanceIndexSeasonalFile = False
-        searchResult = re.search(config.get("MassBalanceIndexSeasonal", "indexSeasonalPatternFilename"), fullFileName)
+        isMassBalanceIndexTimeSeasonalFile = False
+        searchResult = re.search(config.get("MassBalanceIndexTimeSeasonal", "indexTimeSeasonalPatternFilename"), fullFileName)
         if searchResult != None:
-            isMassBalanceIndexSeasonalFile = True
+            isMassBalanceIndexTimeSeasonalFile = True
 
-        if searchResult == None and isMassBalanceIndexSeasonalFile == False:
-            message = "The file {0} is not a index seasonal mass balance data file.".format(fullFileName)
+        if searchResult == None and isMassBalanceIndexTimeSeasonalFile == False:
+            message = "The file {0} is not a index time seasonal mass balance data file.".format(fullFileName)
             raise InvalidDataFileError(message)
         # TODO: Additional test for file check to be included. If possible, implementation in a generic way in super-class VawFileReader.
 
@@ -129,7 +129,7 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
                     if lineCounter > self.__NUMBER_HEADER_LINES:
                         data = self._getData(line)
 
-                        massBalanceIndexSeasonal = MassBalanceIndexSeasonal(
+                        massBalanceIndexTimeSeasonal = MassBalanceIndexTimeSeasonal(
                             name=self._stakeName,
                             date_0=data[self.__FILE_COLUMN_DATE_0],
                             date_fmeas=data[self.__FILE_COLUMN_DATE_FMEAS],
@@ -155,8 +155,8 @@ class MassBalanceIndexSeasonalReader(VawFileReader):
                             a_a_fix=data[self.__FILE_COLUMN_A_A_FIX],
                             reference=self._dataSource)
 
-                        self._massBalanceIndexSeasonalCounter += 1
-                        self._glacier.addMassBalanceIndexSeasonal(massBalanceIndexSeasonal)
+                        self._massBalanceIndexTimeSeasonalCounter += 1
+                        self._glacier.addMassBalanceIndexTimeSeasonal(massBalanceIndexTimeSeasonal)
 
                 except Exception as e:
 

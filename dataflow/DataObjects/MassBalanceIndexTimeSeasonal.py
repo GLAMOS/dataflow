@@ -10,7 +10,7 @@ from dataflow.DataObjects.Enumerations.MassBalanceEnumerations import AnalysisMe
 from datetime import date
 from pandas import DataFrame
 
-class MassBalanceIndexSeasonal(GlamosData):
+class MassBalanceIndexTimeSeasonal(GlamosData):
     '''
     Data object describing a single Index Seasonal Mass Balance
 
@@ -117,12 +117,12 @@ class MassBalanceIndexSeasonal(GlamosData):
         self._reference = reference
 
     def __str__(self):
-        ''' String representation of the massbalance index seasonal object.
+        ''' String representation of the massbalance index time seasonal object.
 
                 @rtype: str
-                @return: String representation of the massbalance index seasonal object.
+                @return: String representation of the massbalance index time seasonal object.
                 '''
-        stringRepresentationTemplate = "Mass balance index seasonal {0} from {1} to {2}: b_w_meas ({3} mm w.e.), b_a_meas ({4} mm w.e.)"
+        stringRepresentationTemplate = "Mass balance index time seasonal {0} from {1} to {2}: b_w_meas ({3} mm w.e.), b_a_meas ({4} mm w.e.)"
 
         return stringRepresentationTemplate.format(
             self._name, self._date_0, self._date_1, self._b_w_meas, self._b_a_meas)
@@ -131,180 +131,180 @@ class MassBalanceIndexSeasonal(GlamosData):
     @property
     def name(self):
         '''
-        Gets the name of index seasonal.
+        Gets the name of index time seasonal.
         '''
         return self._name
 
     @property
     def date_0(self):
         '''
-        Gets the date_0 of index seasonal.
+        Gets the date_0 of index time seasonal.
         '''
         return self._date_0
 
     @property
     def date_fmeas(self):
         '''
-        Gets the date_fmeas of index seasonal.
+        Gets the date_fmeas of index time seasonal.
         '''
         return self._date_fmeas
 
     @property
     def date_fmin(self):
         '''
-        Gets the date_fmin of index seasonal.
+        Gets the date_fmin of index time seasonal.
         '''
         return self._date_fmin
 
     @property
     def date_smeas(self):
         '''
-        Gets the date_smeas of index seasonal.
+        Gets the date_smeas of index time seasonal.
         '''
         return self._date_smeas
 
     @property
     def date_smax(self):
         '''
-        Gets the date_smax of index seasonal.
+        Gets the date_smax of index time seasonal.
         '''
         return self._date_smax
 
     @property
     def date_1(self):
         '''
-        Gets the date_1 of index seasonal.
+        Gets the date_1 of index time seasonal.
         '''
         return self._date_1
 
     @property
     def analysis_method_type(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the analysis method type of index time seasonal.
         '''
         return self._analysis_method_type
 
     @property
     def embargo_type(self):
         '''
-        Gets the analysis method type of index seasonal.
+        Gets the analysis method type of index time seasonal.
         '''
         return self._embargo_type
 
     @property
     def latitude(self):
         '''
-        Gets the latitude of index seasonal.
+        Gets the latitude of index time seasonal.
         '''
         return self._latitude
 
     @property
     def longitude(self):
         '''
-        Gets the longitude of index seasonal.
+        Gets the longitude of index time seasonal.
         '''
         return self._longitude
 
     @property
     def altitude(self):
         '''
-        Gets the altitude of index seasonal.
+        Gets the altitude of index time seasonal.
         '''
         return self._altitude
 
     @property
     def b_w_meas(self):
         '''
-        Gets the total winter balance of measured period (date_fmeas to date_smeas) index seasonal.
+        Gets the total winter balance of measured period (date_fmeas to date_smeas) index time seasonal.
         '''
         return self._b_w_meas
 
     @property
     def b_a_meas(self):
         '''
-        Gets the total annual balance of measured period (date_fmeas to date_1) of index seasonal.
+        Gets the total annual balance of measured period (date_fmeas to date_1) of index time seasonal.
         '''
         return self._b_a_meas
 
     @property
     def c_w_obs(self):
         '''
-        Gets the total winter accumulation of observed period (date_0 to date_smeas) of index seasonal.
+        Gets the total winter accumulation of observed period (date_0 to date_smeas) of index time seasonal.
         '''
         return self._c_w_obs
 
     @property
     def c_a_obs(self):
         '''
-        Gets the total annual accumulation of observed period (date_0 to date_1) of index seasonal.
+        Gets the total annual accumulation of observed period (date_0 to date_1) of index time seasonal.
         '''
         return self._c_a_obs
 
     @property
     def a_w_obs(self):
         '''
-        Gets the total winter ablation of observed period (date_0 to date_smeas) of index seasonal.
+        Gets the total winter ablation of observed period (date_0 to date_smeas) of index time seasonal.
         '''
         return self._a_w_obs
 
     @property
     def a_a_obs(self):
         '''
-        Gets the total annual ablation of observed period (date_0 to date_1) of index seasonal.
+        Gets the total annual ablation of observed period (date_0 to date_1) of index time seasonal.
         '''
         return self._a_a_obs
 
     @property
     def b_w_fix(self):
         '''
-        Gets the total winter balance of fixed date period seasonal.
+        Gets the total winter balance of fixed date period of index time seasonal.
         '''
         return self._b_w_fix
 
     @property
     def b_a_fix(self):
         '''
-        Gets the total annual balance of fixed date period of index seasonal.
+        Gets the total annual balance of fixed date period of index time seasonal.
         '''
         return self._b_a_fix
 
     @property
     def c_w_fix(self):
         '''
-        Gets the total winter accumulation of fixed date period of index seasonal.
+        Gets the total winter accumulation of fixed date period of index time seasonal.
         '''
         return self._c_w_fix
 
     @property
     def c_a_fix(self):
         '''
-        Gets the total annual accumulation of fixed date period of index seasonal.
+        Gets the total annual accumulation of fixed date period of index time seasonal.
         '''
         return self._c_a_fix
 
     @property
     def a_w_fix(self):
         '''
-        Gets the total winter ablation of fixed date period of index seasonal.
+        Gets the total winter ablation of fixed date period of index time seasonal.
         '''
         return self._a_w_fix
 
     @property
     def a_a_fix(self):
         '''
-        Gets the total annual ablation of fixed date period of index seasonal.
+        Gets the total annual ablation of fixed date period of index time seasonal.
         '''
         return self._a_a_fix
 
     @property
     def investigator(self):
         '''
-        Gets the investigator of index seasonal.
+        Gets the investigator of index time seasonal.
         '''
         return self._investigator
     @property
     def reference(self):
         '''
-        Gets the reference of index seasonal.
+        Gets the reference of index time seasonal.
         '''
         return self._reference

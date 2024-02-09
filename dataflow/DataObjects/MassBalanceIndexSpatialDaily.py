@@ -1,5 +1,5 @@
 '''
-Created on 22.03.2021
+Created on 8.2.2024
 
 @author: elias
 '''
@@ -7,9 +7,9 @@ Created on 22.03.2021
 from dataflow.DataObjects.Glamos import GlamosData
 
 
-class MassBalanceIndexTimeDaily(GlamosData):
+class MassBalanceIndexSpatialDaily(GlamosData):
     '''
-    Daily Index Mass Balance
+    Mass Balance Index Spatial Daily
     _name               string
     _date               date
     _latitude           float
@@ -23,7 +23,7 @@ class MassBalanceIndexTimeDaily(GlamosData):
     _creation_date      date
     _surface_type       SurfaceTypeEnum
     _temp               float
-    _precip_solid        float
+    _precip_solid       float
 
     '''
 
@@ -70,13 +70,13 @@ class MassBalanceIndexTimeDaily(GlamosData):
 
 
     def __str__(self):
-        ''' String representation of the massbalance index daily object.
+        ''' String representation of the massbalance index spatial daily object.
 
                 @rtype: str
-                @return: String representation of the massbalance index daily object.
+                @return: String representation of the massbalance index spatial daily object.
                 '''
 
-        stringRepresentationTemplate = "Mass balance index daily {0} from {1}: balance ({2} mm w.e.), accumulation ({3} mm w.e.), melt ({4} mm w.e.)"
+        stringRepresentationTemplate = "Mass balance index spatial daily {0} from {1}: balance ({2} mm w.e.), accumulation ({3} mm w.e.), melt ({4} mm w.e.)"
 
         return stringRepresentationTemplate.format(
             self.name, self.date, self.balance, self.accumulation, self.melt)
@@ -84,97 +84,97 @@ class MassBalanceIndexTimeDaily(GlamosData):
     @property
     def name(self):
         '''
-        Gets the name of index daily mass balance.
+        Gets the name of index spatial daily mass balance.
         '''
         return self._name
 
     @property
     def date(self):
         '''
-        Gets the date of index daily mass balance.
+        Gets the date of index spatial daily mass balance.
         '''
         return self._date
 
     @property
     def latitude(self):
         '''
-        Gets the latitude of index daily mass balance.
+        Gets the latitude of index spatial daily mass balance.
         '''
         return self._latitude
 
     @property
     def longitude(self):
         '''
-        Gets the longitude of index daily mass balance.
+        Gets the longitude of index spatial daily mass balance.
         '''
         return self._longitude
 
     @property
     def altitude(self):
         '''
-        Gets the altitude of index daily mass balance.
+        Gets the altitude of index spatial daily mass balance.
         '''
         return self._altitude
 
     @property
     def balance(self):
         '''
-        Gets the balance of index daily mass balance.
+        Gets the balance of index spatial daily mass balance.
         '''
         return self._balance
 
     @property
     def accumulation(self):
         '''
-        Gets the accumulation of index daily mass balance.
+        Gets the accumulation of index spatial daily mass balance.
         '''
         return self._accumulation
 
     @property
     def melt(self):
         '''
-        Gets the melt of index daily mass balance.
+        Gets the melt of index spatial daily mass balance.
         '''
         return self._melt
 
     @property
     def reference(self):
         '''
-        Gets the reference of index daily mass balance.
+        Gets the reference of index spatial daily mass balance.
         '''
         return self._reference
 
     @property
     def investigator(self):
         '''
-        Gets the investigator of index daily mass balance.
+        Gets the investigator of index spatial daily mass balance.
         '''
         return self._investigator
 
     @property
     def creation_date(self):
         '''
-        Gets the creation date of index daily mass balance.
+        Gets the creation date of index spatial daily mass balance.
         '''
         return self._creation_date
 
     @property
     def surface_type(self):
         '''
-        Gets the surface type of index daily mass balance.
+        Gets the surface type of index spatial daily mass balance.
         '''
         return self._surface_type
 
     @property
     def temp(self):
         '''
-        Gets the temperature of index daily mass balance.
+        Gets the temperature of index spatial daily mass balance.
         '''
         return self._temp
 
     @property
     def precip_solid(self):
         '''
-        Gets the precipitation (solid) of index daily mass balance.
+        Gets the precipitation (solid) of index spatial daily mass balance.
         '''
         return self._precip_solid
