@@ -80,7 +80,7 @@ class MassBalanceSwissWideReader():
                         elif lineCounter == 1:
                             years = line_area.split()[1:]
                             numberOfYears = len(years)
-                            print(years,numberOfYears)
+                            print(years[0],' to ', years[-1], 'total: ',numberOfYears)
                             lineCounter += 1
                         else:
                             line_length = len(line_area.split())
@@ -95,12 +95,14 @@ class MassBalanceSwissWideReader():
                                     # Comparing the current glacier with the SGI ID of the given line.
                                     if glacier.pkSgi == sgi_id:
                                         glacierFound = glacier
+                                        fk_glacier = glacier.pk
                                 if glacierFound != None:
                                     self._glacier = glacierFound
                                 else:
                                     message = "No corresponding glacier found."
                                     raise GlacierNotFoundError(message)
 
+                                #fk_glacier = glacier.pk
                                 year = years[i]
                                 area = line_area.split()[i+1]
                                 mb_evo = line_mb_evo.split()[i+1]
@@ -109,7 +111,7 @@ class MassBalanceSwissWideReader():
 
                                 # Getting an object of type Mass Balance Swiss Wide with the parsed information.
                                 massBalanceSwissWide = MassBalanceSwissWide(
-                                    sgi_id, year, area, mb_evo ,vol_evo)
+                                    sgi_id, fk_glacier, year, area, mb_evo ,vol_evo)
 
                                 massBalanceSwissWideGlacierList.append(massBalanceSwissWide) # currently no use
 
@@ -121,4 +123,4 @@ class MassBalanceSwissWideReader():
 
                     print(lineCounter - self._numberHeaderLines, " lines have been parsed")
 
-        return massBalanceSwissWideList # currently no use
+        return massBalanceSwissWideGlacierList # currently no use

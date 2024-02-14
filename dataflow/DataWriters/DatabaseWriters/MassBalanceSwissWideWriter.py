@@ -35,7 +35,7 @@ class MassBalanceSwissWideWriter(GlamosDatabaseWriter):
 
         super().__init__(accessConfigurationFullFileName)
 
-    def write(self, glacier):
+    def write(self, massBalanceSwissWide):
         '''
         Writes all mass balance swiss wide observations of the given glacier into the database.
 
@@ -45,49 +45,47 @@ class MassBalanceSwissWideWriter(GlamosDatabaseWriter):
 
         try:
 
-            for massBalanceSwissWide in glacier.massBalanceSwissWide.values():
+            # Check if mass balance swiss wide is already stored in the database.
+            # The statement has to describe a SELECT which returns a unique record based on the definition of the record set.
+            # In case the length-change data the following factors define a unique data record:
+            # - The same glacier (fk_glacier)
+            # - The same corresponding year (year)
 
-                # Check if mass balance swiss wide is already stored in the database.
-                # The statement has to describe a SELECT which returns a unique record based on the definition of the record set.
-                # In case the length-change data the following factors define a unique data record:
-                # - The same glacier (fk_glacier)
-                # - The same corresponding year (year)
+            checkStatement = "SELECT * FROM {0} WHERE fk_glacier = '{1}' AND year = '{2}';".format(
+                'mass_balance.swisswide',
+                massBalanceSwissWide.fk_glacier,
+                massBalanceSwissWide.year)
 
-                checkStatement = "SELECT * FROM {0} WHERE fk_glacier = '{1}' AND year = '{2}';".format(
-                    'mass_balance.swisswide',
-                    glacier.pk,
-                    massBalanceSwissWide.year)
+            # Record is already in database. No further inserts needed.
+            if super().isRecordStored(checkStatement) == True:
 
-                # Record is already in database. No further inserts needed.
-                if super().isRecordStored(checkStatement) == True:
+                message = "The record {0} is already stored in the database. No further inserts.".format(
+                    str(massBalanceSwissWide))
+                print(message)
 
-                    message = "The record {0} is already stored in the database. No further inserts.".format(
-                        str(massBalanceSwissWide))
-                    print(message)
+            # The record is not yet stored in the database. Insert will be done.
+            else:
 
-                # The record is not yet stored in the database. Insert will be done.
-                else:
+                message = "The record {0} is not yet stored in the database. Insert will be done ...".format(
+                    str(massBalanceSwissWide))
+                print(message)
 
-                    message = "The record {0} is not yet stored in the database. Insert will be done ...".format(
-                        str(massBalanceSwissWide))
-                    print(message)
+                # Preparing the INSERT of a not yet inserted record.
+                insertStatement = "INSERT INTO mass_balance.swisswide (pk, fk_glacier, year, area, mb_evolution, vol_evolution) VALUES ('{0}', '{1}', {2}, {3}, {4}, {5});"
 
-                    # Preparing the INSERT of a not yet inserted record.
-                    insertStatement = "INSERT INTO mass_balance.swisswide (pk, fk_glacier, year, area, mb_evolution, vol_evolution) VALUES ('{0}', '{1}', {2}, {3}, {4}, {5});"
+                # Getting the final INSERT-statement ready.
+                insertStatement = insertStatement.format(
+                    massBalanceSwissWide.pk,
+                    massBalanceSwissWide.fk_glacier,
+                    massBalanceSwissWide.year,
+                    massBalanceSwissWide.area,
+                    massBalanceSwissWide.mb_evolution,
+                    massBalanceSwissWide.vol_evolution)
+                print(insertStatement)
+                self._writeData(insertStatement)
+                self._connection.commit()
 
-                    # Getting the final INSERT-statement ready.
-                    insertStatement = insertStatement.format(
-                        massBalanceSwissWide.pk,
-                        glacier.pk,
-                        massBalanceSwissWide.year,
-                        massBalanceSwissWide.area,
-                        massBalanceSwissWide.mb_evolution,
-                        massBalanceSwissWide.vol_evolution)
-                    print(insertStatement)
-                    self._writeData(insertStatement)
-                    self._connection.commit()
-
-                    self._massBalanceSwissWideCounter += 1
+                self._massBalanceSwissWideCounter += 1
 
         except Exception as exception:
 
