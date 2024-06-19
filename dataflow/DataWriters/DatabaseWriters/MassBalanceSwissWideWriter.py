@@ -61,7 +61,7 @@ class MassBalanceSwissWideWriter(GlamosDatabaseWriter):
 
                 message = "The record {0} is already stored in the database. No further inserts.".format(
                     str(massBalanceSwissWide))
-                print(message)
+                #print(message)
 
             # The record is not yet stored in the database. Insert will be done.
             else:
@@ -81,7 +81,7 @@ class MassBalanceSwissWideWriter(GlamosDatabaseWriter):
                     massBalanceSwissWide.area,
                     massBalanceSwissWide.mb_evolution,
                     massBalanceSwissWide.vol_evolution)
-                print(insertStatement)
+                #print(insertStatement)
                 self._writeData(insertStatement)
                 self._connection.commit()
 
@@ -95,9 +95,9 @@ class MassBalanceSwissWideWriter(GlamosDatabaseWriter):
 
             self._connection.close()
 
-            print("\n")
-            print("-> A total of {0} mass balance swiss wide observations were inserted into the database.".format(
-                self._massBalanceSwissWideCounter))
+        #print("\n")
+        #print("-> A total of {0} mass balance swiss wide observations were inserted into the database.".format(
+        #       self._massBalanceSwissWideCounter))
 
     def isGlacierMassBalanceSwissWideStored(self):
 

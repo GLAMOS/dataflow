@@ -58,14 +58,19 @@ def insertDatabaseMassbalanceSwissWide(allGlaciers):
 
             # Start of parsing the given data file.
             parsedMassBalanceSwissWideList = massBalanceSwissWideReader.parse()
+            print(len(parsedMassBalanceSwissWideList), 'are ready to be written in Database')
+
+            counter = 0
+            print("\n--- Start writing to the database. Will take a while ... take a break ... ---\n")
 
             for parsedMassBalanceSwissWideObject in parsedMassBalanceSwissWideList:
-
-                print("\n--- Start writing to the database. Will take a while ... take a break ... ---\n")
 
                 # Getting the writer object ready and start inserting into the database.
                 massBalanceSwissWideWriter = MassBalanceSwissWideWriter(privateDatabaseAccessConfiguration)
                 massBalanceSwissWideWriter.write(parsedMassBalanceSwissWideObject)
+                counter +=1
+                print(counter, 'entries written to DB')
+
 
 
         except GlacierNotFoundError as glacierNotFoundError:
