@@ -101,17 +101,20 @@ class MassBalanceWriter(GlamosDatabaseWriter):
                 
                 # Inserting all the altitude buckets into the database.
                 for elevationBand in massBalance.elevationBands.values():
-                    
+                    #print (elevationBand)
                     # Only valid elevation buckets into the database.
                     if elevationBand.elevationFrom != None and elevationBand.elevationTo != None and elevationBand.annualMassBalance != None and elevationBand.winterMassBalance != None and elevationBand.surface:
                         
                         # TODO: Getting the hard coded column names into the header or an external lookup file.
-                        elevationBandStatement = "INSERT INTO mass_balance.elevation_distribution (pk, fk_glacier_seasonal, elevation_from, elevation_to, mass_balance_annual, mass_balance_winter, area) VALUES ('{0}', '{1}', {2}, {3}, {4}, {5}, {6})".format(
+                        elevationBandStatement = "INSERT INTO mass_balance.elevation_distribution (pk, fk_glacier_seasonal, elevation_from, elevation_to, mass_balance_annual, mass_balance_winter, area, remarks, n_measurement_annual, n_measurement_winter) VALUES ('{0}', '{1}', {2}, {3}, {4}, {5}, {6},'',{7},{8})".format(
                             elevationBand.pk, massBalance.pk, 
                             elevationBand.elevationFrom, elevationBand.elevationTo, 
-                            elevationBand.annualMassBalance, elevationBand.winterMassBalance, 
+                            elevationBand.annualMassBalance,
+                            elevationBand.n_meas_winter,
+                            elevationBand.winterMassBalance,
+                            elevationBand.n_meas_annual,
                             elevationBand.surface)
-    
+                        #print(elevationBandStatement)
                         self._writeData(elevationBandStatement)
                         self._connection.commit()
                         self._elevationBandValidCounter += 1

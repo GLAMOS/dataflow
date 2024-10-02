@@ -277,7 +277,7 @@ class MassBalanceReader(VawFileReader):
                                 None,
                                 elevationBandData[0], elevationBandData[0] + self._equidistanceBuckets,
                                 elevationBandData[1], elevationBandData[2],
-                                elevationBandData[3])
+                                elevationBandData[3], elevationBandData[4], elevationBandData[5])
 
                             massBalance.addElevationBand(elevationBand)
                             
@@ -337,23 +337,33 @@ class MassBalanceReader(VawFileReader):
             
             # Calculation of the current columns for the data triple.
             columnWinterBalance = self.__FILE_COLUMN_START_ELEVATION_BANDS + i
-            columnAnnualBalance = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets
-            columnSurface       = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets * 2
+            columnNrMeasurementsWinter = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets
+            columnAnnualBalance = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets * 2
+            columnNrMeasurementsAnnual = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets * 3
+            columnSurface       = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets * 4
             
             # Retrieving the data from the data line.
             winterBalanceString = dataLineParts[columnWinterBalance].strip()
+            nrMeasurementsWinterString = dataLineParts[columnNrMeasurementsWinter].strip()
             annualBalanceString = dataLineParts[columnAnnualBalance].strip()
+            nrMeasurementsAnnualString = dataLineParts[columnNrMeasurementsAnnual].strip()
             surfaceString       = dataLineParts[columnSurface].strip()
             
             # Preparing the possible None values for missing elevation bands.
             winterBalance = None
+            nrMeasurementsWinter = None
             annualBalance = None
+            nrMeasurementsAnnual = None
             surface       = None
             
             if winterBalanceString != self._NOT_A_NUMBER_STRING:
                 winterBalance = int(winterBalanceString)
+            if nrMeasurementsWinterString != self._NOT_A_NUMBER_STRING:
+                nrMeasurementsWinter = int(nrMeasurementsWinterString)
             if annualBalanceString != self._NOT_A_NUMBER_STRING:
                 annualBalance = int(annualBalanceString)
+            if nrMeasurementsAnnualString != self._NOT_A_NUMBER_STRING:
+                nrMeasurementsAnnual = int(nrMeasurementsAnnualString)
             if surfaceString != self._NOT_A_NUMBER_STRING:
                 surface       = float(surfaceString)
             
@@ -361,7 +371,7 @@ class MassBalanceReader(VawFileReader):
             startElevationBucket = self._startElevationBuckets + self._equidistanceBuckets * i
 
             # Preparing the return value
-            dataElevationBands.append([startElevationBucket, winterBalance, annualBalance, surface])
+            dataElevationBands.append([startElevationBucket, winterBalance, nrMeasurementsWinter, annualBalance, nrMeasurementsAnnual, surface])
         
         return [data, dataElevationBands]
         

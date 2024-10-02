@@ -275,9 +275,10 @@ class MassBalance(GlamosData):
         # Adding the elevation bands informations.
         for elevationBand in self._elevationBands.values():
             
-            elevationBandLine = "\n\t\t{0} masl - {1} masl: {2} mm w.e. winter, {3} mm w.e. annual, {4} km2 surface".format(
+            elevationBandLine = "\n\t\t{0} masl - {1} masl: {2} mm w.e. winter with {3} measurements, {4} mm w.e. annual with {5} measurements, {6} km2 surface".format(
                 elevationBand.elevationFrom, elevationBand.elevationTo,
-                elevationBand.winterMassBalance, elevationBand.annualMassBalance,
+                elevationBand.winterMassBalance, elevationBand.n_meas_winter,
+                elevationBand.annualMassBalance, elevationBand.n_meas_annual,
                 elevationBand.surface)
             
             lineToWrite += elevationBandLine
@@ -301,14 +302,18 @@ class ElevationBand(GlamosData):
         _elevationFrom      int     Minimum elevation in masl of the band.
         _elevationEnd       int     Maximum elevation in masl of the band.
         _winterMassBalance  int     Winter mass balance in mm w.e. of the band.
+        _n_meas_winter      int     Number of winter field measurements ot the band.
         _annualMassBalance  int     Annual mass balance in mm w.e. of the band.
+        _n_meas_annual      int     Number of annual field measurements ot the band.
         _surface            float   Total glacier surface of the band in km2.
     '''
     
     _elevationFrom = None
     _elevationTo = None
     _winterMassBalance = None
+    _n_meas_winter = None
     _annualMassBalance = None
+    _n_meas_annual = None
     _surface = None
     
     #FIXME: Adding _remarks as member.
@@ -316,7 +321,8 @@ class ElevationBand(GlamosData):
     # FIXME: Adding remarks = None to the constructor as soon as _remarks is implemented as member in the ElevationBand class.
     def __init__(self, pk = None, 
              elevationFrom = None, elevationTo = None,
-             winterMassBalance = None, annualMassBalance = None,
+             winterMassBalance = None, n_meas_winter = None,
+             annualMassBalance = None, n_meas_annual = None,
              surface = None):
         '''
         Constructor
@@ -329,8 +335,12 @@ class ElevationBand(GlamosData):
         @param elevationEnd: Maximum elevation in masl of the band.
         @type winterMassBalance: integer
         @param winterMassBalance:  Winter mass balance in mm w.e. of the band.
+        @type _n_meas_annual: integer
+        @param _n_meas_wiunter: Number of winter field measurements ot the band.
         @type annualMassBalance: integer
         @param annualMassBalance: Annual mass balance in mm w.e. of the band.
+        @type _n_meas_annual: integer
+        @param _n_meas_annual: Number of annual field measurements ot the band.
         @type surface: float
         @param surface: Total glacier surface of the band in km2.
         '''
@@ -340,7 +350,9 @@ class ElevationBand(GlamosData):
         self._elevationFrom = elevationFrom
         self._elevationTo = elevationTo
         self._winterMassBalance = winterMassBalance
+        self._n_meas_winter = n_meas_winter
         self._annualMassBalance = annualMassBalance
+        self._n_meas_annual = n_meas_annual
         self._surface = surface
 
     def __str__(self):
@@ -349,9 +361,10 @@ class ElevationBand(GlamosData):
         lineToWrite = ""
         
         # Printing the elevation bands informations.
-        elevationBandLine = "{0} masl - {1} masl: {2} mm w.e. winter, {3} mm w.e. annual, {4} km2 surface".format(
+        elevationBandLine = "{0} masl - {1} masl: {2} mm w.e. winter with {3} measurements, {4} mm w.e. annual with {5} measurements, {6} km2 surface".format(
             self.elevationFrom, self.elevationTo,
-            self.winterMassBalance, self.annualMassBalance,
+            self.winterMassBalance, self.n_meas_winter,
+            self.annualMassBalance, self.n_meas_annual,
             self.surface)
             
         lineToWrite += elevationBandLine
@@ -397,6 +410,13 @@ class ElevationBand(GlamosData):
         return self._winterMassBalance
 
     @property
+    def n_meas_winter(self):
+        '''
+        Gets the number of measurements for the winter mass balanace
+        '''
+        return self._n_meas_winter
+
+    @property
     def equidistant(self):
         '''
         Gets the elevation range of the band in meters.
@@ -412,7 +432,13 @@ class ElevationBand(GlamosData):
         Gets the annual mass balance in mm w.e..
         '''
         return self._annualMassBalance
-    
+
+    @property
+    def n_meas_annual(self):
+        '''
+        Gets the number of measurements for the annual mass balanace
+        '''
+        return self._n_meas_annual
     
 class MassBalanceObservation(MassBalance):
     '''
