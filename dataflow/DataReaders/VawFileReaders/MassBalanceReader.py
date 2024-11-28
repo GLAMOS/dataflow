@@ -338,9 +338,9 @@ class MassBalanceReader(VawFileReader):
             # Calculation of the current columns for the data triple.
             columnWinterBalance = self.__FILE_COLUMN_START_ELEVATION_BANDS + i
             columnNrMeasurementsWinter = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets
-            columnAnnualBalance = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets * 2
-            columnNrMeasurementsAnnual = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets * 3
-            columnSurface       = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + self._numberElevationBuckets * 4
+            columnAnnualBalance = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + (self._numberElevationBuckets * 2)
+            columnNrMeasurementsAnnual = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + (self._numberElevationBuckets * 3)
+            columnSurface       = self.__FILE_COLUMN_START_ELEVATION_BANDS + i + (self._numberElevationBuckets * 4)
             
             # Retrieving the data from the data line.
             winterBalanceString = dataLineParts[columnWinterBalance].strip()
@@ -372,24 +372,5 @@ class MassBalanceReader(VawFileReader):
 
             # Preparing the return value
             dataElevationBands.append([startElevationBucket, winterBalance, nrMeasurementsWinter, annualBalance, nrMeasurementsAnnual, surface])
-        
+
         return [data, dataElevationBands]
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        

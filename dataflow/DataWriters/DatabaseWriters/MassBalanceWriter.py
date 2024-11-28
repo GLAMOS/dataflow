@@ -110,14 +110,15 @@ class MassBalanceWriter(GlamosDatabaseWriter):
                             elevationBand.pk, massBalance.pk, 
                             elevationBand.elevationFrom, elevationBand.elevationTo, 
                             elevationBand.annualMassBalance,
-                            elevationBand.n_meas_winter,
                             elevationBand.winterMassBalance,
+                            elevationBand.surface,
                             elevationBand.n_meas_annual,
-                            elevationBand.surface)
+                            elevationBand.n_meas_winter)
                         #print(elevationBandStatement)
                         self._writeData(elevationBandStatement)
                         self._connection.commit()
                         self._elevationBandValidCounter += 1
+                        #print(elevationBandStatement)
                         
                     else:
                         message = "Incomplete elevation band: {0}".format(elevationBand)
