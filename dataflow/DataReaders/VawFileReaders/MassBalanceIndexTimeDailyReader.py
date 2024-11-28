@@ -126,7 +126,7 @@ class MassBalanceIndexTimeDailyReader(VawFileReader):
                             reference=self._dataSource)
 
                         self._massBalanceIndexTimeDailyCounter += 1
-                        self._glacier.addMassBalanceIndexDaily(massBalanceIndexTimeDaily)
+                        self._glacier.addMassBalanceIndexTimeDaily(massBalanceIndexTimeDaily)
 
                 except Exception as e:
 

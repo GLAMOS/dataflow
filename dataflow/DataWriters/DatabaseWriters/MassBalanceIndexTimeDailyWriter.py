@@ -71,7 +71,7 @@ class MassBalanceIndexTimeDailyWriter(GlamosDatabaseWriter):
                 if super().isRecordStored(checkStatement) == True:
                     message = "The record {0} is already stored in the database. No further inserts.".format(
                         str(massbalanceIndexTimeDaily))
-                    print(message)
+                    #print(message)
 
                 # The record is not yet stored in the database. Insert will be done.
                 else:
