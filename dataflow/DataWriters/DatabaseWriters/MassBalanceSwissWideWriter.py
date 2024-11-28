@@ -56,6 +56,7 @@ class MassBalanceSwissWideWriter(GlamosDatabaseWriter):
                 massBalanceSwissWide.fk_glacier,
                 massBalanceSwissWide.year)
 
+
             # Record is already in database. No further inserts needed.
             if super().isRecordStored(checkStatement) == True:
 

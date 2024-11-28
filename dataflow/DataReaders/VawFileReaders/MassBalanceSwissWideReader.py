@@ -80,7 +80,7 @@ class MassBalanceSwissWideReader():
                         elif lineCounter == 1:
                             years = line_area.split()[1:]
                             numberOfYears = len(years)
-                            print('Data from',years[0],'to', years[-1], '->',numberOfYears,'years')
+                            print('Data from',years[0],'to', years[-1], '->',numberOfYears,'years will be compared to the entries of the Database')
                             lineCounter += 1
                         else:
                             line_length = len(line_area.split())
