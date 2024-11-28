@@ -58,7 +58,7 @@ def insertDatabaseMassbalanceSwissWide(allGlaciers):
 
             # Start of parsing the given data file.
             parsedMassBalanceSwissWideList = massBalanceSwissWideReader.parse()
-            print(len(parsedMassBalanceSwissWideList), 'are ready to be written in Database')
+            print(len(parsedMassBalanceSwissWideList), 'are ready to be compared with entries in the Database')
 
             counter = 0
             print("\n--- Start writing to the database. Will take a while ... take a break ... ---\n")
@@ -69,7 +69,7 @@ def insertDatabaseMassbalanceSwissWide(allGlaciers):
                 massBalanceSwissWideWriter = MassBalanceSwissWideWriter(privateDatabaseAccessConfiguration)
                 massBalanceSwissWideWriter.write(parsedMassBalanceSwissWideObject)
                 counter +=1
-                print(counter, 'entries written to DB')
+                #print(counter, 'have been checked')
 
 
 
