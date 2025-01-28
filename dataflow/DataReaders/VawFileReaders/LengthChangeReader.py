@@ -147,6 +147,6 @@ class LengthChangeReader(VawFileReader):
         observerTemp = dataLine[54:].strip()
 
         if observerTemp != "-":
-            observer = observerTemp
+            observer = observerTemp.replace(",",";")
 
         return [dateFrom, dateFromQuality, dateTo, dateToQuality, measurementType, measurementMethod, measurementCondition, variationQuantitative, elevationMin, observer]
