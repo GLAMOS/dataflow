@@ -313,7 +313,8 @@ class GlacierReader(GlamosDatabaseReader):
             pkVaw = None
             
         pkSgi = dbRecord[5]
-        name = dbRecord[6]
+        name = dbRecord[7]
+
 
         return Glacier(pk, pkVaw, pkSgi, name)
         
