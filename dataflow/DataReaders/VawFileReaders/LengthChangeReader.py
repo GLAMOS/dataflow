@@ -60,7 +60,7 @@ class LengthChangeReader(VawFileReader):
         
         lengthChangeList = []
         
-        with open(self._fullFileName, "r") as lc:
+        with open(self._fullFileName, "r", encoding='latin-1') as lc:
 
             lineCounter = 0
 
