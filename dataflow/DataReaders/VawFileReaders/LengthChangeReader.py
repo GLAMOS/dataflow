@@ -73,7 +73,7 @@ class LengthChangeReader(VawFileReader):
                     if lineCounter > self.__NUMBER_HEADER_LINES:
                         data = self._getData(line)
 
-                        if data[4] == "m" or data[4] == "r" or data[4] == "o":
+                        if data[4] == "m" or data[4] == "r" or data[4] == "o" or data[4] == "e":
                             
                             # Dealing with possible None values of the data:
                             observer = data[9].strip()
