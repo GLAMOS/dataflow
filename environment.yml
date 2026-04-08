@@ -1,0 +1,7 @@
+name: glamos
+channels:
+  - conda-forge
+dependencies:
+  - pip
+  - pandas
+  - psycopg2

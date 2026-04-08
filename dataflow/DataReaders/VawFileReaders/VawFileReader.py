@@ -105,7 +105,7 @@ class VawFileReader(AsciiFileDateReader):
         During parsing the header, the protected glacier member will be created.
         '''
         
-        with open(self._fullFileName, "r") as vaw:
+        with open(self._fullFileName, "r",encoding='latin-1') as vaw:
             
             lineCounter = 0
             

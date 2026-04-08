@@ -20,7 +20,7 @@ from dataflow.DataReaders.Exceptions.InvalidDataFileError import InvalidDataFile
 config = configparser.ConfigParser()
 config.read("dataflow.cfg")
 
-privateDatabaseAccessConfiguration = r".\databaseAccessConfiguration.gldirw.cfg"
+privateDatabaseAccessConfiguration = r"./databaseAccessConfiguration.gldirw.cfg"
 
 def insertDatabaseLengthChange(allGlaciers):
     '''
